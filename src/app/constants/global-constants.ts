@@ -8,15 +8,16 @@ export const ERROR_FORM = {
   minLength: 'El mínimo de caracteres es de '
 };
 
-export const LOGO = './../../../assets/images/logo.png';
-export const GOOGLE_LOGO = './../../../assets/icon/googleLogo.png'; export const TOKEN = 'rpd_token';
+export const LOGO = './../../../assets/loginLogo.png';
+export const GOOGLE_LOGO = './../../../assets/icon/googleLogo.png';
+export const TOKEN = 'rpd_token';
 export const USER = 'rpd_user';
-export const BACK_BUTTON = './../../../assets/back_button.svg';
+export const BACK_BUTTON = './../../../assets/svg/back_button.svg';
 
 export const MAP = {
-  END_ROUTE_MARK: './../../../assets/location-sharp.svg',
-  USER_MARK: './../../../assets/user_mark.svg',
-  STOP_MARK: './../../../assets/waypoints.svg'
+  END_ROUTE_MARK: './../../../assets/svglocation-sharp.svg',
+  USER_MARK: './../../../assets/svg/user_mark.svg',
+  STOP_MARK: './../../../assets/svg/waypoints.svg'
 };
 
 export const MENU = {

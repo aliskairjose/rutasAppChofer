@@ -1,0 +1,20 @@
+ion-content {
+  h3 {
+    margin-top: 32px;
+  }
+  .radio-solution {
+    margin-top: 24px;
+
+    ion-radio {
+      margin-left: 16px;
+      margin-right: 8px;
+    }
+  }
+
+  .button-register {
+    margin-top: 7em;
+    ion-button::part(native) {
+      padding: 0 2em;
+    }
+  }
+}

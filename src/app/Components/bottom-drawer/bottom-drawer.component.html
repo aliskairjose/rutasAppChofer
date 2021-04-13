@@ -35,6 +35,15 @@
       </div>
       <!-- Rutas -->
       <div *ngSwitchCase=1>
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col>
+              <div class="text-center" style="border-bottom: 1px solid var(--rp-color-primary-ligth);">
+                <h2>Rutas asignadas</h2>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
         <app-route (routeEvent)="routeHandler($event)"></app-route>
       </div>
       <!-- Detalle de ruta -->

@@ -9,5 +9,43 @@
 </ion-header>
 
 <ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
 
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-list>
+          <ion-item>
+            <ion-avatar slot="start">
+              <img src="./../../../assets/svg/chat.svg" />
+            </ion-avatar>
+            <ion-label>
+              <h2>Accidente Vial</h2>
+              <h3>Hubo un accidente...</h3>
+            </ion-label>
+            <ion-note>Lunes</ion-note>
+          </ion-item>
+          <ion-item>
+            <ion-avatar slot="start">
+              <img src="./../../../assets/svg/chat.svg" />
+            </ion-avatar>
+            <ion-label>
+              <h2>Protesta</h2>
+              <h3>Hubo una protesta...</h3>
+            </ion-label>
+            <ion-note>Martes</ion-note>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="tertiary" [routerLink]="['add']">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
