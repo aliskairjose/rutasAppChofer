@@ -38,7 +38,7 @@
         <ion-grid fixed>
           <ion-row>
             <ion-col>
-              <div class="text-center" style="border-bottom: 1px solid var(--rp-color-primary-ligth);">
+              <div class="text-center">
                 <h2>Rutas asignadas</h2>
               </div>
             </ion-col>
@@ -48,33 +48,31 @@
       </div>
       <!-- Detalle de ruta -->
       <div *ngSwitchCase=10>
-        <div class="d-flex flex-row">
-          <div class="d-flex flex-grow-1">
-            <img class="clock" src="../../../assets/clock.png" />
+        <div class="d-flex flex-column">
+          <div class="d-flex flex-grow-1 mb-4">
+            <span>Ver paradas</span>
+          </div>
+          <ion-grid fixed *ngIf="isOpen">
+            <ion-row>
+              <ion-col size="12">
+                <ion-list lines="full">
+                  <ion-item *ngFor="let stop of selectedRoute.route_stops">
+                    <ion-label>{{ stop.name }}</ion-label>
+                    <ion-note>{{ stop.arrival_time | customeTime }}</ion-note>
+                  </ion-item>
+                </ion-list>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <div class="d-flex flex-grow-1 mt-2">
+            <img class="clock" src="../../../assets/svg/clock.svg" />
             <div class="d-flex flex-column">
               <span>Proxima unidad</span>
-              <ion-note>15 minutes</ion-note>
+              <ion-note>15 minutos</ion-note>
             </div>
           </div>
         </div>
-        <ion-grid fixed *ngIf="isOpen">
-          <ion-row>
-            <ion-col size="12">
-              <ion-list-header>
-                <ion-label>Paradas de la ruta</ion-label>
-              </ion-list-header>
-              <ion-list lines="full">
-                <ion-item *ngFor="let stop of selectedRoute.route_stops">
-                  <ion-label>{{ stop.name }}</ion-label>
-                  <ion-note>{{ stop.arrival_time | customeTime }}</ion-note>
-                </ion-item>
-              </ion-list>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-        <ion-button fill="clear" expand="full" class="confirmRutas my-3" (click)="startScan()">
-          Abordar este bus
-        </ion-button>
+
       </div>
       <!-- Experiencia -->
       <div *ngSwitchCase=2>
