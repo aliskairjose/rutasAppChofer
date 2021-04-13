@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 } )
 export class IncidencesPage implements OnInit {
 
+  icon = './../../../assets/svg/chat.svg';
   constructor() { }
 
   ngOnInit() {
