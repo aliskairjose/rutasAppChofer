@@ -11,6 +11,16 @@ ion-content {
       padding-bottom: 8px;
       border-bottom: 1px var(--rp-color-primary-ligth) solid;
     }
+    .profile-info {
+      display: block;
+      margin: auto;
+      width: 80%;
+      margin-top: 16px;
+
+      ion-note {
+        margin-top: 8px;
+      }
+    }
     .avatar {
       border-radius: 50%;
       display: block;
