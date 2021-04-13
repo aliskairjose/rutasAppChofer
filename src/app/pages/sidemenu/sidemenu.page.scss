@@ -1,0 +1,244 @@
+.appwrapper {
+  //   ion-menu ion-content {
+  //   --background: var(--ion-item-background, var(--ion-background-color, #fff));
+  // }
+
+  // ion-menu.md ion-content {
+  //   --padding-start: 8px;
+  //   --padding-end: 8px;
+  //   --padding-top: 20px;
+  //   --padding-bottom: 20px;
+  // }
+
+  ion-menu.md ion-list {
+    padding: 20px 0;
+  }
+
+  ion-menu.md ion-note {
+    margin-bottom: 30px;
+  }
+
+  ion-menu.md ion-list-header,
+  ion-menu.md ion-note {
+    padding-left: 10px;
+  }
+
+  ion-menu.md ion-list#inbox-list {
+    border-bottom: 1px solid var(--ion-color-step-150, #d7d8da);
+  }
+
+  ion-menu.md ion-list#inbox-list ion-list-header {
+    font-size: 22px;
+    font-weight: 600;
+
+    min-height: 20px;
+  }
+
+  ion-menu.md ion-list#labels-list ion-list-header {
+    font-size: 16px;
+
+    margin-bottom: 18px;
+
+    color: #757575;
+
+    min-height: 26px;
+  }
+
+  ion-menu.md ion-item {
+    --padding-start: 10px;
+    --padding-end: 10px;
+    border-radius: 4px;
+  }
+
+  ion-menu.md ion-item.selected {
+    --background: rgba(var(--ion-color-primary-rgb), 0.14);
+  }
+
+  ion-menu.md ion-item.selected ion-icon {
+    color: var(--ion-color-primary);
+  }
+
+  ion-menu.md ion-item ion-icon {
+    //color: #616e7e;
+  }
+
+  ion-menu.md ion-item ion-label {
+    font-weight: 500;
+  }
+
+  ion-menu.ios ion-content {
+    --padding-bottom: 20px;
+  }
+
+  ion-menu.ios ion-list {
+    padding: 0px 0 0 0;
+  }
+
+  ion-menu.ios ion-note {
+    line-height: 24px;
+    margin-bottom: 20px;
+  }
+
+  ion-menu.ios ion-item {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --min-height: 50px;
+  }
+
+  ion-menu.ios ion-item.selected ion-icon {
+    color: var(--ion-color-primary);
+  }
+
+  ion-menu.ios ion-item ion-icon {
+    font-size: 24px;
+    color: #73849a;
+  }
+
+  ion-menu.ios ion-list#labels-list ion-list-header {
+    margin-bottom: 8px;
+  }
+
+  ion-menu.ios ion-list-header,
+  ion-menu.ios ion-note {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  ion-menu.ios ion-note {
+    margin-bottom: 8px;
+  }
+
+  ion-note {
+    display: inline-block;
+    font-size: 16px;
+
+    color: var(--ion-color-medium-shade);
+  }
+
+  ion-item.selected {
+    --color: var(--ion-color-primary);
+  }
+
+  .menu-list-header {
+    background-color: var(--rp-color-primary);
+    display: flex;
+    align-items: center;
+    height: 30vh;
+    flex-direction: row;
+    padding-left: 16px;
+  }
+
+  .profile-pic {
+    border-radius: 100px;
+    background-color: white;
+    padding: 8px;
+    font-size: 24px;
+  }
+
+  .heading {
+    display: flex;
+    flex-direction: column;
+    line-height: 2px;
+    margin-bottom: 5px;
+  }
+
+  .align-16 {
+    padding-left: 16px !important;
+  }
+
+  .heading-name {
+    font-size: 20px;
+  }
+
+  .more {
+    font-size: 26px;
+    color: white;
+  }
+
+  .logout {
+    display: flex;
+    justify-content: center;
+  }
+
+  .logout-btn {
+    --background: #fae345;
+    color: black;
+    margin-bottom: 18px;
+    text-transform: none !important;
+  }
+
+  .logout-icon {
+    margin-right: 5px;
+  }
+
+  ion-menu.md ion-list {
+    padding: 0px 0;
+  }
+
+  ion-menu.md ion-list#inbox-list {
+    border-bottom: unset;
+  }
+
+  ion-menu.md ion-item.selected {
+    --background: unset;
+  }
+
+  .menu-header {
+    position: absolute;
+    top: 2%;
+    width: 100%;
+    z-index: 9;
+
+    ion-img {
+      height: 5vh;
+      position: absolute;
+      right: 0;
+      top: 3%;
+      z-index: 9;
+      margin-left: 20vw;
+    }
+
+    // .menu-button {
+    //   border-radius: 100px;
+    //   box-shadow: 1px 2px 7px 2px #ccc;
+    //   margin: 10px;
+    //   margin-left: 5%;
+    //   height: 40px;
+    //   width: 40px;
+    //   color: var(--rp-color-secondry);
+    //   background: var(--rp-color-primary);
+    // }
+  }
+
+  .backdrop {
+    width: 100%;
+    height: 100%;
+    background: #0000001f;
+    z-index: 10;
+    position: absolute;
+  }
+
+  .fade {
+    transition: 0.5s linear all;
+    opacity: 0;
+    z-index: -1;
+  }
+
+  .fade-in {
+    transition: 0.5s linear all;
+    opacity: 1;
+  }
+
+  .active {
+    color: #fae345;
+  }
+
+  .deactive {
+    color: #616e7e;
+  }
+
+  .menuIcon {
+    height: 21px;
+    width: 52px;
+  }
+}

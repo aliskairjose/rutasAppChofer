@@ -1,0 +1,6 @@
+<div class="d-flex ">
+  <div  *ngFor="let p of rating; let i = index" (click) = "ratingHandler(i)">
+    <ion-icon [ngClass] = "rate >= i ? 'active' : 'deactive'" ng name="star"></ion-icon>
+  </div>
+</div>
+

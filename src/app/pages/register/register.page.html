@@ -1,0 +1,81 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="signupPageWrapper">
+    <div class="signupLogoWrapper">
+      <img [src]="logo" alt="broken" height="50vh" />
+    </div>
+    <div class="signupFormWrapper">
+      <ion-text class="signupTitleText">Registro</ion-text>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate class="signupForm">
+        <!-- Email -->
+        <ion-item>
+          <ion-input type="email" class="form-control" formControlName="email" placeholder="Email"></ion-input>
+        </ion-item>
+        <div *ngIf="submitted && f.email.errors">
+          <div *ngIf="f.email.errors.required">
+            <ion-label text-wrap color="danger">
+              {{formError.required}}
+            </ion-label>
+          </div>
+          <div *ngIf="f.email.errors.email">
+            <ion-label text-wrap color="danger">
+              {{formError.invalidEmail}}
+            </ion-label>
+          </div>
+        </div>
+        <!-- Password -->
+        <ion-item>
+          <ion-input type="password" class="form-control" formControlName="password" placeholder="Contraseña">
+          </ion-input>
+        </ion-item>
+        <div *ngIf="submitted && f.password.errors">
+          <div *ngIf="f.password.errors.required">
+            <ion-label text-wrap color="danger">
+              {{formError.required}}
+            </ion-label>
+          </div>
+          <div *ngIf="f.password.errors.minlength">
+            <ion-label text-wrap color="danger">
+              {{formError.minLength}} 8
+            </ion-label>
+          </div>
+        </div>
+        <!-- Confirm Password -->
+        <ion-item>
+          <ion-input type="password" class="form-control" formControlName="passwordConfirmation"
+            placeholder="Repita Contraseña">
+          </ion-input>
+        </ion-item>
+        <div *ngIf="submitted && f.passwordConfirmation.errors">
+          <div *ngIf="f.passwordConfirmation.errors.required">
+            <ion-label text-wrap color="danger">
+              {{formError.required}}
+            </ion-label>
+          </div>
+          <div *ngIf="f.passwordConfirmation.errors.minlength">
+            <ion-label text-wrap color="danger">
+              {{formError.minLength}} 8
+            </ion-label>
+          </div>
+          <div *ngIf="f.passwordConfirmation.errors.mustMatch">
+            <ion-label text-wrap color="danger">
+              {{formError.matchError}}
+            </ion-label>
+          </div>
+        </div>
+        <div class="ion-text-center ion-margin-top">
+          <ion-button color="warning" class="signupMedText" type="submit">
+            Registrese
+          </ion-button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</ion-content>

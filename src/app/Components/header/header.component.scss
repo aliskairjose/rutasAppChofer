@@ -1,0 +1,10 @@
+ion-header {
+  ion-img {
+    height: 6vh;
+  }
+}
+ion-back-button {
+  --background: var(--rp-color-primary);
+  --color: var(--rp-color-secondary);
+  border-radius: 100%;
+}

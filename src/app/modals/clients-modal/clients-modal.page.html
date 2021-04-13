@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="primary">
+      <ion-button color="secondary" (click)="closeModal()">
+        <ion-icon name="close-circle-outline" size="large"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Registro de usuario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="signupPageWrapper">
+    <div class="signupLogoWrapper">
+      <img [src]="logo" alt="broken" height="50vh" />
+    </div>
+    <div class="signupFormWrapper">
+      <ion-text class="signupTitleText">Registro</ion-text>
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate class="signupForm">
+        <!-- Nombre -->
+        <ion-item>
+          <ion-input type="text" class="form-controll" formControlName="name" placeholder="Nombre" readonly></ion-input>
+        </ion-item>
+        <!-- Clientes -->
+        <ion-item>
+          <ion-select placeholder="Empresa" formControlName="client_id" class="form-controll">
+            <ion-select-option [value]="client.id" *ngFor="let client of clients; let i=index">{{ client.name }}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+        <div *ngIf="submitted && f.client_id.errors">
+          <div *ngIf="f.client_id.errors.required">
+            <ion-label text-wrap color="danger">
+              {{formError.required}}
+            </ion-label>
+          </div>
+        </div>
+        <!-- Departamento-->
+        <ion-item>
+          <ion-input type="text" class="form-controll" formControlName="department" placeholder="Departamento">
+          </ion-input>
+        </ion-item>
+        <div *ngIf="submitted && f.department.errors">
+          <div *ngIf="f.department.errors.required">
+            <ion-label text-wrap color="danger">
+              {{formError.required}}
+            </ion-label>
+          </div>
+        </div>
+        <!-- Cargo-->
+        <ion-item>
+          <ion-input type="text" class="form-controll" formControlName="charge" placeholder="Cargo"></ion-input>
+        </ion-item>
+        <div *ngIf="submitted && f.charge.errors">
+          <div *ngIf="f.charge.errors.required">
+            <ion-label text-wrap color="danger">
+              {{formError.required}}
+            </ion-label>
+          </div>
+        </div>
+        <!-- Email -->
+        <ion-item>
+          <ion-input type="email" class="form-controll" formControlName="email" placeholder="Email" readonly>
+          </ion-input>
+        </ion-item>
+        <div class="text-center mt-2">
+          <ion-button color="warning" class="signupMedText" type="submit">
+            Registrese
+          </ion-button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</ion-content>

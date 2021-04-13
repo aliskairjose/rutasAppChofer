@@ -1,0 +1,691 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "~@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+@import "./bootstrap.min.css";
+
+ion-menu-button {
+  --background: var(--rp-color-primary);
+  --color: var(--rp-color-secondary);
+  border-radius: 100%;
+}
+
+.signupPageWrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100%;
+
+  .signupLogoWrapper {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .signupFormWrapper {
+    display: flex;
+    flex: 2;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .signupTitleText {
+    font-size: 20px;
+  }
+
+  form {
+    &.signupForm {
+      width: 100%;
+      padding: 10px;
+    }
+
+    .forgotLinkWrapper {
+      align-self: flex-end;
+      align-items: center;
+      padding: 10px;
+    }
+    .signupSmallText {
+      font-size: 12px;
+    }
+    .signupGrayText {
+      color: gray;
+    }
+  }
+
+  .btnWrapper {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 3vh;
+  }
+
+  .signupMedText {
+    font-size: 16px;
+    text-transform: initial;
+  }
+  .googleText {
+    margin-right: 30px;
+  }
+  .googleLogoMargin {
+    margin: 20px 10px 20px 30px;
+  }
+
+  .signupMedText {
+    font-size: 16px;
+    text-transform: initial;
+  }
+}
+
+.listItemWrapper {
+  display: flex;
+  // flex-direction: row;
+  align-items: center;
+  height: 100%;
+}
+
+.listTextWrapper {
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.listImg {
+  height: 20px;
+  width: 20px;
+  margin: 10px;
+}
+
+.listName {
+  font-size: 20px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 70vw;
+  color: black;
+}
+
+.addressDetails {
+  width: 90%;
+  height: 70px;
+  position: fixed;
+  top: 12%;
+  z-index: 1;
+  left: 5%;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 2px 4px 6px #ccc;
+}
+
+.timeText {
+  font-size: 12px;
+  color: gray;
+  margin-top: 3px;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td,
+th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.gm-fullscreen-control {
+  display: none !important;
+}
+
+.gmnoprint {
+  display: none !important;
+}
+
+.gm-style-iw-t {
+  .gm-ui-hover-effect {
+    display: none !important;
+  }
+}
+
+// .label-button {
+//   padding: 0 6vh;
+// }
+
+ion-button {
+  label {
+    padding: 0 6vh;
+  }
+}
+
+.itemWrapper {
+  --inner-border-width: 0;
+  margin-top: 18px;
+  display: flex;
+  line-height: initial;
+  align-items: center;
+}
+
+.searchField {
+  background: #efedec;
+  border-radius: 8px;
+  height: 50px;
+  margin-bottom: 20px;
+}
+
+.menu-title {
+  font-weight: normal !important;
+}
+
+.button-btn {
+  --background: #fae345;
+  color: black;
+  text-transform: none !important;
+}
+
+.side-menu-header {
+  display: flex;
+  flex-direction: column;
+  height: 30vh;
+  background-color: var(--rp-color-primary);
+  div {
+    width: 100%;
+    padding: 0 24px 0 32px;
+    .avatar {
+      border-radius: 50%;
+      height: 16vh;
+    }
+  }
+  .side-menu-avatar {
+    margin-top: 24px;
+    height: 60%;
+  }
+  .side-menu-info {
+    color: #fff;
+    h3 {
+      margin: 8px 0 5px;
+    }
+    ion-note {
+      color: #fff;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  }
+}
+
+// Drawer
+.bottom-drawer {
+  position: absolute;
+  box-shadow: rgba(0, 0, 0, 0.12) 0px 4px 16px;
+  width: 100%;
+  height: 88vh;
+  z-index: 11;
+  background: var(--rp-color-primary);
+  padding-left: 20px;
+  padding-right: 20px;
+}
+.content-container {
+  height: 100%;
+  padding-bottom: 15vh;
+  ion-content::part(scroll) {
+    color: #fff;
+    background-color: var(--rp-color-primary);
+  }
+}
+
+.bottom-position-max {
+  bottom: calc(-0vh + env(safe-area-inset-bottom));
+}
+
+.bottom-position-min {
+  bottom: calc(-69vh + env(safe-area-inset-bottom));
+}
+
+.drawer-pull {
+  background: #cccccc;
+  height: 4px;
+  width: 60px;
+  // border-radius: 2px;
+}
+
+.backdrop {
+  width: 100%;
+  height: 100%;
+  background: #0000001f;
+  z-index: 10;
+  position: absolute;
+}
+
+.fade {
+  transition: 0.5s linear all;
+  opacity: 0;
+  z-index: -1;
+}
+
+.fade-in {
+  transition: 0.5s linear all;
+  opacity: 1;
+}
+
+.listImg {
+  width: 42px;
+  height: 42px;
+  margin-right: 18px;
+}
+
+.timeText {
+  font-size: 12px;
+  color: gray;
+  margin-top: 3px;
+}
+
+.content-container {
+  // height: 75%;
+  height: 100%;
+  padding-bottom: 15vh;
+}
+
+.itemWrapper {
+  --inner-border-width: 0;
+  margin-top: 18px;
+  display: flex;
+  line-height: initial;
+  align-items: center;
+}
+
+.minH {
+  height: 16px;
+}
+
+.scan {
+  height: 20px;
+  padding-right: 10px;
+}
+
+.confirmRutas {
+  background: #fae345;
+  border-radius: 8px;
+  color: black;
+  text-transform: none;
+  height: 46px;
+  text-transform: initial;
+  font-weight: normal;
+  font-size: 16px;
+}
+
+.clock {
+  height: 18px;
+  margin-right: 5px;
+  margin-top: 1.5%;
+}
+
+.item-native {
+  padding-inline-start: unset;
+  padding-inline-end: unset;
+}
+
+.driverWrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  height: 100%;
+}
+
+.driverOverview {
+  display: flex;
+  flex-direction: row;
+}
+
+.dp {
+  width: 55px;
+  height: 55px;
+  align-self: center;
+  margin-right: 10px;
+}
+
+.driverDetail {
+  display: flex;
+  flex-direction: column;
+  line-height: normal;
+}
+
+.drivername {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.driverPlaceDetail {
+  display: flex;
+  flex-direction: row;
+  font-size: 16px;
+}
+
+.placePadding {
+  padding-right: 6px;
+}
+
+.confirmDriverBtn {
+  margin-top: 3%;
+  --background: #fae345;
+  color: black;
+  --border-radius: 7px;
+}
+
+.setAtBottom {
+  margin-top: 10vh;
+}
+
+.expandedDetailWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.expandedDp {
+  height: 150px;
+}
+
+.expandedSelectedItem {
+  display: flex;
+  flex-direction: row;
+  width: 50%;
+  font-size: 14px;
+  text-align: center;
+}
+
+.equalLength {
+  display: flex;
+  flex: 1;
+  padding: 5px;
+  align-items: center;
+}
+
+.starImg {
+  height: 15px;
+  padding-left: 5px;
+  color: #fae345;
+}
+
+.expanded-driverName {
+  // padding-right: 1px;
+  border-right: gray 1px solid;
+}
+
+.flow-4-btn-1 {
+  background-color: #fae345;
+  color: black;
+  text-transform: none !important;
+}
+
+.flow-4-btn-2 {
+  background-color: #ebebeb;
+  color: #8f8f8f;
+  text-transform: none !important;
+}
+
+.btn-select {
+  border: 1px solid #ccc;
+  display: flex;
+  flex: 1;
+  margin: 16px 5px;
+  border-radius: 8px;
+}
+
+.btn35 {
+  width: 38%;
+  text-transform: none !important;
+}
+.emptyRow {
+  height: 10px;
+  width: 10px;
+}
+
+.rowView {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.imgWrapper {
+  width: 18%;
+}
+
+.rowWrapper {
+  background: #f4f4f4;
+  border-radius: 15%;
+  width: fit-content;
+  padding-top: 8%;
+  padding-bottom: 8%;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.extraShadow {
+  box-shadow: 2px 4px 6px #ccc;
+  margin-bottom: 3%;
+  width: 99%;
+  border-radius: 7px;
+  position: sticky;
+  background: white;
+  height: 9vh;
+  top: 0px;
+}
+
+.totalSeats {
+  position: sticky;
+  bottom: 0%;
+  background: white;
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bottomSeatWrapper {
+  width: 20%;
+  box-shadow: 2px 4px 6px grey;
+  border-radius: 8%;
+  margin-right: 7px;
+  margin-bottom: 10px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 5px;
+  position: relative;
+}
+
+.seatBtn {
+  width: 90%;
+  --background: #fae345;
+  color: black;
+  --border-radius: 7px;
+  text-transform: initial;
+}
+
+.totalSeatCount {
+  align-self: flex-end;
+  width: 60%;
+  background: gainsboro;
+  border-radius: 5px;
+  position: absolute;
+  top: 0;
+  font-size: 11px;
+}
+
+.smallSeat {
+  height: 4vh;
+  margin-top: 23%;
+}
+
+.smallSeatWrapper {
+  height: 11vh;
+}
+
+.seatType {
+  font-size: 10px;
+  line-height: normal;
+}
+
+.noMargin {
+  margin-right: unset;
+}
+
+.scanBlock {
+  height: 45vh;
+  margin: 20px;
+
+  padding: 18px;
+}
+
+.vdo {
+  height: 35vh;
+  border-radius: 20px;
+}
+
+.car-loc-btn {
+  position: absolute;
+  top: -10%;
+  right: 3%;
+  width: 100%;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  font-size: 34px;
+  border-radius: 100px;
+}
+
+.td,
+th {
+  width: 70px;
+}
+
+.scannerImg {
+  height: 40vh;
+}
+
+.brokenTxt {
+  line-break: anywhere;
+}
+
+.cardInDrawer {
+  width: 80%;
+}
+
+.seatContentWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.seatImg {
+  padding: 2px;
+}
+
+.bigseats {
+  margin-top: 25%;
+}
+
+.extendedHeight {
+  height: 12vh;
+}
+
+.borderRad {
+  border-radius: 8px;
+}
+
+.tbl {
+  border-collapse: separate;
+}
+
+.roundBorderLeft {
+  border-top-left-radius: 10px;
+}
+
+.roundBorderRight {
+  border-top-right-radius: 10px;
+}
+
+ion-note {
+  display: block;
+}
+
+.avatar {
+  height: 15vh;
+}
+
+#travel-data {
+  #info-route {
+    display: flex;
+    img {
+      width: 48px;
+      height: 48px;
+      margin: 0 10px;
+    }
+    h5 {
+      margin: 0;
+    }
+    ion-note {
+      margin: 0;
+    }
+  }
+  ion-list {
+    padding: 0;
+  }
+  ion-note {
+    margin: 16px 0 5px;
+  }
+  h5 {
+    font-weight: normal;
+    ion-icon {
+      color: var(--ion-color-rp-primary);
+    }
+  }
+}
+
+.menu-list {
+  margin-top: 24px;
+}
+
+ion-back-button {
+  --background: var(--rp-color-primary);
+  --color: var(--rp-color-secondary);
+  border-radius: 100%;
+  margin: 10px 10px;
+}

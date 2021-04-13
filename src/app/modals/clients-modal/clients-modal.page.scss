@@ -1,0 +1,80 @@
+.signupPageWrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.signupLogoWrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.signupFormWrapper {
+  display: flex;
+  flex: 2;
+  flex-direction: column;
+  align-items: center;
+}
+
+.forgotLinkWrapper {
+  align-self: flex-end;
+  align-items: center;
+  padding: 10px;
+}
+
+.signupSmallText {
+  font-size: 12px;
+}
+
+.signupMedText {
+  font-size: 16px;
+  text-transform: initial;
+}
+
+.signupTitleText {
+  font-size: 20px;
+}
+
+.signupGrayText {
+  color: gray;
+}
+
+.googleLogoMargin {
+  margin: 20px 10px 20px 30px;
+}
+
+.googleText {
+  margin-right: 30px;
+}
+
+.signupForm {
+  width: 100%;
+  padding: 10px;
+}
+
+.signupErrText {
+  text-align: center;
+}
+
+.form-controll {
+  font-size: 12px;
+}
+
+.btnWrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 3vh;
+}
+
+ion-icon {
+  color: var(--ion-color-warning);
+}

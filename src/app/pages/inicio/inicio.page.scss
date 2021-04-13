@@ -1,0 +1,78 @@
+#map {
+    width: 100%;
+    height: 77%;
+}
+
+.listImg {
+    height: 42px;
+    width: 42px;
+    margin: 10px;
+}
+
+.rutasEdit {
+    width: 90%;
+    /* height: 70px; */
+    position: absolute;
+    top: 14%;
+    z-index: 1;
+    left: 5%;
+    border-radius: 8px;
+}
+
+.editInp {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 2px 4px 6px #ccc;
+    //margin-bottom: 20px;
+}
+
+.currentLoc {
+    height: 35px;
+    width: 35px;
+    border-radius: 100px;
+    background-color: #fae345;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+.destLoc {
+    height: 20px;
+    width: 20px;
+    border-radius: 100px;
+    background-color: black;
+}
+
+.locIcon {
+    height: 35px;
+    width: 35px;
+    font-size: 35px;
+    margin-right: 10px;
+}
+
+.currentLocation {
+    width: 35px;
+    height: 35px;
+    background-color: #fae345;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 34px;
+    position: absolute;
+    bottom: -44px;
+    right: 2px;
+    border-radius: 100px;
+}
+
+.icon {
+    position: absolute;
+    right: 10px;
+    font-size: 24px;
+    position: absolute;
+    right: 10px;
+    display: flex;
+    font-size: 24px;
+    align-items: center;
+    justify-content: center;
+}

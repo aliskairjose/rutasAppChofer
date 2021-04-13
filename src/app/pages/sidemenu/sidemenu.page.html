@@ -1,0 +1,48 @@
+<div class="appwrapper">
+  <!-- <ion-split-pane> -->
+  <ion-menu contentId="home" type="overlay">
+    <ion-content class="content">
+      <div class="d-flex flex-column h-100 justify-content-between">
+        <ion-list id="inbox-list">
+          <div class="menu-list-header ion-margin-bottom">
+            <div class="side-menu-header">
+              <div class="side-menu-avatar">
+                <img class="avatar" src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+              </div>
+              <div class="side-menu-info">
+                <ion-note>Hola,</ion-note>
+                <h3>{{user.name}}</h3>
+              </div>
+            </div>
+            <ion-icon class="more align-16" name="ellipsis-horizontal"></ion-icon>
+          </div>
+          <div class="menu-list">
+            <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
+              <ion-item routerDirection="root" (click)="menuOptionClickHandle(p, i)" lines="none" detail="false">
+                <img class="px-3 menuIcon" [src]="p.icon" />
+                <ion-label [ngClass]="activeRoute === i ? 'active' : 'deactive'" class="menu-title">{{ p.title }}
+                </ion-label>
+              </ion-item>
+            </ion-menu-toggle>
+          </div>
+        </ion-list>
+        <div class="logout">
+          <ion-button class="button-btn ion-margin-bottom" (click)="logout()">
+            <ion-icon class="logout-icon" name="log-out-outline"></ion-icon>
+            Cerrar sesión
+          </ion-button>
+        </div>
+      </div>
+    </ion-content>
+  </ion-menu>
+
+  <div class="menu-header">
+    <ion-buttons slot="start" class="ion-float-left ion-margin-horizontal menu-button">
+      <ion-menu-button class="btn-icon"></ion-menu-button>
+    </ion-buttons>
+    <ion-img [src]="logo" class="ion-float-right mt-1"></ion-img>
+  </div>
+  <div class="backdrop" [ngClass]="backdropVisible ? 'fade-in' : 'fade'" tappable (click)="bottomDrawer.toggleDrawer()">
+  </div>
+  <ion-router-outlet id="home"></ion-router-outlet>
+</div>

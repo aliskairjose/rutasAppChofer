@@ -1,0 +1,35 @@
+<div class="signupWrapper">
+  <div class="signupLogoWrapper">
+    <img src="./../../../assets//loginLogo.png" alt="broken" height="50vh" />
+  </div>
+  <div class="btnWrapper">
+    <ion-icon class="signupIcon" name="arrow-back-outline" (click)="gotoLogin()"></ion-icon>
+    <ion-button class="btnWrap" [disabled]="registerForm.invalid ? true : undefined" (click)="gotoLogin()"><ion-icon class="signupIcon" name="checkmark-outline"></ion-icon></ion-button>
+  </div>
+  <div class="headingWrapper">
+    USUARIO
+  </div>
+  <ion-content class="formWrapper">
+    <form [formGroup]="registerForm" novalidate class="signupForm">
+      <div class="inputWrapper" *ngFor="let i of ipList">
+        <div class="ipWrap" *ngIf="i.icon"><ion-icon class="" name={{i.icon}}></ion-icon>
+        <ion-input *ngIf="i.type != 'dropdown'" type={{i.type}} formControlName={{i.ctrlName}} placeholder={{i.placeholder}} (click)="onChanges()">
+
+        </ion-input></div>
+
+        <ion-select *ngIf="i.type === 'dropdown'" class="form-controll" formControlName={{i.ctrlName}} value={{i.placeholder}} placeholder={{i.placeholder}}>
+          <ion-select-option value="brown">{{i.placeholder}}</ion-select-option>
+          <ion-select-option value="blonde">Blonde</ion-select-option>
+          <ion-select-option value="black">Black</ion-select-option>
+          <ion-select-option value="red">Red</ion-select-option>
+        </ion-select>
+
+        <ion-text color="danger" class="signupErrText">
+          <p class="danger-text" *ngIf="registerForm.controls[i.ctrlName].touched && !registerForm.controls[i.ctrlName].valid">
+            {{registerForm.controls[i.ctrlName].errors && registerForm.controls[i.ctrlName].errors.required ? i.errMsg_req : (registerForm.controls[i.ctrlName].errors.minlength) ? "Password too short!" : (registerForm.controls[i.ctrlName].errors.confirmPasswordValidator) ? "Password doesn't match" : (i.errMsg_reg && i.errMsg_reg)}}
+          </p>
+        </ion-text>
+      </div>
+    </form>
+  </ion-content>
+</div>

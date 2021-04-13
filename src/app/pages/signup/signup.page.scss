@@ -1,0 +1,84 @@
+.signupWrapper{
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.signupLogoWrapper{
+    display: flex;
+    flex: 2;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
+.btnWrapper{
+    display: flex;
+    flex: 1;
+    background: #fae345;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.signupIcon{
+    font-size: 25px;
+}
+
+.formWrapper{
+    display: flex;
+    flex: 12;
+}
+
+.headingWrapper{
+    display: flex;
+    flex: 1;
+    width: 90%;
+    align-self: center;
+    margin: 10px;
+    border-radius: 8px;
+    box-shadow: 1px 2px 4px 3px #ccc;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputWrapper{
+    // border: 1px solid;
+    margin-bottom: 7px;
+    width: 85%;
+    // border-radius: 4px;
+    --border-width: 0px;
+    --show-full-highlight: none;
+}
+
+.signupForm{
+    // padding: 3px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.signupErrText{
+    text-align: center;
+}
+
+.form-controll{
+    border: 1px solid;
+    border-radius: 4px;
+}
+
+.ipWrap{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border: 1px solid;
+    border-radius: 4px;
+    padding-left: 5px;
+}
+
+.btnWrap{
+    --background: none;
+    --color: unset;
+    --box-shadow: none;
+}

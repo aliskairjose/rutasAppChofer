@@ -1,0 +1,50 @@
+
+
+<ion-content [ngSwitch] = "feedbackFlow" class="feedbackContainer">
+
+  <div *ngSwitchCase = 0 class="d-flex align-items-center justify-content-center flex-column flex-grow-1 h-100">
+    <span class="heading mb-3">i Has llegado a tu destino!</span>
+
+    <span class="mb-2">Callifica al conductor</span>
+
+    <div class="d-flex mb-3">
+      <img class="proPic mx-3" src="../../../assets/prueba 1Recurso 55.png"/>
+      <div class="d-flex flex-column justify-content-center">
+        <ion-note>Luis Durain</ion-note>
+        <app-rating></app-rating>
+        
+      </div>
+    </div>
+
+    <div class="d-flex flex-column justify-content-center mb-3">
+      <span>Callifica la unidad</span>
+      <app-rating></app-rating>
+    </div>
+
+    <div class="d-flex align-items-center  p-1 textWrapper mb-3">
+      <img class="logo mx-2" src="./../../../assets/route.png" />
+      <div class="">
+        <div class="listName">{{userService.rutasData?.name}}</div>
+        <ion-note>{{userService.rutasData?.timeRange}}</ion-note>
+      </div>
+    </div>
+
+    <span>Algun comentario?</span>
+
+    <div>
+      <label class="feedbackInpLabel">Describe tu experiencia</label>
+      <ion-input class="feedbackInp" ></ion-input>
+    </div>
+      
+   
+
+    <ion-button fill="clear" (click) = "clickHandler(0)" color="clear" class="btn">Enviar</ion-button>
+  </div>
+
+  <div *ngSwitchCase = 1 class="d-flex align-items-center justify-content-center flex-column flex-grow-1 h-100">
+    <span class="boldTxt">Gracias por vaijar con nosotros</span>
+    <ion-note>! Te eperamos pronto !</ion-note>
+
+    <ion-button fill="clear" (click) = "clickHandler(1)" color="clear" class="btn2"><ion-icon class="logout-icon mx-1" name="log-out-outline" ></ion-icon >Saliar</ion-button>
+  </div>
+</ion-content>

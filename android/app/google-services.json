@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "466798676316",
+    "project_id": "rutasapp-305809",
+    "storage_bucket": "rutasapp-305809.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:466798676316:android:b68713a4cd28540046d999",
+        "android_client_info": {
+          "package_name": "io.ionic.rutas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "466798676316-02u4gktreb9lcqhfcq32mchcvtc6tpog.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAr59DiSWb9Za3HsyhrKH7ogyRUYeOsYZo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "466798676316-02u4gktreb9lcqhfcq32mchcvtc6tpog.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

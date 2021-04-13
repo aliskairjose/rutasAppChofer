@@ -1,0 +1,19 @@
+<ion-input type="search" class="searchField" placeholder="Buscar ruta" [(ngModel)]="searchText"></ion-input>
+<ng-container *ngIf="routes.length; else elseTemplate">
+  <ion-list lines="none">
+    <ion-item *ngFor="let route of routes | routesFilter: searchText" (click)="selectRoute(route)">
+      <ion-avatar slot="start">
+        <img src="../../../assets/briefcase.png" />
+      </ion-avatar>
+      <ion-label>
+        <h2>{{route.name }}</h2>
+        <h3>{{route.start_time | customeTime }} - {{route.end_time | customeTime }}</h3>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ng-container>
+<ng-template #elseTemplate>
+  <div class="ion-text-center">
+    No hay rutas disponibles
+  </div>
+</ng-template>

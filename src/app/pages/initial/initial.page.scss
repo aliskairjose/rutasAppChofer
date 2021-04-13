@@ -1,0 +1,32 @@
+ion-content {
+    --background: url("../../../assets/images/bg.png") no-repeat center center/cover;
+    .login {
+        display: flex;
+        flex: 1;
+        height: 100%;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .logo {
+        max-width: 52%;
+    }
+
+    .txt {
+        font-size: 18px;
+        line-height: normal;
+        font-weight: bold;
+        color: #fff;
+    }
+
+    .login-btn {
+        padding: 0 12vh;
+        text-transform: capitalize;
+    }
+
+    .des {
+        position: absolute;
+        bottom: 10%;
+        align-items: center;
+    }
+}

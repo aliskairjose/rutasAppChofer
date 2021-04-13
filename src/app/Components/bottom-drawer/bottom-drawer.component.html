@@ -1,0 +1,164 @@
+<div class="bottom-drawer" [ngStyle]="{'bottom': 'calc('+ bottomPosition +'vh + env(safe-area-inset-bottom))'}"
+  #bottomDrawer>
+  <div *ngIf="userService.rutasFlow === 10" class="car-loc-btn">
+    <div class="text-end" *ngIf="!isOpen">
+      <ion-note>Tú
+        <img class="scan" src="../../../assets/mark.svg" />
+      </ion-note>
+      <ion-note>Parada
+        <img class="scan" src="../../../assets/waypoints.svg" style="margin-left: 4px;" />
+      </ion-note>
+      <ion-note>Final de ruta
+        <img class="scan" src="../../../assets/location-sharp.svg" style="margin-left: 5px;" />
+      </ion-note>
+    </div>
+  </div>
+  <div *ngIf="dragable" class="ion-text-center ">
+    <ion-button fill="clear" expand="full" (click)="toggleDrawer()" class="minH">
+      <div class="drawer-pull"></div>
+    </ion-button>
+  </div>
+
+  <div class="content-container mt-2" *ngIf="component === 'Inicio'">
+    <ion-content [ngSwitch]="userService.rutasFlow">
+      <!-- Dashboard -->
+      <div *ngSwitchCase=0>
+        <ion-grid fixed>
+          <ion-row>
+            <ion-col>
+              <div class="text-center">
+                <h2>Dashboard</h2>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
+      <!-- Rutas -->
+      <div *ngSwitchCase=1>
+        <app-route (routeEvent)="routeHandler($event)"></app-route>
+      </div>
+      <!-- Detalle de ruta -->
+      <div *ngSwitchCase=10>
+        <div class="d-flex flex-row">
+          <div class="d-flex flex-grow-1">
+            <img class="clock" src="../../../assets/clock.png" />
+            <div class="d-flex flex-column">
+              <span>Proxima unidad</span>
+              <ion-note>15 minutes</ion-note>
+            </div>
+          </div>
+        </div>
+        <ion-grid fixed *ngIf="isOpen">
+          <ion-row>
+            <ion-col size="12">
+              <ion-list-header>
+                <ion-label>Paradas de la ruta</ion-label>
+              </ion-list-header>
+              <ion-list lines="full">
+                <ion-item *ngFor="let stop of selectedRoute.route_stops">
+                  <ion-label>{{ stop.name }}</ion-label>
+                  <ion-note>{{ stop.arrival_time | customeTime }}</ion-note>
+                </ion-item>
+              </ion-list>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <ion-button fill="clear" expand="full" class="confirmRutas my-3" (click)="startScan()">
+          Abordar este bus
+        </ion-button>
+      </div>
+      <!-- Experiencia -->
+      <div *ngSwitchCase=2>
+        <h2>Experiencia</h2>
+      </div>
+      <!-- Support / Help -->
+      <div *ngSwitchCase=3>
+        <h2>Suporte / Ayuda</h2>
+      </div>
+      <!-- QR Scan -->
+      <div *ngSwitchCase=4>
+        <div class="d-flex flex-column align-items-center">
+          <div class="scanBlock ion-text-center">
+            <div class="d-flex flex-column align-items-center justify-content-center" *ngIf="!showScan">
+              <ion-note class="ion-text-center">Para escanear código enfca el QR ubicado en la entrada del bus
+              </ion-note>
+              <img class="scannerImg" src="../../../assets/scanner.png" />
+            </div>
+            <div [ngClass]="!showScan ? 'd-none' : 'd-block'">
+              <video class="vdo" [hidden]='!scanActive' #video></video>
+              <canvas #canvas hidden></canvas>
+            </div>
+          </div>
+          <ion-button *ngIf="!showScan" (click)="scannerOn()" fill="clear" class="button-btn confirmRutas my-3 ">
+            Escanear QR
+          </ion-button>
+          <ion-button *ngIf="showScan" (click)="stopScan()" fill="clear" class="confirmRutas my-3 ">
+            <label class="label-button" for="">Volver</label>
+          </ion-button>
+        </div>
+      </div>
+      <!-- Travel Detail -->
+      <div *ngSwitchCase="40">
+        <ion-grid fixed *ngIf="isOpen">
+          <ion-row>
+            <ion-col>
+              <div class="text-center" id="travel-data">
+                <h2>Datos de tu viaje</h2>
+                <img class="rounded-circle shadow-sm avatar ion-margin-vertical"
+                  src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+                <ion-note>Tu conductor</ion-note>
+                <h5>
+                  {{selectedRoute.driver.name}} | 4/5
+                  <ion-icon slot="end" name="star" part="icon"></ion-icon>
+                </h5>
+                <ion-note>Tu ruta</ion-note>
+                <ion-list lines="none">
+                  <ion-item>
+                    <ion-avatar slot="start">
+                      <img src="./../../../assets/route.png">
+                    </ion-avatar>
+                    <ion-label>
+                      <h2>{{selectedRoute.name}}</h2>
+                      <h3>{{selectedRoute.start_time | customeTime }} - {{selectedRoute.end_time | customeTime }}</h3>
+                    </ion-label>
+                  </ion-item>
+                </ion-list>
+                <ion-note>Tu unidad</ion-note>
+                <h5>
+                  Modelo: {{bus.bus_model.name}} <br>
+                  Placa: {{bus.license_plate | uppercase}}
+                </h5>
+
+                <ion-note>Puestos disponibles</ion-note>
+                <h5>15/{{bus.number_positions}}</h5>
+
+                <ion-button (click)="endTravel()" class="button-btn ion-margin-top">
+                  <ion-icon slot="start" name="log-out-outline" class="logout-icon"></ion-icon>
+                  Finalizar viaje
+                </ion-button>
+              </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <div id="travel-data" *ngIf="!isOpen">
+          <div id="info-route">
+            <img src="./../../../assets/route.png" style="margin-left: 0 !important;" />
+            <div>
+              <h5>{{selectedRoute.driver.name}}</h5>
+              <p style="margin: 0;">
+                Modelo {{bus.bus_model.name}} | Placa: {{bus.license_plate | uppercase}}
+              </p>
+              <ion-note class="ion-float-left">Tiempo de llegada a destino: 25 min</ion-note>
+            </div>
+          </div>
+          <ion-button fill="clear" expand="full" class="confirmRutas my-3" (click)="endTravel()">
+            <ion-icon slot="start" name="log-out-outline" class="logout-icon"></ion-icon>
+            Finalizar viaje
+          </ion-button>
+        </div>
+
+      </div>
+    </ion-content>
+  </div>
+</div>

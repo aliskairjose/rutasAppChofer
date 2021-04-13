@@ -1,0 +1,65 @@
+<ion-content>
+  <div class="signupPageWrapper">
+    <div class="signupLogoWrapper">
+      <img [src]="logo" alt="broken" height="50vh" />
+    </div>
+    <div class="signupFormWrapper">
+      <ion-text class="signupTitleText">Inicie sesión</ion-text>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate class="signupForm">
+        <ion-item>
+          <ion-input type="email" class="form-controll" formControlName="email" placeholder="Usuario"></ion-input>
+        </ion-item>
+        <div *ngIf="submitted && f.email.errors">
+          <div *ngIf="f.email.errors.required">
+            <ion-label text-wrap color="danger">
+              {{formError.required}}
+            </ion-label>
+          </div>
+          <div *ngIf="f.email.errors.email">
+            <ion-label text-wrap color="danger">
+              {{formError.invalidEmail}}
+            </ion-label>
+          </div>
+        </div>
+        <ion-item>
+          <ion-input type="password" class="form-controll" formControlName="password" placeholder="Contraseña">
+          </ion-input>
+        </ion-item>
+        <div *ngIf="submitted && f.password.errors">
+          <div *ngIf="f.password.errors.required">
+            <ion-label text-wrap color="danger">
+              {{formError.required}}
+            </ion-label>
+          </div>
+          <div *ngIf="f.password.errors.minlength">
+            <ion-label text-wrap color="danger">
+              {{formError.minLength}} 6
+            </ion-label>
+          </div>
+        </div>
+        <div class="forgotLinkWrapper">
+          <ion-text [routerLink]="['/forgot-password']" class="signupSmallText ion-float-right">
+            ¿Olvido su contraseña?
+          </ion-text>
+        </div>
+        <div class="ion-text-center ion-margin-vertical">
+          <ion-button class="signupMedText button-btn" type="submit">
+            Iniciar sesión
+          </ion-button>
+        </div>
+        <div class="ion-text-center">
+          <ion-text [routerLink]="['/register']" class="signupSmallText">
+            ¿No tiene cuenta? Registrese aquí
+          </ion-text>
+        </div>
+      </form>
+    </div>
+    <div class="btnWrapper">
+      <ion-text class="signupSmallText signupGrayText">o inicie sesión con</ion-text>
+      <ion-button color="light" (click)="googleLogin()">
+        <img src="./../../../assets/googleLogo.png" alt="broken" width="30" height="30" class="googleLogoMargin" />
+        <ion-text class="signupMedText signupGrayText googleText">Google</ion-text>
+      </ion-button>
+    </div>
+  </div>
+</ion-content>
