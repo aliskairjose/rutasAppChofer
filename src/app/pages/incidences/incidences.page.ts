@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-@Component({
+@Component( {
   selector: 'app-incidences',
   templateUrl: './incidences.page.html',
-  styleUrls: ['./incidences.page.scss'],
-})
+  styleUrls: [ './incidences.page.scss' ],
+} )
 export class IncidencesPage implements OnInit {
 
   constructor() { }
@@ -12,4 +12,7 @@ export class IncidencesPage implements OnInit {
   ngOnInit() {
   }
 
+  search(): void {
+    console.log( 'search' );
+  }
 }
