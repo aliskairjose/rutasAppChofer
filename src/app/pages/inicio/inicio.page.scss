@@ -1,3 +1,14 @@
+.listItemWrapper {
+    background-color: var(--rp-color-primary);
+    border-radius: 7px;
+    ion-note {
+        color: #fff !important;
+    }
+    .listName {
+        color: #fff !important;
+    }
+}
+
 #map {
     width: 100%;
     height: 77%;

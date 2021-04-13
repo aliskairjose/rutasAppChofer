@@ -1,9 +1,11 @@
 <div class="addressDetails" *ngIf="selectedItem  && !userService.rutasBarEdit && userService.rutasFlow === 10">
   <div class="listItemWrapper">
-    <img class="listImg" src="./../../../assets/route.png" />
+    <img class="listImg" src="./../../../assets/route_circle.svg" />
     <div class="listTextWrapper">
-      <div class="listName">{{selectedItem?.name}}</div>
-      <ion-note>{{selectedItem.start_time | customeTime }} - {{selectedItem.end_time | customeTime }}</ion-note>
+      <div class="listName">Las Pueblos</div>
+      <ion-note>Nro. 678 | 08:00 am - 05:00 pm</ion-note>
+      <!-- <div class="listName">{{selectedItem?.name}}</div>
+        <ion-note>{{selectedItem.start_time | customeTime }} - {{selectedItem.end_time | customeTime }}</ion-note> -->
     </div>
   </div>
 </div>
