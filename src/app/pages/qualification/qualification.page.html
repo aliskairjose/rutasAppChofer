@@ -9,5 +9,41 @@
 </ion-header>
 
 <ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <div class="rating-header ion-text-center">
+          <div>
+            <h3>Calificación del servicio</h3>
+            <ion-icon slot="start" name="star" color="tertiary"></ion-icon>
+            <ion-icon slot="start" name="star" color="tertiary"></ion-icon>
+            <ion-icon slot="start" name="star" color="tertiary"></ion-icon>
+            <ion-icon slot="start" name="star" color="tertiary"></ion-icon>
+            <ion-icon slot="start" name="star"></ion-icon>
+            <p>4/5 | Satisfactorio</p>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-list-header>
+          <h3>Listado de viajes</h3>
+        </ion-list-header>
+        <ion-list lines="none">
+          <ion-item>
+            <ion-avatar slot="start">
+              <img src="./../../../assets/route.png">
+            </ion-avatar>
+            <ion-label>
+              <h2>Ruta Ciudad - Tocumen</h2>
+              <h3>Bus: AA3320BZ</h3>
+            </ion-label>
+            <ion-note>Lunes</ion-note>
+          </ion-item>
 
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

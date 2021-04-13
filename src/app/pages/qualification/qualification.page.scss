@@ -1,4 +1,20 @@
 ion-content {
   position: absolute;
   top: 15%;
+
+  .rating-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 15vh;
+    color: #fff;
+    background-color: var(--rp-color-primary);
+    border-radius: 10px;
+    ion-icon {
+      margin: 0 4px;
+    }
+    p {
+      margin: 0;
+    }
+  }
 }
