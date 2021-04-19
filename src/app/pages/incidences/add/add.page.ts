@@ -20,6 +20,10 @@ export class AddPage implements OnInit {
   ngOnInit() {
   }
 
+  radioCheck( value: string ): void {
+    console.log( value );
+  }
+
   private createForm(): void {
     this.incidenceForm = this.fb.group( {
       type: [ '', [ Validators.required ] ],

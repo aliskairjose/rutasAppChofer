@@ -4,10 +4,9 @@ ion-content {
   }
   .radio-solution {
     margin-top: 24px;
-
-    ion-radio {
-      margin-left: 16px;
-      margin-right: 8px;
+    ion-radio::part(mark) {
+      --color-checked: var(--rp-color-secondary);
+      --inner-border-radius: var(--rp-color-secondary);
     }
   }
 

@@ -16,9 +16,12 @@
           <div class="signupFormWrapper">
             <form (ngSubmit)="onSubmit()" #form="ngForm" novalidate [formGroup]="incidenceForm" class="signupForm">
               <ion-item>
-                <ion-select value="peperoni" multiple="false" placeholder="Tipo de incidencia" formControlName="type">
-                  <ion-select-option value="peperoni">Peperoni</ion-select-option>
-                  <ion-select-option value="hawaii">Hawaii</ion-select-option>
+                <ion-select value="accidente vial" multiple="false" placeholder="Tipo de incidencia"
+                  formControlName="type">
+                  <ion-select-option value="accidente vial">Accidente vial</ion-select-option>
+                  <ion-select-option value="averia de la unidad">Avería de la unidad</ion-select-option>
+                  <ion-select-option value="congestion vial">Congestión vial</ion-select-option>
+                  <ion-select-option value="protestas">Protestas</ion-select-option>
                 </ion-select>
               </ion-item>
 
@@ -32,13 +35,26 @@
               </ion-item>
 
               <div class="ion-margin-top ion-text-center">
-                <h3>¿Se Soluciono?</h3>
                 <div class="radio-solution">
-                  <ion-radio slot="end" value="biff"></ion-radio>
-                  <ion-label>Si</ion-label>
 
-                  <ion-radio slot="end" value="biff"></ion-radio>
-                  <ion-label>No</ion-label>
+                  <ion-list>
+                    <ion-radio-group value="no" (ionChange)="radioCheck($event.detail.value)">
+                      <ion-list-header>
+                        <ion-label>
+                          <h2>¿Se Solucionó?</h2>
+                        </ion-label>
+                      </ion-list-header>
+                      <ion-item>
+                        <ion-label>Si</ion-label>
+                        <ion-radio slot="start" value="yes"></ion-radio>
+                      </ion-item>
+                      <ion-item>
+                        <ion-label>No</ion-label>
+                        <ion-radio slot="start" value="no"></ion-radio>
+                      </ion-item>
+
+                    </ion-radio-group>
+                  </ion-list>
                 </div>
               </div>
 
