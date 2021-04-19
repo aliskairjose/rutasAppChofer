@@ -1,6 +1,6 @@
 {
-  "appId": "io.ionic.rutas",
-  "appName": "myFirstIonicProject",
+  "appId": "io.ionic.rutas.driver",
+  "appName": "Rutas Panamá Chofer",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

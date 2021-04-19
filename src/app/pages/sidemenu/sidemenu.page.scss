@@ -187,27 +187,13 @@
     position: absolute;
     top: 2%;
     width: 100%;
+    padding: 0 8px;
     z-index: 9;
 
     ion-img {
-      height: 5vh;
-      position: absolute;
-      right: 0;
-      top: 3%;
-      z-index: 9;
-      margin-left: 20vw;
+      height: auto;
+      width: 15vh;
     }
-
-    // .menu-button {
-    //   border-radius: 100px;
-    //   box-shadow: 1px 2px 7px 2px #ccc;
-    //   margin: 10px;
-    //   margin-left: 5%;
-    //   height: 40px;
-    //   width: 40px;
-    //   color: var(--rp-color-secondry);
-    //   background: var(--rp-color-primary);
-    // }
   }
 
   .backdrop {

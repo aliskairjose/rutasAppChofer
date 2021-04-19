@@ -1,4 +1,4 @@
-<ion-header class="ion-no-border">
+<ion-header class="ion-no-border" scroll-y="false">
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button icon="chevron-back-outline">
@@ -16,11 +16,7 @@
         <div class="rating-header ion-text-center">
           <div>
             <h3>Calificación del servicio</h3>
-            <ion-icon slot="start" name="star" color="tertiary"></ion-icon>
-            <ion-icon slot="start" name="star" color="tertiary"></ion-icon>
-            <ion-icon slot="start" name="star" color="tertiary"></ion-icon>
-            <ion-icon slot="start" name="star" color="tertiary"></ion-icon>
-            <ion-icon slot="start" name="star"></ion-icon>
+            <app-rating size="large" readOnly="true" rate="3"></app-rating>
             <p>4/5 | Servicio satisfactorio</p>
           </div>
         </div>
@@ -40,7 +36,12 @@
               <h2>Ruta Ciudad - Tocumen</h2>
               <h3>Bus: AA3320BZ</h3>
             </ion-label>
-            <ion-note>Lunes</ion-note>
+            <div>
+              <div class="text-end">
+                <ion-note>Jueves</ion-note>
+              </div>
+              <app-rating readOnly="true" rate="1"> </app-rating>
+            </div>
           </ion-item>
           <ion-item>
             <ion-avatar slot="start">
@@ -50,7 +51,28 @@
               <h2>Ruta Ciudad - Tocumen</h2>
               <h3>Bus: AA3320BZ</h3>
             </ion-label>
-            <ion-note>Lunes</ion-note>
+            <div>
+              <div class="text-end">
+                <ion-note>Viernes</ion-note>
+              </div>
+              <app-rating readOnly="true" rate="4"> </app-rating>
+            </div>
+          </ion-item>
+
+          <ion-item>
+            <ion-avatar slot="start">
+              <img src="./../../../assets/route.png">
+            </ion-avatar>
+            <ion-label>
+              <h2>Ruta Ciudad - Tocumen</h2>
+              <h3>Bus: AA3320BZ</h3>
+            </ion-label>
+            <div>
+              <div class="text-end">
+                <ion-note>Lunes</ion-note>
+              </div>
+              <app-rating readOnly="true" rate="2"> </app-rating>
+            </div>
           </ion-item>
 
         </ion-list>
