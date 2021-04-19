@@ -27,7 +27,7 @@ export class SidemenuPage implements OnInit, OnChanges {
     { title: 'Inicio', url: '/sidemenu/inicio', icon: MENU.HOME, route: 0 },
     { title: 'Rutas', url: '/sidemenu/inicio', icon: MENU.ROUTES, route: 1 },
     { title: 'Incidencias', url: 'incidences', icon: MENU.INCIDENCES, route: 2 },
-    { title: 'Calificaciones', url: 'qualification', icon: MENU.RATINGS, route: 3 },
+    { title: 'Calificaciones', url: '/sidemenu/qualification', icon: MENU.RATINGS, route: 3 },
   ];
 
   constructor(
