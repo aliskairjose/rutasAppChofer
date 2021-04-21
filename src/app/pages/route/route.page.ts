@@ -27,7 +27,7 @@ export class RoutePage implements OnInit {
     const user: any = await this._storage.getUser();
     const loading = await this._common.presentLoading();
     loading.present();
-    this._routeService.list( user.client_id ).subscribe( ( routes: Route[] ) => {
+    this._routeService.list( user.id ).subscribe( ( routes: Route[] ) => {
       this.routes = [ ...routes ];
       loading.dismiss();
     } );

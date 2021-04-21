@@ -21,7 +21,7 @@ export class RouteService {
    * @returns Arreglo de Rutas
    */
   list( id: number ): Observable<Route[]> {
-    return this._http.get( `/routes?client_id=${id}&includes[]=driver&includes[]=routeType&includes[]=RouteStops&includes[]=bus` )
+    return this._http.get( `/routes?driver_id=${id}&includes[]=driver&includes[]=routeType&includes[]=routeStops&includes[]=bus&occupedSeats=1` )
       .pipe( map( response => response.data ) );
   }
 

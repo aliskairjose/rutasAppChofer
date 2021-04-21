@@ -15,7 +15,7 @@ export const USER = 'rpd_user';
 export const BACK_BUTTON = './../../../assets/svg/back_button.svg';
 
 export const MAP = {
-  END_ROUTE_MARK: './../../../assets/svglocation-sharp.svg',
+  END_ROUTE_MARK: './../../../assets/svg/location-sharp.svg',
   USER_MARK: './../../../assets/svg/user_mark.svg',
   STOP_MARK: './../../../assets/svg/waypoints.svg'
 };

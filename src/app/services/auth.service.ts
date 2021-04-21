@@ -24,11 +24,11 @@ export class AuthService {
    * @param data Objeto { email, password }
    */
   login( data: any ): Observable<any> {
-    return this._httpService.post( '/login/user', data );
+    return this._httpService.post( '/login/driver', data );
   }
 
   register( data: any ): Observable<any> {
-    return this._httpService.post( '/users', data ).pipe(
+    return this._httpService.post( '/driver', data ).pipe(
       map( response => {
         this.toastMessage( response.message );
         return response;

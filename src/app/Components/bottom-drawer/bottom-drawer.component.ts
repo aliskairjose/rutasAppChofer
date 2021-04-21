@@ -184,93 +184,6 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
     this.toggleDrawer();
   }
 
-  async scan() {
-
-    if ( this.videoElement.readyState === this.videoElement.HAVE_ENOUGH_DATA ) {
-
-      if ( this.loading ) {
-        await this.loading.dismiss();
-        this.loading = null;
-        this.scanActive = true;
-      }
-
-      this.canvasElement.height = this.videoElement.videoHeight;
-      this.canvasElement.width = this.videoElement.videoWidth;
-      this.canvasContext = this.canvasElement.getContext( '2d' );
-
-      this.canvasContext.drawImage(
-        this.videoElement, 0, 0, this.canvasElement.width, this.canvasElement.height
-      );
-      const imageData = this.canvasContext.getImageData(
-        0, 0, this.canvasElement.width, this.canvasElement.height
-      );
-
-      const code = jsQR( imageData.data, imageData.width, imageData.height, {
-        inversionAttempts: 'dontInvert'
-      } );
-      if ( code?.data ) {
-        this.isOpen = false;
-        this.scanActive = true;
-        this.stopScan();
-        this.bus = { ...JSON.parse( code.data ) };
-        // this.stream.getTracks().forEach( track => track.stop() );
-        this.gesture.enable( true );
-        this.dragable = true;
-        this.userService.rutasFlow = 40;
-        this.emitEvent.emit( {
-          type: 'scan-success'
-        } );
-
-      } else {
-        if ( this.scanActive ) {
-          requestAnimationFrame( this.scan.bind( this ) );
-        }
-      }
-
-    } else {
-      requestAnimationFrame( this.scan.bind( this ) );
-    }
-  }
-
-  stopScan() {
-    this.bottomDrawerElement = this.bottomDrawer.nativeElement;
-    this.bottomDrawerElement.style.transition = '.4s ease-out';
-    this.bottomDrawerElement.style.transform = '';
-    this.stream.getTracks().forEach( track => track.stop() );
-    this.gesture.enable( true );
-    this.showScan = false;
-    this.scanActive = false;
-  }
-
-  async scannerOn() {
-    this.loading = await this.loadingCtrl.create( {} );
-    await this.loading.present();
-    this.showScan = true;
-    this.stream = await navigator.mediaDevices.getUserMedia( { video: { facingMode: 'environment' } } );
-
-    this.videoElement = this.video.nativeElement;
-    this.canvasElement = this.canvas.nativeElement;
-    this.videoElement.srcObject = this.stream;
-    this.videoElement.setAttribute( 'playsinline', true );
-    this.videoElement.play();
-    requestAnimationFrame( this.scan.bind( this ) );
-
-  }
-
-  goToFeedback() {
-    this.emitEvent.emit( {
-      type: 'stop-track'
-    } );
-    this.router.navigateByUrl( '/sidemenu/Feedback' );
-    const options: NativeTransitionOptions = {
-      direction: 'left',
-      duration: 400,
-      slowdownfactor: -1,
-    };
-    this.nativePageTransitions.slide( options );
-    this.navctl.navigateRoot( '/sidemenu/Feedback' );
-  }
-
   goToHome() {
     this.openHeight = ( this.plt.height() / 100 ) * 60;
     this.userService.rutasFlow = 1;
@@ -299,7 +212,6 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
   }
 
   openModal() {
-    //  console.log('prueba finalizar viaje / redireccion calificar');
     this.router.navigate( [ '/rating' ], { queryParams: { data: 'example data' } } );
   }
 
@@ -315,6 +227,11 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
       } );
       m.present();
     } );
+  }
+
+  // El chofer inicia la ruta al abordar
+  startRoute(): void {
+    console.log( 'startRoute' )
   }
 
 }
