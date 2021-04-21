@@ -6,6 +6,10 @@ import { AuthService } from '../../services/auth.service';
 import { LOGO, USER, MENU } from '../../constants/global-constants';
 import { UserService } from '../../services/user.service';
 
+import { Plugins, CameraResultType, CameraDirection } from '@capacitor/core';
+import { CommonService } from '../../services/common.service';
+
+const { Camera } = Plugins;
 
 @Component( {
   selector: 'app-sidemenu',
@@ -21,6 +25,7 @@ export class SidemenuPage implements OnInit, OnChanges {
   user: User = {};
   abrv = '';
   logo = LOGO;
+  avatar = 'avatar_default.jpg';
 
   appPages = [
     { title: 'Mi Perfil', url: 'profile', icon: MENU.PROFILE, route: 100 },
@@ -31,11 +36,12 @@ export class SidemenuPage implements OnInit, OnChanges {
   ];
 
   constructor(
-    private changeDetectorRef: ChangeDetectorRef,
+    private router: Router,
+    private _auth: AuthService,
+    private _common: CommonService,
     private userService: UserService,
     private _storage: StorageService,
-    private _auth: AuthService,
-    private router: Router,
+    private changeDetectorRef: ChangeDetectorRef,
   ) {
     this.user = {};
     this._auth.authObserver().subscribe( ( user: any ) => {
@@ -72,5 +78,30 @@ export class SidemenuPage implements OnInit, OnChanges {
     this.drawerVar = p.title;
     this.router.navigate( [ p.url ] );
   }
+
+  async takePicture() {
+    const image = await Camera.getPhoto( {
+      quality: 30,
+      allowEditing: false,
+      resultType: CameraResultType.Base64,
+      direction: CameraDirection.Front // iOS and Web only
+    } );
+
+    const fileExt = this.user.avatar.includes( 'jpg' ) ? 'png' : 'jpg';
+
+    const imageUrl = `data:image/${fileExt};base64,${image.base64String}`;
+    const loading = await this._common.presentLoading();
+    loading.present();
+    this.userService.updateAvatar( { avatar: imageUrl } ).subscribe( async ( result ) => {
+      loading.dismiss();
+      await this._storage.store( USER, result.data );
+      this._auth.AuthSubject( result.data );
+      this.user = { ...result.data };
+      const message = result.message;
+      const color = 'primary';
+      this._common.presentToast( { message, color } );
+    }, () => loading.dismiss() );
+  }
+
 
 }

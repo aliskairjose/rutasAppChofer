@@ -17,7 +17,7 @@
             <form (ngSubmit)="onSubmit()" #form="ngForm" novalidate [formGroup]="incidenceForm" class="signupForm">
               <ion-item>
                 <ion-select value="accidente vial" multiple="false" placeholder="Tipo de incidencia"
-                  formControlName="type">
+                  formControlName="type" class="custom-options">
                   <ion-select-option value="accidente vial">Accidente vial</ion-select-option>
                   <ion-select-option value="averia de la unidad">Avería de la unidad</ion-select-option>
                   <ion-select-option value="congestion vial">Congestión vial</ion-select-option>
@@ -34,9 +34,13 @@
                 <ion-textarea formControlName="description" placeholder="Descripcion de la incidencia"></ion-textarea>
               </ion-item>
 
+              <ion-item [hidden]="isHidde">
+                <ion-textarea formControlName="solutionDescription" placeholder="Descripcion de la solución">
+                </ion-textarea>
+              </ion-item>
+
               <div class="ion-margin-top ion-text-center">
                 <div class="radio-solution">
-
                   <ion-list>
                     <ion-radio-group value="no" (ionChange)="radioCheck($event.detail.value)">
                       <ion-list-header>
@@ -69,4 +73,6 @@
       </ion-col>
     </ion-row>
   </ion-grid>
+
+
 </ion-content>

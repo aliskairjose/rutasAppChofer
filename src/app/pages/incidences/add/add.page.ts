@@ -10,7 +10,7 @@ export class AddPage implements OnInit {
 
   incidenceForm: FormGroup;
   isSubmitted: boolean;
-
+  isHidde = true;
   constructor(
     private fb: FormBuilder
   ) {
@@ -21,7 +21,8 @@ export class AddPage implements OnInit {
   }
 
   radioCheck( value: string ): void {
-    console.log( value );
+    this.incidenceForm.value.solution = value;
+    ( value === 'no' ) ? this.isHidde = true : this.isHidde = false;
   }
 
   private createForm(): void {
@@ -29,6 +30,8 @@ export class AddPage implements OnInit {
       type: [ '', [ Validators.required ] ],
       place: [ '', [ Validators.required ] ],
       description: [ '', [ Validators.required ] ],
+      solutionDescription: [ '' ],
+      solution: [ '' ],
     } );
   }
 
