@@ -44,22 +44,14 @@ export class SidemenuPage implements OnInit, OnChanges {
     private changeDetectorRef: ChangeDetectorRef,
   ) {
     this.user = {};
-    this._auth.authObserver().subscribe( ( user: any ) => {
-      this.user = { ...user };
-      const value = this.user.name.split( ' ' );
-      this.abrv = `${value[ 0 ].charAt( 0 )}${value[ 1 ].charAt( 0 )}`;
-    } );
+    this._auth.authObserver().subscribe( ( user: any ) => this.user = { ...user } );
   }
 
   ngOnChanges( changes: SimpleChanges ): void {
   }
 
   ngOnInit() {
-    this._storage.get( USER ).then( ( user: any ) => {
-      this.user = { ...user };
-      const value = this.user.name.split( ' ' );
-      this.abrv = `${value[ 0 ].charAt( 0 )}${value[ 1 ].charAt( 0 )}`;
-    } );
+    this._storage.get( USER ).then( ( user: any ) => this.user = { ...user } );
   }
 
   toggleBackdrop( isVisible ) {
@@ -79,29 +71,7 @@ export class SidemenuPage implements OnInit, OnChanges {
     this.router.navigate( [ p.url ] );
   }
 
-  async takePicture() {
-    const image = await Camera.getPhoto( {
-      quality: 30,
-      allowEditing: false,
-      resultType: CameraResultType.Base64,
-      direction: CameraDirection.Front // iOS and Web only
-    } );
 
-    const fileExt = this.user.avatar.includes( 'jpg' ) ? 'png' : 'jpg';
-
-    const imageUrl = `data:image/${fileExt};base64,${image.base64String}`;
-    const loading = await this._common.presentLoading();
-    loading.present();
-    this.userService.updateAvatar( { avatar: imageUrl } ).subscribe( async ( result ) => {
-      loading.dismiss();
-      await this._storage.store( USER, result.data );
-      this._auth.AuthSubject( result.data );
-      this.user = { ...result.data };
-      const message = result.message;
-      const color = 'primary';
-      this._common.presentToast( { message, color } );
-    }, () => loading.dismiss() );
-  }
 
 
 }

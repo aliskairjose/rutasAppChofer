@@ -30,5 +30,21 @@ ion-content {
     h4 {
       font-weight: normal;
     }
+
+    .icon-container {
+      width: 120%;
+      margin-top: -1em;
+      margin-bottom: 2em;
+
+      ion-icon {
+        display: block;
+        margin: auto;
+        border-radius: 100%;
+        border: 1px solid var(--rp-color-primary);
+        padding: 5px;
+        color: white;
+        background: var(--rp-color-primary);
+      }
+    }
   }
 }
