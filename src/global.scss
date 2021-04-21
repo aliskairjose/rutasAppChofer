@@ -212,21 +212,20 @@ ion-button {
 }
 
 .side-menu-header {
-  display: flex;
-  flex-direction: column;
   height: 30vh;
   background-color: var(--rp-color-primary);
-  div {
-    width: 100%;
-    padding: 0 24px 0 32px;
+  .avatar-container {
+    display: flex;
+    align-items: center;
+    height: 20vh;
     .avatar {
       border-radius: 50%;
       height: 16vh;
     }
   }
-  .side-menu-avatar {
-    margin-top: 24px;
-    height: 60%;
+  div {
+    width: 100%;
+    padding: 0 24px 0 32px;
   }
   .side-menu-info {
     color: #fff;
