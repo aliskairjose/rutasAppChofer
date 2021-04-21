@@ -11,7 +11,7 @@ import { CommonService } from './common.service';
 export class RouteService {
 
   constructor(
-    private _http: HttpService,
+    private http: HttpService,
     private _common: CommonService
   ) { }
 
@@ -21,7 +21,7 @@ export class RouteService {
    * @returns Arreglo de Rutas
    */
   list( id: number ): Observable<Route[]> {
-    return this._http.get( `/routes?driver_id=${id}&includes[]=driver&includes[]=routeType&includes[]=routeStops&includes[]=bus&occupedSeats=1` )
+    return this.http.get( `/routes?driver_id=${id}&includes[]=driver&includes[]=routeType&includes[]=routeStops&includes[]=bus.busModel&occupedSeats=1` )
       .pipe( map( response => response.data ) );
   }
 
@@ -31,12 +31,40 @@ export class RouteService {
    * @returns Confirmación de agregado
    */
   add( data: Route ): Observable<Route> {
-    return this._http.post( '/routes', data ).pipe(
+    return this.http.post( '/routes', data ).pipe(
       map( response => {
         this.toastMessage( response.message );
         return response.data;
       } )
     );
+  }
+
+  /**
+   * @description Inicia la ruta
+   * @param id Id de la ruta
+   * @returns 
+   */
+  start( id: number ): Observable<any> {
+    return this.http.post( `/route-boarding/drivers?route_id=${id}&occupedSeats=1` )
+  }
+
+
+  /**
+   * @description Verifica si la ruta ya fue iniciada
+   * @returns Boolean
+   */
+  verifyBorading(): Observable<any> {
+    return this.http.get( `/route-boarding` );
+  }
+
+  /**
+   *
+   *@description Finaliza el viaje del chofer
+   * @returns {Observable<any>}
+   * @memberof RouteService
+   */
+  end(): Observable<any> {
+    return this.http.put( `/route-boarding/close?occupedSeats=1` )
   }
 
   private toastMessage( message: string ): void {

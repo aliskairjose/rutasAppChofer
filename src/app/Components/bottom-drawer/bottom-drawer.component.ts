@@ -1,21 +1,18 @@
 import jsQR from 'jsqr';
 
 import {
-  AfterViewInit, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild
+  AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
-import {
-  NativePageTransitions, NativeTransitionOptions
-} from '@ionic-native/native-page-transitions/ngx';
-import { GestureController, LoadingController, NavController, Platform } from '@ionic/angular';
+import { GestureController, NavController, Platform } from '@ionic/angular';
 
 import { UserService } from '../../services/user.service';
 import { Route } from '../../interfaces/route';
-// import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner/ngx';
-import { AlertController, ModalController, PopoverController } from '@ionic/angular';
-import { RatingPage } from '../../pages/rating/rating.page';
+import { ModalController, PopoverController } from '@ionic/angular';
 import { Bus } from '../../interfaces/bus';
+import { RouteService } from '../../services/route.service';
+import { CommonService } from '../../services/common.service';
+import { User } from '../../interfaces/user';
 
 const { Keyboard } = Plugins;
 
@@ -30,6 +27,8 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
   @ViewChild( 'editRutas' ) editRutas: ElementRef;
   @ViewChild( 'video', { static: false } ) video: ElementRef;
   @ViewChild( 'canvas', { static: false } ) canvas: ElementRef;
+
+  puesto = '../../../assets/svg/seat.svg';
   bottomDrawerElement: any;
   seatElement: any;
   videoElement: any;
@@ -57,16 +56,15 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
   stream = null;
   seats = [];
   showScan = false;
+  user: User = {};
 
   constructor(
     private plt: Platform,
-    private router: Router,
     public navctl: NavController,
-    // private qrScanner: QRScanner,
+    private common: CommonService,
     private userService: UserService,
-    private loadingCtrl: LoadingController,
+    private routeServie: RouteService,
     private gestureCtlr: GestureController,
-    private nativePageTransitions: NativePageTransitions,
     public popoverCtrl: PopoverController,
     public modalController: ModalController,
   ) {
@@ -164,7 +162,7 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
 
   }
 
-  routeHandler( route: Route ) {
+  async routeHandler( route: Route ) {
     this.userService.rutasData = this.selectedRoute = { ...route };
     this.bottomDrawerElement = this.bottomDrawer.nativeElement;
     this.gesture.enable( true );
@@ -173,15 +171,10 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
       type: 'item-selected',
       data: route
     } );
-    this.userService.rutasFlow = 10; // Detalle de ruta
-  }
 
-  async startScan() {
-    this.userService.rutasFlow = 4;
-    this.showScan = false;
-    this.bottomDrawerElement = this.bottomDrawer.nativeElement;
-    console.log( this.isOpen );
-    this.toggleDrawer();
+    const result = await this.verifyBoarding();
+
+    this.userService.rutasFlow = ( result.hasBoarding ) ? 11 : 10;
   }
 
   goToHome() {
@@ -195,43 +188,45 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
 
   }
 
-  async trackScroll( ele ) {
-    this.seatElement = ele;
-    this.seatGesture = await this.gestureCtlr.create( {
-      el: this.seatElement,
-      gestureName: 'swipe',
-      direction: 'y',
-      onStart: ev => {
-        this.gesture.enable( true );
-      },
-      onEnd: ev => {
-        this.gesture.enable( true );
-      }
-    } );
-    this.seatGesture.enable( true );
-  }
-
-  openModal() {
-    this.router.navigate( [ '/rating' ], { queryParams: { data: 'example data' } } );
-  }
-
-  endTravel( item ) {
-    this.modalController.create( {
-      component: RatingPage,
-      componentProps: {
-        data: 'example data',
-      },
-    } ).then( m => {
-      m.onDidDismiss().then( d => {
-        item = d;
-      } );
-      m.present();
-    } );
-  }
-
   // El chofer inicia la ruta al abordar
-  startRoute(): void {
-    console.log( 'startRoute' )
+  async startRoute() {
+    const loading = await this.common.presentLoading();
+    loading.present();
+    this.routeServie.start( this.selectedRoute.id ).subscribe( result => {
+      const message = result.message;
+      const color = 'primary';
+      this.common.presentToast( { message, color } );
+      loading.dismiss();
+      this.userService.rutasFlow = 11;
+    } );
+  }
+
+  async endRoute() {
+    const confirm = await this.common.alert();
+    if ( confirm ) {
+
+      const loading = await this.common.presentLoading();
+      loading.present();
+      this.routeServie.end().subscribe( result => {
+        const message = result.message;
+        const color = 'primary';
+        loading.dismiss();
+        this.common.presentToast( { message, color } );
+        this.goToHome();
+      } );
+    }
+  }
+
+
+  private async verifyBoarding(): Promise<any> {
+    return new Promise<any>( async ( resolve ) => {
+      const loading = await this.common.presentLoading();
+      loading.present();
+      this.routeServie.verifyBorading().subscribe( response => {
+        loading.dismiss();
+        resolve( response );
+      } );
+    } );
   }
 
 }

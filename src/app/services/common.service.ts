@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LoadingController, ModalController, ToastController } from '@ionic/angular';
+import { LoadingController, ModalController, ToastController, AlertController } from '@ionic/angular';
 
 @Injectable( {
   providedIn: 'root'
@@ -10,12 +10,12 @@ export class CommonService {
     private loading: LoadingController,
     private toastController: ToastController,
     private modalController: ModalController,
+    private alertController: AlertController
   ) { }
 
   async presentLoading() {
     const loading = await this.loading.create( {
-      message: 'Por favor espere...',
-      duration: 2000
+      message: 'Por favor espere...'
     } );
     return loading;
   }
@@ -47,6 +47,32 @@ export class CommonService {
       color
     } );
     toast.present();
+  }
+
+  async alert(): Promise<boolean> {
+    let resolveFunction: ( confirm: boolean ) => void;
+    const promise = new Promise<boolean>( resolve => {
+      resolveFunction = resolve;
+    } );
+
+    const alert = await this.alertController.create( {
+      message: '¿Desea finalizar el viaje?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => resolveFunction( false )
+        }, {
+          text: 'Si',
+          handler: () => resolveFunction( true )
+        }
+
+      ]
+    } );
+
+    await alert.present();
+    return promise;
   }
 
 }

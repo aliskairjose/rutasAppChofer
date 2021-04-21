@@ -1,23 +1,13 @@
-<!-- <ion-header class="ion-no-border" scroll-y="false">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button icon="chevron-back-outline">
-      </ion-back-button>
-    </ion-buttons>
-    <ion-title>Calificación</ion-title>
-  </ion-toolbar>
-</ion-header> -->
-
 <ion-content>
   <ion-grid fixed>
     <ion-row>
-      <ion-col size="12">
-        <img src="../../../assets/svg/faces/face7.svg" alt="" class="rating-face">
+      <ion-col>
+        <img [src]="face" alt="" class="rating-face">
         <div class="rating-header ion-text-center">
           <div>
             <h3>Calificación del servicio</h3>
-            <app-rating size="large" readOnly="true" rate="3"></app-rating>
-            <p>3/5 | Servicio satisfactorio</p>
+            <app-rating size="large" readOnly="true" rate="{{rating}}"></app-rating>
+            <p>2/5 | Servicio satisfactorio</p>
           </div>
         </div>
       </ion-col>

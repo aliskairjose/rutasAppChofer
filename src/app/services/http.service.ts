@@ -12,7 +12,7 @@ export class HttpService {
     private _http: HttpClient
   ) { }
 
-  post( serviceName: string, data: any ): Observable<any> {
+  post( serviceName: string, data?: any ): Observable<any> {
     const url = environment.api + serviceName;
     return this._http.post( url, data );
   }
@@ -22,12 +22,12 @@ export class HttpService {
     return this._http.get( url );
   }
 
-  put( serviceName: string, data: any ): Observable<any> {
+  put( serviceName: string, data?: any ): Observable<any> {
     const url = environment.api + serviceName;
     return this._http.put( url, data );
   }
 
-  patch( serviceName: string, data: any ): Observable<any> {
+  patch( serviceName: string, data?: any ): Observable<any> {
     const url = environment.api + serviceName;
     return this._http.patch( url, data );
   }
