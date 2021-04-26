@@ -8,9 +8,6 @@
       <ion-note>Parada
         <img class="scan" src="../../../assets/svg/waypoints.svg" style="margin-left: 4px;" />
       </ion-note>
-      <ion-note>Final de ruta
-        <img class="scan" src="../../../assets/svg/location-sharp.svg" style="margin-left: 5px;" />
-      </ion-note>
     </div>
   </div>
   <div *ngIf="dragable" class="ion-text-center ">
@@ -114,7 +111,7 @@
                   <ion-note>Puestos disponibles</ion-note>
                   <p>15/{{ selectedRoute.bus.number_positions}}</p>
                 </div>
-                <div id="seat-icon-container">
+                <div id="seat-icon-container" (click)="assignSeat()">
                   <img src="../../../assets/svg/seat.svg">
                 </div>
               </div>

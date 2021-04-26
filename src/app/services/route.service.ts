@@ -48,6 +48,16 @@ export class RouteService {
     return this.http.post( `/route-boarding/drivers?route_id=${id}&occupedSeats=1` )
   }
 
+  /**
+   *
+   * @description Asigna un asiento en el bus de la ruta
+   * @param {number} id Id de la ruta
+   * @returns {Observable<any>}
+   * @memberof RouteService
+   */
+  assignSeat( id: number ): Observable<any> {
+    return this.http.post( `/route-boarding/drivers/seat?occupedSeats=1`, { route_id: id } );
+  }
 
   /**
    * @description Verifica si la ruta ya fue iniciada
@@ -68,7 +78,6 @@ export class RouteService {
   }
 
   private toastMessage( message: string ): void {
-    const color = 'primary';
-    this._common.presentToast( { message, color } );
+    this._common.presentToast( { message } );
   }
 }

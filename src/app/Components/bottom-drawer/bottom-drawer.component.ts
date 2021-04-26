@@ -100,19 +100,23 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
     this.bottomDrawerElement = this.bottomDrawer.nativeElement;
     this.openHeight = ( this.plt.height() / 100 ) * 60;
 
-    this.gesture = await this.gestureCtlr.create( {
+    this.gesture = this.gestureCtlr.create( {
       el: this.bottomDrawerElement,
       gestureName: 'swipe',
       direction: 'y',
       onMove: ev => {
         // tslint:disable-next-line:curly
-        if ( ev.deltaY < -this.openHeight ) return;
+        if ( ev.deltaY < -this.openHeight )
+          return;
         // tslint:disable-next-line:curly
-        if ( -ev.deltaY < -36.4705810546875 ) return;
+        if ( -ev.deltaY < -36.4705810546875 )
+          return;
         // tslint:disable-next-line:curly
-        if ( ev.deltaY < 0 ) return;
+        if ( ev.deltaY < 0 )
+          return;
         // tslint:disable-next-line:curly
-        if ( ev.deltaY > 0 ) return;
+        if ( ev.deltaY > 0 )
+          return;
 
         this.bottomDrawerElement.style.transform = `translateY(${ev.deltaY}px)`;
       },
@@ -194,8 +198,7 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
     loading.present();
     this.routeServie.start( this.selectedRoute.id ).subscribe( result => {
       const message = result.message;
-      const color = 'primary';
-      this.common.presentToast( { message, color } );
+      this.common.presentToast( { message } );
       loading.dismiss();
       this.userService.rutasFlow = 11;
     } );
@@ -209,12 +212,22 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
       loading.present();
       this.routeServie.end().subscribe( result => {
         const message = result.message;
-        const color = 'primary';
         loading.dismiss();
-        this.common.presentToast( { message, color } );
+        this.common.presentToast( { message } );
         this.goToHome();
       } );
     }
+  }
+
+  // Asignación de puesto en el bus
+  async assignSeat() {
+    const loading = await this.common.presentLoading();
+    loading.present();
+    this.routeServie.assignSeat( this.selectedRoute.id ).subscribe( response => {
+      loading.dismiss();
+      this.common.presentToast( { message: response.message } )
+      console.log( response );
+    } );
   }
 
 

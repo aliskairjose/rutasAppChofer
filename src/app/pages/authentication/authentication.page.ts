@@ -87,8 +87,7 @@ export class AuthenticationPage implements OnInit {
       loading.dismiss();
       this._auth.AuthSubject( response.user );
       const message = response.message;
-      const color = 'primary';
-      this._common.presentToast( { message, color } );
+      this._common.presentToast( { message } );
       await this._storage.store( TOKEN, response.data );
       await this._storage.store( USER, response.user );
       this.router.navigate( [ '/sidemenu/Inicio' ] );

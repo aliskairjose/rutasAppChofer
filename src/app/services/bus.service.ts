@@ -99,8 +99,7 @@ export class BusService {
   }
 
   private toastMessage( message: string ): void {
-    const color = 'primary';
-    this._common.presentToast( { message, color } );
+    this._common.presentToast( { message } );
   }
 
 }

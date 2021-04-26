@@ -50,8 +50,7 @@ export class ProfilePage implements OnInit {
       this._auth.AuthSubject( result.data );
       this.user = { ...result.data };
       const message = result.message;
-      const color = 'primary';
-      this._common.presentToast( { message, color } );
+      this._common.presentToast( { message } );
     }, () => loading.dismiss() );
   }
 

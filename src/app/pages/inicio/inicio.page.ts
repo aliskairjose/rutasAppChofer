@@ -1,6 +1,5 @@
 import { UserService } from 'src/app/services/user.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Route, RouteStop } from '../../interfaces/route';
 import { MAP } from '../../constants/global-constants';
@@ -202,7 +201,7 @@ export class InicioPage implements OnInit {
             position: route.legs[ route.legs.length - 1 ].end_location,
             animation: google.maps.Animation.DROP,
             map,
-            icon: MAP.END_ROUTE_MARK
+            icon: MAP.STOP_MARK
           } );
 
           endMarker.addListener( 'click', () => {

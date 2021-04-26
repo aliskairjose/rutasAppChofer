@@ -25,9 +25,8 @@ export class SupportPage implements OnInit {
     loading.present();
     this._user.comment( this.comment ).subscribe( () => {
       loading.dismiss();
-      const color = 'primary';
       const message = 'Su comentario ha sido procesado, gracias!';
-      this._common.presentToast( { message, color } );
+      this._common.presentToast( { message } );
     } );
   }
 

@@ -38,7 +38,7 @@ export class CommonService {
    * @param duration Tiempo en milisegundos, por defecto 2000
    */
   // tslint:disable-next-line: max-line-length
-  async presentToast( { message, color = 'success', duration = 2000 }: { message: string; color?: string; duration?: number; } ) {
+  async presentToast( { message, color = 'primary', duration = 2000 }: { message: string; color?: string; duration?: number; } ) {
 
     const toast = await this.toastController.create( {
       message,

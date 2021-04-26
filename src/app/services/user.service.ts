@@ -82,8 +82,7 @@ export class UserService {
   }
 
   private toastMessage( message: string ): void {
-    const color = 'primary';
-    this._common.presentToast( { message, color } );
+    this._common.presentToast( { message } );
   }
 
   subscribeBackHandler() {
