@@ -66,7 +66,7 @@ export class AssignSeatComponent implements OnInit {
       this.route = routes.find( item => item.id === this.selectedRoute.id );
 
       const totalSeats = this.selectedRoute.bus.number_positions;
-      const occupiedSeat = this.route.occuped_seats;
+      const occupiedSeat = this.route.occuped_seats - 2;
       const freeSeats = this.route.free_seats;
       const leftOccupiedSeats = [];
       const rightOccupiedSeats = [];
@@ -80,26 +80,28 @@ export class AssignSeatComponent implements OnInit {
       rightFreeSeats.length = rightFreeSeat - 1;
 
       // Se inicializa los arrays. Se resta 1 sabiendo que el indice 0 es primero y quedaria un extra
-      this.leftSeats.length = this.rightSeats.length = ( ( totalSeats - 6 ) / 2 ) - 1;
+      this.leftSeats.length = this.rightSeats.length = ( ( totalSeats - 2 ) / 2 );
 
       if ( occupiedSeat > 0 ) {
         // Distribución de asientos ocupados a la derecha e izquierda
-        const leftOccupiedSeat = Math.round( occupiedSeat / 2 );
+        const leftOccupiedSeat = Math.round( occupiedSeat - 2 / 2 );
         const rightOccupiedSeat = occupiedSeat - leftOccupiedSeat;
 
         leftOccupiedSeats.length = leftOccupiedSeat;
         rightOccupiedSeats.length = rightOccupiedSeat;
 
         // Se muestran los asientos ocupados a la izquierda y derecha
-        leftOccupiedSeats.fill( { name: 'square', occupied: true, color: 'danger' } );
-        rightOccupiedSeats.fill( { name: 'square', occupied: true, color: 'danger' } );
+        this.leftSeats.fill( { name: 'square', occupied: true, color: 'danger' }, 0, leftOccupiedSeat );
+        this.leftSeats.fill( { name: 'square-outline', occupied: false }, leftOccupiedSeat, this.leftSeats.length );
+
+        this.rightSeats.fill( { name: 'square', occupied: true, color: 'danger' }, 0, rightOccupiedSeat );
+        this.rightSeats.fill( { name: 'square-outline', occupied: false }, rightOccupiedSeat, this.rightSeats.length );
+
+        return;
       }
 
-      leftFreeSeats.fill( { name: 'square-outline', occupied: false } );
-      rightFreeSeats.fill( { name: 'square-outline', occupied: false } );
-
-      this.leftSeats = [ ...leftOccupiedSeats, ...leftFreeSeats ];
-      this.rightSeats = [ ...rightOccupiedSeats, ...rightFreeSeats ];
+      this.rightSeats.fill( { name: 'square-outline', occupied: false } );
+      this.leftSeats.fill( { name: 'square-outline', occupied: false } );
 
     } );
   }
