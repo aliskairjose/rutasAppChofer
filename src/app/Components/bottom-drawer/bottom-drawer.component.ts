@@ -63,7 +63,7 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
     public navctl: NavController,
     private common: CommonService,
     private userService: UserService,
-    private routeServie: RouteService,
+    private routeService: RouteService,
     private gestureCtlr: GestureController,
     public popoverCtrl: PopoverController,
     public modalController: ModalController,
@@ -196,7 +196,7 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
   async startRoute() {
     const loading = await this.common.presentLoading();
     loading.present();
-    this.routeServie.start( this.selectedRoute.id ).subscribe( result => {
+    this.routeService.start( this.selectedRoute.id ).subscribe( result => {
       const message = result.message;
       this.common.presentToast( { message } );
       loading.dismiss();
@@ -204,38 +204,22 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
     } );
   }
 
-  async endRoute() {
-    const confirm = await this.common.alert();
-    if ( confirm ) {
+  endRoute( event: boolean ): void {
+    if ( event ) { this.goToHome(); }
+  }
 
-      const loading = await this.common.presentLoading();
-      loading.present();
-      this.routeServie.end().subscribe( result => {
-        const message = result.message;
-        loading.dismiss();
-        this.common.presentToast( { message } );
-        this.goToHome();
-      } );
+  // Evento registrado al asignar asiento
+  registerSeat( event: boolean ): void {
+    if ( event ) {
+
     }
   }
-
-  // Asignación de puesto en el bus
-  async assignSeat() {
-    const loading = await this.common.presentLoading();
-    loading.present();
-    this.routeServie.assignSeat( this.selectedRoute.id ).subscribe( response => {
-      loading.dismiss();
-      this.common.presentToast( { message: response.message } )
-      console.log( response );
-    } );
-  }
-
 
   private async verifyBoarding(): Promise<any> {
     return new Promise<any>( async ( resolve ) => {
       const loading = await this.common.presentLoading();
       loading.present();
-      this.routeServie.verifyBorading().subscribe( response => {
+      this.routeService.verifyBorading().subscribe( response => {
         loading.dismiss();
         resolve( response );
       } );

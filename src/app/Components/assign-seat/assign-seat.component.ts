@@ -13,8 +13,8 @@ export class AssignSeatComponent implements OnInit {
 
   registeredSeat = false;
   route: Route = {};
-  leftSeats = 0;
-  rigthSeats = 0;
+  leftSeats = [];
+  rightSeats = [];
   backSeats = 0;
   totalSeats = 0;
 
@@ -63,6 +63,10 @@ export class AssignSeatComponent implements OnInit {
     this.routeService.list( user.id ).subscribe( ( routes: Route[] ) => {
       loading.dismiss();
       this.route = routes.find( item => item.id === this.selectedRoute.id );
+      this.totalSeats = this.selectedRoute.bus.number_positions;
+      this.leftSeats.length = this.rightSeats.length = ( ( this.totalSeats - 6 ) / 2 ) - 1;
+      this.leftSeats.fill( 'square-outline' );
+      this.rightSeats.fill( 'square-outline' );
     } );
   }
 }

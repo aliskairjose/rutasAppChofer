@@ -1,0 +1,105 @@
+<div class="container">
+  <ng-container *ngIf="!registeredSeat; else elseTemplate">
+    <div class="d-flex flex-column align-items-center">
+      <h2>Ruta</h2>
+      <ion-list>
+        <ion-item>
+          <ion-avatar slot="start" class="avatar">
+            <img [src]="selectedRoute.driver.avatar" />
+          </ion-avatar>
+          <ion-label>
+            <ion-note>Conductor</ion-note>
+            <h2>{{selectedRoute.driver.name }}</h2>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-avatar slot="start">
+            <img src="../../../assets/svg/route_circle.svg" />
+          </ion-avatar>
+          <ion-label>
+            <h2>{{selectedRoute.name}}</h2>
+            <ion-note> {{selectedRoute.start_time | customeTime }} - {{selectedRoute.end_time | customeTime }}
+            </ion-note>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+
+      <div class="text-center mt-3">
+        <ion-note>Datos de la unidad</ion-note>
+        <h4>Modelo: {{selectedRoute.bus.bus_model.name}} V55</h4>
+        <h4>Placa: {{selectedRoute.bus.license_plate | uppercase}}</h4>
+        <h4>Nro: {{selectedRoute.bus.unit_number}}</h4>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between mt-2">
+      <div>
+        <ion-note>Puestos disponibles</ion-note>
+        <p>{{selectedRoute.occuped_seats}}/{{ selectedRoute.bus.number_positions}}</p>
+      </div>
+      <div id="seat-icon-container" (click)="assignSeat()">
+        <img src="../../../assets/svg/seat.svg">
+      </div>
+    </div>
+
+  </ng-container>
+
+  <ng-template #elseTemplate>
+    <div class="d-flex flex-column align-items-center">
+      <h2>Asignar asientos</h2>
+      <ion-note>Puestos disponibles</ion-note>
+      <p>{{route.occuped_seats}}/{{route.bus.number_positions}}</p>
+
+      <div class="mt-4 w-75 seat-positions">
+        <div class="d-flex justify-content-between mb-4">
+          <div>
+            <ion-icon name="square" color="primary"></ion-icon>
+          </div>
+          <div>
+            <ion-icon name="square-outline"></ion-icon>
+          </div>
+        </div>
+        <div class="d-flex justify-content-between">
+          <div class="d-flex flex-wrap justify-content-start w-50">
+            <ng-container *ngFor="let seat of leftSeats; let i=index">
+              <ion-icon [name]="seat"></ion-icon>
+            </ng-container>
+
+          </div>
+          <div class="d-flex flex-wrap justify-content-end w-50">
+            <ng-container *ngFor="let seat of rightSeats; let i=index">
+              <ion-icon [name]="seat"></ion-icon>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-between w-75 mt-4">
+        <div class="leyend">
+          <ion-label>
+            <ion-icon name="square-outline"></ion-icon> Disponibles
+          </ion-label>
+          <ion-label>
+            <ion-icon name="square" color="success"></ion-icon> Seleccionado
+          </ion-label>
+        </div>
+        <div class="leyend">
+          <ion-label>
+            <ion-icon name="square" color="danger"></ion-icon> Ocupados
+          </ion-label>
+          <ion-label>
+            <ion-icon name="square" color="primary"></ion-icon> Chofer
+          </ion-label>
+        </div>
+      </div>
+    </div>
+
+  </ng-template>
+
+  <div class="mt-5">
+    <ion-button (click)="endTravel()" expand="block" color="tertiary">
+      <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+      <ion-label>Finalizar viaje</ion-label>
+    </ion-button>
+  </div>
+</div>

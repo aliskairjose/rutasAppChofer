@@ -1,0 +1,41 @@
+.container {
+  .avatar {
+    height: 4em;
+    width: 4em;
+  }
+
+  #seat-icon-container {
+    height: 48px;
+    background-color: white;
+    width: 48px;
+    border-radius: 100%;
+    display: flex;
+    img {
+      height: 24px;
+      margin: auto;
+      display: block;
+    }
+  }
+
+  ion-list {
+    background: var(--rp-color-primary);
+
+    ion-item::part(native) {
+      background-color: var(--rp-color-primary);
+      color: #fff;
+    }
+  }
+
+  .leyend {
+    ion-label {
+      display: block;
+    }
+  }
+
+  .seat-positions {
+    ion-icon {
+      font-size: 2rem;
+      margin: 0 5px;
+    }
+  }
+}
