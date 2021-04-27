@@ -37,7 +37,7 @@
         <ion-note>Puestos disponibles</ion-note>
         <p>{{selectedRoute.free_seats}}/{{ selectedRoute.bus.number_positions}}</p>
       </div>
-      <div id="seat-icon-container" (click)="assignSeat()">
+      <div id="seat-icon-container" (click)="loadRoutes()">
         <img src="../../../assets/svg/seat.svg">
       </div>
     </div>
@@ -101,7 +101,13 @@
 
   </ng-template>
 
-  <div class="mt-5">
+  <div class="mt-3">
+    <ng-container *ngIf="registeredSeat" class="mb-2">
+      <ion-button (click)="assignSeat()" expand="block" color="light">
+        <!-- <ion-icon slot="icon-only" name="log-out-outline"></ion-icon> -->
+        <ion-label>Asginar asiento</ion-label>
+      </ion-button>
+    </ng-container>
     <ion-button (click)="endTravel()" expand="block" color="tertiary">
       <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
       <ion-label>Finalizar viaje</ion-label>

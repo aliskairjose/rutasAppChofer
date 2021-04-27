@@ -197,6 +197,7 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
     const loading = await this.common.presentLoading();
     loading.present();
     this.routeService.start( this.selectedRoute.id ).subscribe( result => {
+      this.selectedRoute = result.data.route;
       const message = result.message;
       this.common.presentToast( { message } );
       loading.dismiss();

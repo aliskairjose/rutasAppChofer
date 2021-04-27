@@ -17,15 +17,6 @@ export class AssignSeatComponent implements OnInit {
   rightSeats = [];
   backSeats = 0;
 
-  private _totalSeats = 0;
-  private _leftOccupiedSeats = 0;
-  private _rightOccupiedSeats = 0;
-  private _leftFreeSeats = 0;
-  private _rightFreeSeats = 0;
-
-  private _occupiedSeats = 0;
-  private _freeSeats = 0;
-
   @Input() selectedRoute: Route = {};
   @Output() registerSeat: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() endRoute: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -65,39 +56,50 @@ export class AssignSeatComponent implements OnInit {
   }
 
   async loadRoutes() {
+    this.registeredSeat ||= !this.registeredSeat;
     const user: any = await this.storage.getUser();
     const loading = await this.common.presentLoading();
     loading.present();
+
     this.routeService.list( user.id ).subscribe( ( routes: Route[] ) => {
       loading.dismiss();
       this.route = routes.find( item => item.id === this.selectedRoute.id );
 
-      this._totalSeats = this.selectedRoute.bus.number_positions;
-      this._occupiedSeats = this.route.occuped_seats;
-      this._freeSeats = this.route.free_seats;
+      const totalSeats = this.selectedRoute.bus.number_positions;
+      const occupiedSeat = this.route.occuped_seats;
+      const freeSeats = this.route.free_seats;
+      const leftOccupiedSeats = [];
+      const rightOccupiedSeats = [];
+      const leftFreeSeats = [];
+      const rightFreeSeats = [];
 
       // Distribuacion de asientos libre a la derecha e izquierda
-      this._leftFreeSeats = Math.round( this._freeSeats / 2 );
-      this._rightFreeSeats = this._freeSeats - this._leftFreeSeats;
-
-
+      const leftFreeSeat = Math.round( freeSeats / 2 );
+      const rightFreeSeat = freeSeats - leftFreeSeat;
+      leftFreeSeats.length = leftFreeSeat - 1;
+      rightFreeSeats.length = rightFreeSeat - 1;
 
       // Se inicializa los arrays. Se resta 1 sabiendo que el indice 0 es primero y quedaria un extra
-      this.leftSeats.length = this.rightSeats.length = ( ( this._totalSeats - 6 ) / 2 ) - 1;
+      this.leftSeats.length = this.rightSeats.length = ( ( totalSeats - 6 ) / 2 ) - 1;
 
-      if ( this._occupiedSeats > 0 ) {
+      if ( occupiedSeat > 0 ) {
         // Distribución de asientos ocupados a la derecha e izquierda
-        this._leftOccupiedSeats = Math.round( this._occupiedSeats / 2 );
-        this._rightOccupiedSeats = this._occupiedSeats - this._leftOccupiedSeats;
+        const leftOccupiedSeat = Math.round( occupiedSeat / 2 );
+        const rightOccupiedSeat = occupiedSeat - leftOccupiedSeat;
+
+        leftOccupiedSeats.length = leftOccupiedSeat;
+        rightOccupiedSeats.length = rightOccupiedSeat;
 
         // Se muestran los asientos ocupados a la izquierda y derecha
-        this.leftSeats.fill( { name: 'square', occupied: true, color: 'danger' }, 0, this._leftOccupiedSeats - 1 );
-        this.rightSeats.fill( { name: 'square', occupied: true, color: 'danger' }, 0, this._rightOccupiedSeats - 1 );
-
-        // Se muestran los asientos libres de derecha e izquierda
-        this.leftSeats.fill( { name: 'square-outline', occupied: false, color: '' }, this._leftOccupiedSeats - 1, this._totalSeats - 1 );
-        this.rightSeats.fill( { name: 'square-outline', occupied: false, color: '' }, this._rightOccupiedSeats - 1, this._totalSeats - 1 );
+        leftOccupiedSeats.fill( { name: 'square', occupied: true, color: 'danger' } );
+        rightOccupiedSeats.fill( { name: 'square', occupied: true, color: 'danger' } );
       }
+
+      leftFreeSeats.fill( { name: 'square-outline', occupied: false } );
+      rightFreeSeats.fill( { name: 'square-outline', occupied: false } );
+
+      this.leftSeats = [ ...leftOccupiedSeats, ...leftFreeSeats ];
+      this.rightSeats = [ ...rightOccupiedSeats, ...rightFreeSeats ];
 
     } );
   }
