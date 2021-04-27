@@ -108,9 +108,8 @@
   </ng-template>
 
   <div class="mt-3">
-    <ng-container *ngIf="registeredSeat" class="mb-2">
-      <ion-button (click)="assignSeat()" expand="block" color="light">
-        <!-- <ion-icon slot="icon-only" name="log-out-outline"></ion-icon> -->
+    <ng-container *ngIf="registeredSeat">
+      <ion-button (click)="assignSeat()" expand="block" color="light" class="ion-margin-bottom">
         <ion-label>Asginar asiento</ion-label>
       </ion-button>
     </ng-container>
