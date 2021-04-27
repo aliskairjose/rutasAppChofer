@@ -16,6 +16,7 @@ export class AssignSeatComponent implements OnInit {
   leftSeats = [];
   rightSeats = [];
   backSeats = 0;
+  show = false;
 
   @Input() selectedRoute: Route = {};
   @Output() registerSeat: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -64,7 +65,7 @@ export class AssignSeatComponent implements OnInit {
     this.routeService.list( user.id ).subscribe( ( routes: Route[] ) => {
       loading.dismiss();
       this.route = routes.find( item => item.id === this.selectedRoute.id );
-
+      this.show ||= !this.show;
       const totalSeats = this.selectedRoute.bus.number_positions;
       const occupiedSeat = this.route.occuped_seats - 2;
       const freeSeats = this.route.free_seats;

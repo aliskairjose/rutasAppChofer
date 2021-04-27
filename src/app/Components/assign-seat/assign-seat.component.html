@@ -45,7 +45,7 @@
   </ng-container>
 
   <ng-template #elseTemplate>
-    <div class="d-flex flex-column align-items-center">
+    <div class="d-flex flex-column align-items-center" *ngIf="show">
       <h2>Asignar asientos</h2>
       <ion-note>Puestos disponibles</ion-note>
       <p>{{route?.free_seats}}/{{route?.bus?.number_positions}}</p>
@@ -91,7 +91,7 @@
             <ion-icon name="square-outline"></ion-icon> Disponibles
           </ion-label>
           <ion-label>
-            <ion-icon name="square" color="success"></ion-icon> Seleccionado
+            <!-- <ion-icon name="square" color="success"></ion-icon> Seleccionado -->
           </ion-label>
         </div>
         <div class="leyend">
