@@ -24,11 +24,12 @@ ion-content {
         align-items: center;
         justify-content: center;
         height: 15vh;
-        color: #fff;
+        color: #e9ecef;
         background-color: var(--rp-color-primary);
         border-radius: 10px;
         ion-icon {
           margin: 0 4px;
+          --color: red !important;
         }
         p {
           margin: 0;
