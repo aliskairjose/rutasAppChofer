@@ -38,7 +38,7 @@ export class AssignSeatComponent implements OnInit {
       this.common.presentToast( { message: response.message } );
       this.registeredSeat = true;
       this.loadRoutes();
-    } );
+    }, () => loading.dismiss() );
   }
 
   async endTravel() {
@@ -74,17 +74,19 @@ export class AssignSeatComponent implements OnInit {
       const rightFreeSeats = [];
 
       // Distribuacion de asientos libre a la derecha e izquierda
-      const leftFreeSeat = Math.round( freeSeats / 2 );
-      const rightFreeSeat = freeSeats - leftFreeSeat;
-      leftFreeSeats.length = leftFreeSeat - 1;
-      rightFreeSeats.length = rightFreeSeat - 1;
+      if ( freeSeats > 0 ) {
+        const leftFreeSeat = Math.round( freeSeats / 2 );
+        const rightFreeSeat = freeSeats - leftFreeSeat;
+        leftFreeSeats.length = leftFreeSeat - 1;
+        rightFreeSeats.length = rightFreeSeat - 1;
+      }
 
       // Se inicializa los arrays. Se resta 1 sabiendo que el indice 0 es primero y quedaria un extra
       this.leftSeats.length = this.rightSeats.length = ( ( totalSeats - 2 ) / 2 );
 
       if ( occupiedSeat > 0 ) {
         // Distribución de asientos ocupados a la derecha e izquierda
-        const leftOccupiedSeat = Math.round( occupiedSeat - 2 / 2 );
+        const leftOccupiedSeat = Math.round( occupiedSeat / 2 );
         const rightOccupiedSeat = occupiedSeat - leftOccupiedSeat;
 
         leftOccupiedSeats.length = leftOccupiedSeat;
