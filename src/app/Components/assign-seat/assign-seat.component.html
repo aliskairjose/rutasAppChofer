@@ -35,7 +35,7 @@
     <div class="d-flex justify-content-between mt-2">
       <div>
         <ion-note>Puestos disponibles</ion-note>
-        <p>{{selectedRoute.occuped_seats}}/{{ selectedRoute.bus.number_positions}}</p>
+        <p>{{selectedRoute.free_seats}}/{{ selectedRoute.bus.number_positions}}</p>
       </div>
       <div id="seat-icon-container" (click)="assignSeat()">
         <img src="../../../assets/svg/seat.svg">
@@ -48,7 +48,7 @@
     <div class="d-flex flex-column align-items-center">
       <h2>Asignar asientos</h2>
       <ion-note>Puestos disponibles</ion-note>
-      <p>{{route.occuped_seats}}/{{route.bus.number_positions}}</p>
+      <p>{{route.free_seats}}/{{route.bus.number_positions}}</p>
 
       <div class="mt-4 w-75 seat-positions">
         <div class="d-flex justify-content-between mb-4">
@@ -59,18 +59,23 @@
             <ion-icon name="square-outline"></ion-icon>
           </div>
         </div>
+
         <div class="d-flex justify-content-between">
+
           <div class="d-flex flex-wrap justify-content-start w-50">
             <ng-container *ngFor="let seat of leftSeats; let i=index">
-              <ion-icon [name]="seat"></ion-icon>
+              <ion-icon [name]="seat.name" *ngIf="seat.occupied" [color]="seat.color"></ion-icon>
+              <ion-icon [name]="seat.name" *ngIf="!seat.occupied"></ion-icon>
             </ng-container>
-
           </div>
+
           <div class="d-flex flex-wrap justify-content-end w-50">
             <ng-container *ngFor="let seat of rightSeats; let i=index">
-              <ion-icon [name]="seat"></ion-icon>
+              <ion-icon [name]="seat.name" *ngIf="seat.occupied" [color]="seat.color"></ion-icon>
+              <ion-icon [name]="seat.name" *ngIf="!seat.occupied"></ion-icon>
             </ng-container>
           </div>
+
         </div>
       </div>
 

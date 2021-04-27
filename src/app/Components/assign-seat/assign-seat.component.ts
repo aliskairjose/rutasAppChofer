@@ -16,7 +16,15 @@ export class AssignSeatComponent implements OnInit {
   leftSeats = [];
   rightSeats = [];
   backSeats = 0;
-  totalSeats = 0;
+
+  private _totalSeats = 0;
+  private _leftOccupiedSeats = 0;
+  private _rightOccupiedSeats = 0;
+  private _leftFreeSeats = 0;
+  private _rightFreeSeats = 0;
+
+  private _occupiedSeats = 0;
+  private _freeSeats = 0;
 
   @Input() selectedRoute: Route = {};
   @Output() registerSeat: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -63,10 +71,34 @@ export class AssignSeatComponent implements OnInit {
     this.routeService.list( user.id ).subscribe( ( routes: Route[] ) => {
       loading.dismiss();
       this.route = routes.find( item => item.id === this.selectedRoute.id );
-      this.totalSeats = this.selectedRoute.bus.number_positions;
-      this.leftSeats.length = this.rightSeats.length = ( ( this.totalSeats - 6 ) / 2 ) - 1;
-      this.leftSeats.fill( 'square-outline' );
-      this.rightSeats.fill( 'square-outline' );
+
+      this._totalSeats = this.selectedRoute.bus.number_positions;
+      this._occupiedSeats = this.route.occuped_seats;
+      this._freeSeats = this.route.free_seats;
+
+      // Distribuacion de asientos libre a la derecha e izquierda
+      this._leftFreeSeats = Math.round( this._freeSeats / 2 );
+      this._rightFreeSeats = this._freeSeats - this._leftFreeSeats;
+
+
+
+      // Se inicializa los arrays. Se resta 1 sabiendo que el indice 0 es primero y quedaria un extra
+      this.leftSeats.length = this.rightSeats.length = ( ( this._totalSeats - 6 ) / 2 ) - 1;
+
+      if ( this._occupiedSeats > 0 ) {
+        // Distribución de asientos ocupados a la derecha e izquierda
+        this._leftOccupiedSeats = Math.round( this._occupiedSeats / 2 );
+        this._rightOccupiedSeats = this._occupiedSeats - this._leftOccupiedSeats;
+
+        // Se muestran los asientos ocupados a la izquierda y derecha
+        this.leftSeats.fill( { name: 'square', occupied: true, color: 'danger' }, 0, this._leftOccupiedSeats - 1 );
+        this.rightSeats.fill( { name: 'square', occupied: true, color: 'danger' }, 0, this._rightOccupiedSeats - 1 );
+
+        // Se muestran los asientos libres de derecha e izquierda
+        this.leftSeats.fill( { name: 'square-outline', occupied: false, color: '' }, this._leftOccupiedSeats - 1, this._totalSeats - 1 );
+        this.rightSeats.fill( { name: 'square-outline', occupied: false, color: '' }, this._rightOccupiedSeats - 1, this._totalSeats - 1 );
+      }
+
     } );
   }
 }
