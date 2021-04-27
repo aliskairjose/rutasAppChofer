@@ -7,7 +7,7 @@
           <div>
             <h3>Calificación del servicio</h3>
             <app-rating size="large" readOnly="true" rate="{{rating}}"></app-rating>
-            <p>2/5 | Servicio satisfactorio</p>
+            <p>{{rating}}/5 | {{msg}}</p>
           </div>
         </div>
       </ion-col>
@@ -18,53 +18,23 @@
           <h3>Listado de viajes</h3>
         </ion-list-header>
         <ion-list lines="full">
-          <ion-item>
-            <ion-avatar slot="start">
-              <img src="./../../../assets/route.png">
-            </ion-avatar>
-            <ion-label>
-              <h2>Ruta Ciudad - Tocumen</h2>
-              <h3>Bus: AA3320BZ</h3>
-            </ion-label>
-            <div>
-              <div class="text-end">
-                <ion-note>Jueves</ion-note>
+          <ng-container *ngFor="let route of routes ; let i=index">
+            <ion-item>
+              <ion-avatar slot="start">
+                <img src="./../../../assets/route.png">
+              </ion-avatar>
+              <ion-label>
+                <h2>{{route.name}}</h2>
+                <h3>Bus: {{ route.bus.license_plate | uppercase}}</h3>
+              </ion-label>
+              <div>
+                <div class="text-end">
+                  <ion-note>Jueves</ion-note>
+                </div>
+                <app-rating readOnly="true" [rate]="route.rating"> </app-rating>
               </div>
-              <app-rating readOnly="true" rate="1"> </app-rating>
-            </div>
-          </ion-item>
-          <ion-item>
-            <ion-avatar slot="start">
-              <img src="./../../../assets/route.png">
-            </ion-avatar>
-            <ion-label>
-              <h2>Ruta Ciudad - Tocumen</h2>
-              <h3>Bus: AA3320BZ</h3>
-            </ion-label>
-            <div>
-              <div class="text-end">
-                <ion-note>Viernes</ion-note>
-              </div>
-              <app-rating readOnly="true" rate="4"> </app-rating>
-            </div>
-          </ion-item>
-
-          <ion-item>
-            <ion-avatar slot="start">
-              <img src="./../../../assets/route.png">
-            </ion-avatar>
-            <ion-label>
-              <h2>Ruta Ciudad - Tocumen</h2>
-              <h3>Bus: AA3320BZ</h3>
-            </ion-label>
-            <div>
-              <div class="text-end">
-                <ion-note>Lunes</ion-note>
-              </div>
-              <app-rating readOnly="true" rate="2"> </app-rating>
-            </div>
-          </ion-item>
-
+            </ion-item>
+          </ng-container>
         </ion-list>
       </ion-col>
     </ion-row>

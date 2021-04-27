@@ -12,6 +12,7 @@ export interface Route {
   free_seats?: number;
   route_stops?: RouteStop[];
   bus?: Bus;
+  rating?: number;
 }
 
 export interface RouteStop {

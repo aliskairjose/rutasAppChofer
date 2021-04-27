@@ -12,4 +12,5 @@ export interface Bus {
   deleted_at?: string;
   bus_model?: BusModel;
   bus_type?: BusType;
+  rating?: number;
 }
