@@ -190,9 +190,7 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
           this.goToHome();
         } );
       }
-      else {
-        return;
-      }
+      return;
     }
 
     this.userService.rutasFlow = ( result.hasBoarding ) ? 11 : 10;
