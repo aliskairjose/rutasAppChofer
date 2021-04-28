@@ -72,7 +72,7 @@
       <!-- Finalizar viaje -->
       <div *ngSwitchCase=11>
         <app-assign-seat [selectedRoute]="selectedRoute" (registerSeat)="registerSeat($event)"
-          (endRoute)="endRoute($event)"></app-assign-seat>
+          (endRoute)="endRoute($event)" #assignedSeat></app-assign-seat>
       </div>
       <!-- Experiencia -->
       <div *ngSwitchCase=2>

@@ -43,6 +43,7 @@ export class AssignSeatComponent implements OnInit {
   }
 
   async endTravel() {
+    console.log( 'end travel' );
     const confirm = await this.common.alert();
     if ( confirm ) {
       const loading = await this.common.presentLoading();

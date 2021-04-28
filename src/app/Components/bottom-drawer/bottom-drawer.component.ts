@@ -1,4 +1,3 @@
-import jsQR from 'jsqr';
 
 import {
   AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild
@@ -13,6 +12,7 @@ import { Bus } from '../../interfaces/bus';
 import { RouteService } from '../../services/route.service';
 import { CommonService } from '../../services/common.service';
 import { User } from '../../interfaces/user';
+import { AssignSeatComponent } from '../assign-seat/assign-seat.component';
 
 const { Keyboard } = Plugins;
 
@@ -178,12 +178,29 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
 
     const result = await this.verifyBoarding();
 
+    if ( result.hasBoarding && result.data.route.id !== this.selectedRoute.id ) {
+      const message = 'Ya tiene una ruta activa, ¿desea finalizar la ruta?';
+      const confirm = await this.common.alert( message );
+      if ( confirm ) {
+        const loading = await this.common.presentLoading();
+        loading.present();
+        this.routeService.end().subscribe( res => {
+          loading.dismiss();
+          this.common.presentToast( { message: result.message } );
+          this.goToHome();
+        } );
+      }
+      else {
+        return;
+      }
+    }
+
     this.userService.rutasFlow = ( result.hasBoarding ) ? 11 : 10;
   }
 
   goToHome() {
     this.openHeight = ( this.plt.height() / 100 ) * 60;
-    this.userService.rutasFlow = 1;
+    this.userService.rutasFlow = 0;
     this.showScan = false;
     this.dragable = false;
     this.gesture.enable( true );

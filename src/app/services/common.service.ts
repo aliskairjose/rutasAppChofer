@@ -49,14 +49,15 @@ export class CommonService {
     toast.present();
   }
 
-  async alert(): Promise<boolean> {
+  async alert( message = '¿Desea finalizar el viaje?' ): Promise<boolean> {
+
     let resolveFunction: ( confirm: boolean ) => void;
     const promise = new Promise<boolean>( resolve => {
       resolveFunction = resolve;
     } );
 
     const alert = await this.alertController.create( {
-      message: '¿Desea finalizar el viaje?',
+      message,
       buttons: [
         {
           text: 'No',
