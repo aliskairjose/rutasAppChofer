@@ -40,7 +40,7 @@ export class SidemenuPage implements OnInit, OnChanges {
     private _auth: AuthService,
     private _common: CommonService,
     private userService: UserService,
-    private _storage: StorageService,
+    private storage: StorageService,
     private changeDetectorRef: ChangeDetectorRef,
   ) {
     this.user = {};
@@ -51,7 +51,7 @@ export class SidemenuPage implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this._storage.get( USER ).then( ( user: any ) => this.user = { ...user } );
+    this.storage.get( USER ).then( ( user: any ) => this.user = { ...user } );
   }
 
   toggleBackdrop( isVisible ) {

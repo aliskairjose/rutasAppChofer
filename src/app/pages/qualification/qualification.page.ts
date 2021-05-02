@@ -52,8 +52,6 @@ export class QualificationPage implements OnInit {
       driverRate.subscribe( val => rates.push( val ) );
       route.subscribe( _route => this.routes.push( _route ) );
 
-      console.log( this.routes );
-
       this.rating = Math.round( rates.reduce( ( a, b ) => a + b, 0 ) / response.length );
       this.face = `../../../assets/svg/faces/${this.rating}.svg`;
       this.msg = this.serviceMesg.find( ( item, index ) => index === this.rating - 1 );

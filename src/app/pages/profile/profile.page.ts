@@ -22,13 +22,13 @@ export class ProfilePage implements OnInit {
     private _auth: AuthService,
     private _common: CommonService,
     private userService: UserService,
-    private _storage: StorageService
+    private storage: StorageService
   ) {
     this._auth.authObserver().subscribe( ( user: any ) => this.user = { ...user } );
   }
 
   async ngOnInit() {
-    this._storage.get( USER ).then( ( user: any ) => this.user = { ...user } );
+    this.storage.get( USER ).then( ( user: any ) => this.user = { ...user } );
   }
 
   async takePicture() {
@@ -46,7 +46,7 @@ export class ProfilePage implements OnInit {
     loading.present();
     this.userService.updateAvatar( { avatar: imageUrl } ).subscribe( async ( result ) => {
       loading.dismiss();
-      await this._storage.store( USER, result.data );
+      await this.storage.store( USER, result.data );
       this._auth.AuthSubject( result.data );
       this.user = { ...result.data };
       const message = result.message;

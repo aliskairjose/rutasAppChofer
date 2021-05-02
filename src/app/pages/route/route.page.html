@@ -1,7 +1,8 @@
 <!-- <ion-input type="search" class="searchField" placeholder="Buscar ruta" [(ngModel)]="searchText"></ion-input> -->
 <ng-container *ngIf="routes.length; else elseTemplate">
   <ion-list lines=" none">
-    <ion-item *ngFor="let route of routes" (click)="selectRoute(route)">
+    <ion-item *ngFor="let route of routes" (click)="selectRoute(route)"
+      [class.activate-route]="activeRoute?.id === route.id">
       <ion-avatar slot="start">
         <img src="../../../assets/svg/route_circle.svg" />
       </ion-avatar>

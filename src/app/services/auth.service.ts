@@ -15,7 +15,7 @@ export class AuthService {
 
   constructor(
     private _common: CommonService,
-    private _storage: StorageService,
+    private storage: StorageService,
     private _httpService: HttpService,
   ) { }
 
@@ -28,7 +28,7 @@ export class AuthService {
   }
 
   register( data: any ): Observable<any> {
-    return this._httpService.post( '/driver', data ).pipe(
+    return this._httpService.post( '/drivers-user/verify', data ).pipe(
       map( response => {
         this.toastMessage( response.message );
         return response;
@@ -46,7 +46,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return this._storage.get( TOKEN ) ? true : false;
+    return this.storage.get( TOKEN ) ? true : false;
   }
 
   /**

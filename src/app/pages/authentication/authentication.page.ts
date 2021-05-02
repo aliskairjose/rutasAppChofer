@@ -25,7 +25,7 @@ export class AuthenticationPage implements OnInit {
     private _auth: AuthService,
     private _common: CommonService,
     private formBuilder: FormBuilder,
-    private _storage: StorageService,
+    private storage: StorageService,
   ) {
     this.createForm();
 
@@ -55,8 +55,8 @@ export class AuthenticationPage implements OnInit {
       loading.present();
       this._auth.login( this.loginForm.value ).subscribe( async ( response ) => {
         this._auth.AuthSubject( response.user );
-        await this._storage.store( TOKEN, response.data );
-        await this._storage.store( USER, response.user );
+        await this.storage.store( TOKEN, response.data );
+        await this.storage.store( USER, response.user );
         this.submitted = false;
         this.loginForm.reset();
         loading.dismiss();
@@ -88,8 +88,8 @@ export class AuthenticationPage implements OnInit {
       this._auth.AuthSubject( response.user );
       const message = response.message;
       this._common.presentToast( { message } );
-      await this._storage.store( TOKEN, response.data );
-      await this._storage.store( USER, response.user );
+      await this.storage.store( TOKEN, response.data );
+      await this.storage.store( USER, response.user );
       this.router.navigate( [ '/sidemenu/Inicio' ] );
     } );
   }

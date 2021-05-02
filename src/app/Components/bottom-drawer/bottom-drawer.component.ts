@@ -12,7 +12,8 @@ import { Bus } from '../../interfaces/bus';
 import { RouteService } from '../../services/route.service';
 import { CommonService } from '../../services/common.service';
 import { User } from '../../interfaces/user';
-import { AssignSeatComponent } from '../assign-seat/assign-seat.component';
+import { StorageService } from '../../services/storage.service';
+import { ACTIVE_ROUTE } from '../../constants/global-constants';
 
 const { Keyboard } = Plugins;
 
@@ -62,6 +63,7 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
     private plt: Platform,
     public navctl: NavController,
     private common: CommonService,
+    private storage: StorageService,
     private userService: UserService,
     private routeService: RouteService,
     private gestureCtlr: GestureController,
@@ -211,13 +213,14 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
   async startRoute() {
     const loading = await this.common.presentLoading();
     loading.present();
-    this.routeService.start( this.selectedRoute.id ).subscribe( result => {
+    this.routeService.start( this.selectedRoute.id ).subscribe( async ( result ) => {
+      await this.storage.store( ACTIVE_ROUTE, result.data.route );
       this.selectedRoute = result.data.route;
       const message = result.message;
       this.common.presentToast( { message } );
       loading.dismiss();
       this.userService.rutasFlow = 11;
-    } );
+    }, () => loading.dismiss() );
   }
 
   endRoute( event: boolean ): void {

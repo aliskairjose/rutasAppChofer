@@ -3,6 +3,7 @@ import { Route } from '../../interfaces/route';
 import { CommonService } from '../../services/common.service';
 import { RouteService } from '../../services/route.service';
 import { StorageService } from '../../services/storage.service';
+import { ACTIVE_ROUTE } from '../../constants/global-constants';
 
 @Component( {
   selector: 'app-assign-seat',
@@ -43,7 +44,6 @@ export class AssignSeatComponent implements OnInit {
   }
 
   async endTravel() {
-    console.log( 'end travel' );
     const confirm = await this.common.alert();
     if ( confirm ) {
       const loading = await this.common.presentLoading();
@@ -52,6 +52,7 @@ export class AssignSeatComponent implements OnInit {
         const message = result.message;
         loading.dismiss();
         this.common.presentToast( { message } );
+        this.storage.removeStorageItem( ACTIVE_ROUTE )
         this.endRoute.emit( true );
       } );
     }

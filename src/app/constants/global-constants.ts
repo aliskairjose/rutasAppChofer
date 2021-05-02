@@ -12,6 +12,7 @@ export const LOGO = './../../../assets/loginLogo.png';
 export const GOOGLE_LOGO = './../../../assets/icon/googleLogo.png';
 export const TOKEN = 'rpd_token';
 export const USER = 'rpd_user';
+export const ACTIVE_ROUTE = 'rpd_active_route';
 export const BACK_BUTTON = './../../../assets/svg/back_button.svg';
 
 export const MAP = {

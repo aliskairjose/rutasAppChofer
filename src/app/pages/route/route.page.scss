@@ -1,16 +1,22 @@
-ion-content {
-  top: 10%;
+// ion-content {
+//   top: 10%;
 
-  ion-card {
-    --background: var(--ion-color-rp-primary);
-  }
-}
+//   ion-card {
+//     --background: var(--ion-color-rp-primary);
+//   }
+// }
 ion-list {
   background: var(--rp-color-primary);
 
   ion-item::part(native) {
     background-color: var(--rp-color-primary);
     color: #fff;
+  }
+  .activate-route {
+    border: 1px solid var(--ion-color-warning);
+    border-radius: 10px;
+    text-shadow: 2px 2px 5px var(--ion-color-warning);
+    box-shadow: 2px 2px 5px var(--ion-color-warning);
   }
 }
 
