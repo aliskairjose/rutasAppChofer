@@ -29,7 +29,6 @@ export class RoutePage implements OnInit {
   async ngOnInit() {
     const user: any = await this.storage.getUser();
     this.activeRoute = await this.storage.get( ACTIVE_ROUTE );
-    console.log( 'Ruta activa', this.activeRoute );
     const loading = await this._common.presentLoading();
     loading.present();
     this._routeService.list( user.id ).subscribe( ( routes: Route[] ) => {

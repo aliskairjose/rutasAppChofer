@@ -4,6 +4,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Route, RouteStop } from '../../interfaces/route';
 import { MAP } from '../../constants/global-constants';
 import { CommonService } from '../../services/common.service';
+import { SidemenuPage } from '../sidemenu/sidemenu.page';
+import { ActivatedRoute } from '@angular/router';
 declare var google: any;
 
 @Component( {
@@ -27,6 +29,7 @@ export class InicioPage implements OnInit {
     private _common: CommonService,
     public userService: UserService,
     private geolocation: Geolocation,
+    private sideMenu: SidemenuPage
   ) {
     this.userService
       .flowhObserver()
@@ -51,6 +54,7 @@ export class InicioPage implements OnInit {
         break;
       default:
         this.loadMap();
+        this.sideMenu.activeRoute = 1;
         break;
     }
   }

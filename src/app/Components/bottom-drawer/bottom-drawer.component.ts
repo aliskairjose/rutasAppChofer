@@ -14,6 +14,7 @@ import { CommonService } from '../../services/common.service';
 import { User } from '../../interfaces/user';
 import { StorageService } from '../../services/storage.service';
 import { ACTIVE_ROUTE } from '../../constants/global-constants';
+import { SidemenuPage } from '../../pages/sidemenu/sidemenu.page';
 
 const { Keyboard } = Plugins;
 

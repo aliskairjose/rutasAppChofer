@@ -20,12 +20,12 @@ export class SidemenuPage implements OnInit, OnChanges {
 
   backdropVisible = false;
   drawerVar = 'Inicio';
-  activeRoute = 0;
   addressClicked = 0;
   user: User = {};
   abrv = '';
   logo = LOGO;
   avatar = 'avatar_default.jpg';
+  private _activeRoute = 0;
 
   appPages = [
     { title: 'Mi Perfil', url: 'profile', icon: MENU.PROFILE, route: 100 },
@@ -66,12 +66,18 @@ export class SidemenuPage implements OnInit, OnChanges {
 
   menuOptionClickHandle( p, i ) {
     this.userService.flowSubject( p.route );
-    this.activeRoute = i;
+    this._activeRoute = i;
     this.drawerVar = p.title;
     this.router.navigate( [ p.url ] );
   }
 
 
+  set activeRoute( i: number ) {
+    this._activeRoute = i;
+  }
 
+  get activeRoute(): number {
+    return this._activeRoute;
+  }
 
 }
