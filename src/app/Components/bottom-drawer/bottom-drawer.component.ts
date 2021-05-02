@@ -88,16 +88,6 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
     } );
   }
 
-  readJsonData( dataurl ) {
-    return new Promise( ( resolve, reject ) => {
-      fetch( dataurl ).then( res => res.json() ).then( jsonData => {
-        resolve( jsonData );
-      } ).catch( err => {
-        resolve( {} );
-      } );
-    } );
-  }
-
   async ngAfterViewInit() {
     this.bottomDrawerElement = this.bottomDrawer.nativeElement;
     this.openHeight = ( this.plt.height() / 100 ) * 60;
@@ -200,6 +190,7 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
   }
 
   goToHome() {
+    this.emitEvent.emit( { type: 'loadMap' } );
     this.openHeight = ( this.plt.height() / 100 ) * 60;
     this.userService.rutasFlow = 0;
     this.showScan = false;

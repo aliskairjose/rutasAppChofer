@@ -39,17 +39,19 @@ export class InicioPage implements OnInit {
   }
 
   bottomDrawerEvent( event: any ) {
-    if ( event.type === 'item-selected' ) {
-      this.handleItemSelect( event.data );
-      return;
-    }
-    if ( event.type === 'scan-success' ) {
-      this.startTracking();
-      return;
-    }
-    if ( event.type === 'stop-track' ) {
-      this.stopTracking();
-      return;
+    switch ( event.type ) {
+      case 'item-selected':
+        this.handleItemSelect( event.data );
+        break;
+      case 'scan-success':
+        this.startTracking();
+        break;
+      case 'stop-track':
+        this.stopTracking();
+        break;
+      default:
+        this.loadMap();
+        break;
     }
   }
 
