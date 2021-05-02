@@ -188,6 +188,7 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
         loading.present();
         this.routeService.end().subscribe( res => {
           loading.dismiss();
+          this.storage.removeStorageItem( ACTIVE_ROUTE );
           this.common.presentToast( { message: result.message } );
           this.goToHome();
         } );
