@@ -75,7 +75,11 @@ export class RouteService {
     return this.http.put( `/route-boarding/close?occupedSeats=1` );
   }
 
-
+  /**
+   * 
+   * @param data Objeto con latitude | longitude | route_id
+   * @returns Observable
+   */
   routePosition( data: any ): Observable<any> {
     return this.http.post( `route-positions`, data );
   }

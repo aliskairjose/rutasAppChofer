@@ -14,10 +14,9 @@ import { CommonService } from '../../services/common.service';
 import { User } from '../../interfaces/user';
 import { StorageService } from '../../services/storage.service';
 import { ACTIVE_ROUTE } from '../../constants/global-constants';
-import { SidemenuPage } from '../../pages/sidemenu/sidemenu.page';
-
 const { Keyboard } = Plugins;
 
+declare var window;
 @Component( {
   selector: 'app-bottom-drawer',
   templateUrl: './bottom-drawer.component.html',
@@ -207,6 +206,7 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
     const loading = await this.common.presentLoading();
     loading.present();
     this.routeService.start( this.selectedRoute.id ).subscribe( async ( result ) => {
+      window.app.backgroundGeolocation.start();
       await this.storage.store( ACTIVE_ROUTE, result.data.route );
       this.selectedRoute = result.data.route;
       const message = result.message;
@@ -217,6 +217,7 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
   }
 
   endRoute( event: boolean ): void {
+    window.app.backgroundGeolocation.stop();
     if ( event ) { this.goToHome(); }
   }
 
