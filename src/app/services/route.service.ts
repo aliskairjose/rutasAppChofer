@@ -81,7 +81,7 @@ export class RouteService {
    * @returns Observable
    */
   routePosition( data: any ): Observable<any> {
-    return this.http.post( `route-positions`, data );
+    return this.http.post( `/route-positions`, data );
   }
 
   private toastMessage( message: string ): void {
