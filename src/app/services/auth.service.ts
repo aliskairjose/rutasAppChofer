@@ -14,7 +14,7 @@ export class AuthService {
   $auth: Subject<any> = new Subject<any>();
 
   constructor(
-    private _common: CommonService,
+    private common: CommonService,
     private storage: StorageService,
     private _httpService: HttpService,
   ) { }
@@ -62,7 +62,7 @@ export class AuthService {
 
   private toastMessage( message: string ): void {
     const color = 'primary';
-    this._common.presentToast( { message, color } );
+    this.common.presentToast( { message, color } );
   }
 
   /**

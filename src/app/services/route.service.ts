@@ -12,7 +12,7 @@ export class RouteService {
 
   constructor(
     private http: HttpService,
-    private _common: CommonService
+    private common: CommonService
   ) { }
 
   /**
@@ -42,18 +42,17 @@ export class RouteService {
   /**
    * @description Inicia la ruta
    * @param id Id de la ruta
-   * @returns 
+   * @returns any
    */
   start( id: number ): Observable<any> {
-    return this.http.post( `/route-boarding/drivers?route_id=${id}&occupedSeats=1` )
+    return this.http.post( `/route-boarding/drivers?route_id=${id}&occupedSeats=1` );
   }
 
   /**
    *
    * @description Asigna un asiento en el bus de la ruta
-   * @param {number} id Id de la ruta
-   * @returns {Observable<any>}
-   * @memberof RouteService
+   * @param number id Id de la ruta
+   * @returns Observable<any>
    */
   assignSeat( id: number ): Observable<any> {
     return this.http.post( `/route-boarding/drivers/seat?occupedSeats=1`, { route_id: id } );
@@ -69,15 +68,19 @@ export class RouteService {
 
   /**
    *
-   *@description Finaliza el viaje del chofer
-   * @returns {Observable<any>}
-   * @memberof RouteService
+   * @description Finaliza el viaje del chofer
+   * @returns Observable<any>
    */
   end(): Observable<any> {
-    return this.http.put( `/route-boarding/close?occupedSeats=1` )
+    return this.http.put( `/route-boarding/close?occupedSeats=1` );
+  }
+
+
+  routePosition( data: any ): Observable<any> {
+    return this.http.post( `route-positions`, data );
   }
 
   private toastMessage( message: string ): void {
-    this._common.presentToast( { message } );
+    this.common.presentToast( { message } );
   }
 }

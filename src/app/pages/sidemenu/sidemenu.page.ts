@@ -38,7 +38,7 @@ export class SidemenuPage implements OnInit, OnChanges {
   constructor(
     private router: Router,
     private _auth: AuthService,
-    private _common: CommonService,
+    private common: CommonService,
     private userService: UserService,
     private storage: StorageService,
     private changeDetectorRef: ChangeDetectorRef,

@@ -21,7 +21,7 @@ export class RoutePage implements OnInit {
   @Output() routeEvent: EventEmitter<Route> = new EventEmitter<Route>();
 
   constructor(
-    private _common: CommonService,
+    private common: CommonService,
     private storage: StorageService,
     private _routeService: RouteService
   ) { }
@@ -29,7 +29,7 @@ export class RoutePage implements OnInit {
   async ngOnInit() {
     const user: any = await this.storage.getUser();
     this.activeRoute = await this.storage.get( ACTIVE_ROUTE );
-    const loading = await this._common.presentLoading();
+    const loading = await this.common.presentLoading();
     loading.present();
     this._routeService.list( user.id ).subscribe( ( routes: Route[] ) => {
       this.routes = [ ...routes ];

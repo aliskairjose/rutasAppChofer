@@ -26,7 +26,7 @@ export class InicioPage implements OnInit {
   @ViewChild( 'map' ) mapElement: ElementRef;
 
   constructor(
-    private _common: CommonService,
+    private common: CommonService,
     public userService: UserService,
     private geolocation: Geolocation,
     private sideMenu: SidemenuPage
@@ -101,7 +101,7 @@ export class InicioPage implements OnInit {
     const stops: RouteStop[] = [ ...this.selectedItem.route_stops ];
     const directionsService = new google.maps.DirectionsService();
     const directionsRenderer = new google.maps.DirectionsRenderer( { map, suppressMarkers: true } );
-    const loading = await this._common.presentLoading();
+    const loading = await this.common.presentLoading();
     loading.present();
 
     await this.calculateAndDisplayRoute( stops, directionsRenderer, directionsService, map );

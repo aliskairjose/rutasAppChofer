@@ -13,7 +13,7 @@ export class BusService {
 
   constructor(
     private _http: HttpService,
-    private _common: CommonService,
+    private common: CommonService,
   ) { }
 
   /**
@@ -99,7 +99,7 @@ export class BusService {
   }
 
   private toastMessage( message: string ): void {
-    this._common.presentToast( { message } );
+    this.common.presentToast( { message } );
   }
 
 }

@@ -13,7 +13,7 @@ export class SupportPage implements OnInit {
 
   constructor(
     private _user: UserService,
-    private _common: CommonService,
+    private common: CommonService,
   ) { }
 
   ngOnInit() {
@@ -21,12 +21,12 @@ export class SupportPage implements OnInit {
 
   async sendRequest() {
     // Send to api
-    const loading = await this._common.presentLoading();
+    const loading = await this.common.presentLoading();
     loading.present();
     this._user.comment( this.comment ).subscribe( () => {
       loading.dismiss();
       const message = 'Su comentario ha sido procesado, gracias!';
-      this._common.presentToast( { message } );
+      this.common.presentToast( { message } );
     } );
   }
 

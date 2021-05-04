@@ -23,7 +23,7 @@ export class AuthenticationPage implements OnInit {
   constructor(
     private router: Router,
     private _auth: AuthService,
-    private _common: CommonService,
+    private common: CommonService,
     private formBuilder: FormBuilder,
     private storage: StorageService,
   ) {
@@ -40,7 +40,7 @@ export class AuthenticationPage implements OnInit {
     const googleUser = await Plugins.GoogleAuth.signIn();
 
     if ( googleUser.authentication.idToken ) {
-      const loading = await this._common.presentLoading();
+      const loading = await this.common.presentLoading();
       loading.present();
       const exist = await this._auth.exist( googleUser.email );
       loading.dismiss();
@@ -51,7 +51,7 @@ export class AuthenticationPage implements OnInit {
   async onSubmit() {
     this.submitted = true;
     if ( this.loginForm.valid ) {
-      const loading = await this._common.presentLoading();
+      const loading = await this.common.presentLoading();
       loading.present();
       this._auth.login( this.loginForm.value ).subscribe( async ( response ) => {
         this._auth.AuthSubject( response.user );
@@ -69,7 +69,7 @@ export class AuthenticationPage implements OnInit {
    * @description Registro del usuario google
    */
   private async registerGoogleUSer( googleUser ): Promise<void> {
-    const modal = await this._common.presentModal( { component: ClientsModalPage, cssClass: '', componentProps: { user: googleUser } } );
+    const modal = await this.common.presentModal( { component: ClientsModalPage, cssClass: '', componentProps: { user: googleUser } } );
     modal.present();
     const modalData = await modal.onDidDismiss();
     if ( modalData.role === 'submit' ) {
@@ -81,13 +81,13 @@ export class AuthenticationPage implements OnInit {
    * @description Registro / Acceso del usuario google
    */
   private async googleAccess( accessData: any ) {
-    const loading = await this._common.presentLoading();
+    const loading = await this.common.presentLoading();
     loading.present();
     this._auth.login( accessData ).subscribe( async ( response ) => {
       loading.dismiss();
       this._auth.AuthSubject( response.user );
       const message = response.message;
-      this._common.presentToast( { message } );
+      this.common.presentToast( { message } );
       await this.storage.store( TOKEN, response.data );
       await this.storage.store( USER, response.user );
       this.router.navigate( [ '/sidemenu/Inicio' ] );

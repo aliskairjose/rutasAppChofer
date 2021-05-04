@@ -21,7 +21,7 @@ export class RegisterPage implements OnInit {
     private _router: Router,
     private _auth: AuthService,
     private _formBuilder: FormBuilder,
-    private _commonService: CommonService,
+    private commonService: CommonService,
   ) {
     this.createForm();
   }
@@ -34,7 +34,7 @@ export class RegisterPage implements OnInit {
   async onSubmit() {
     this.submitted = true;
     if ( this.registerForm.valid ) {
-      const loading = await this._commonService.presentLoading();
+      const loading = await this.commonService.presentLoading();
       loading.present();
       this._auth.register( this.registerForm.value ).subscribe( () => {
         loading.dismiss();

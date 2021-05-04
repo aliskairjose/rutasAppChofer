@@ -20,7 +20,7 @@ export class ForgotPasswordPage implements OnInit {
   constructor(
     private router: Router,
     private _auth: AuthService,
-    private _common: CommonService,
+    private common: CommonService,
     private formBuilder: FormBuilder,
   ) {
     this.createForm();
@@ -34,7 +34,7 @@ export class ForgotPasswordPage implements OnInit {
   async onSubmit() {
     this.submitted = true;
     if ( this.registerForgotForm.valid ) {
-      const loading = await this._common.presentLoading();
+      const loading = await this.common.presentLoading();
       loading.present();
       this._auth.recoverPassword( this.registerForgotForm.value ).subscribe( () => {
         loading.dismiss();

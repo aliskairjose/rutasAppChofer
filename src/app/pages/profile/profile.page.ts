@@ -20,7 +20,7 @@ export class ProfilePage implements OnInit {
 
   constructor(
     private _auth: AuthService,
-    private _common: CommonService,
+    private common: CommonService,
     private userService: UserService,
     private storage: StorageService
   ) {
@@ -42,7 +42,7 @@ export class ProfilePage implements OnInit {
     const fileExt = this.user.avatar.includes( 'jpg' ) ? 'png' : 'jpg';
 
     const imageUrl = `data:image/${fileExt};base64,${image.base64String}`;
-    const loading = await this._common.presentLoading();
+    const loading = await this.common.presentLoading();
     loading.present();
     this.userService.updateAvatar( { avatar: imageUrl } ).subscribe( async ( result ) => {
       loading.dismiss();
@@ -50,7 +50,7 @@ export class ProfilePage implements OnInit {
       this._auth.AuthSubject( result.data );
       this.user = { ...result.data };
       const message = result.message;
-      this._common.presentToast( { message } );
+      this.common.presentToast( { message } );
     }, () => loading.dismiss() );
   }
 
