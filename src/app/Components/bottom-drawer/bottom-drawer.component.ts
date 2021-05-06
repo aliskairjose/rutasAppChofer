@@ -51,7 +51,6 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
   bottomPosition = -65;
   gesture;
   seatGesture;
-  dragable = true;
   rutasFlow = 0;
   scanActive = false;
   stream = null;
@@ -75,7 +74,6 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
 
   ngOnInit() {
     window.addEventListener( 'keyboardWillShow', ( e ) => {
-      this.dragable = false;
       this.gesture.enable( false );
       if ( this.isOpen ) {
         this.toggleDrawer();
@@ -83,7 +81,6 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
     } );
 
     Keyboard.addListener( 'keyboardDidHide', () => {
-      this.dragable = true;
       this.gesture.enable( true );
     } );
   }
@@ -194,7 +191,6 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
     this.openHeight = ( this.plt.height() / 100 ) * 60;
     this.userService.rutasFlow = 0;
     this.showScan = false;
-    this.dragable = false;
     this.gesture.enable( true );
     this.bottomDrawerElement.style.transition = '.4s ease-out';
     this.bottomDrawerElement.style.transform = ``;

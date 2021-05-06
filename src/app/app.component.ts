@@ -11,7 +11,8 @@ import { TOKEN, ACTIVE_ROUTE } from './constants/global-constants';
 import { StorageService } from './services/storage.service';
 import { RouteService } from './services/route.service';
 import { Route } from './interfaces/route';
-const { App, BackgroundTask, SplashScreen } = Plugins;
+import { environment } from 'src/environments/environment';
+const { SplashScreen } = Plugins;
 declare var window;
 @Component( {
   selector: 'app-root',
@@ -30,7 +31,6 @@ export class AppComponent implements OnInit {
     this.initializeApp();
   }
 
-
   async ngOnInit() {
   }
 
@@ -45,22 +45,25 @@ export class AppComponent implements OnInit {
         stationaryRadius: 10,
         distanceFilter: 10,
         debug: true,
-        stopOnTerminate: false
+        interval: 3000,
+        // fastestInterval: 3000,
+        stopOnTerminate: false,
+        startForeground: true,
+        notificationTitle: 'Rutas Panamá Chofer',
+        notificationText: 'Aplicación en segundo plano',
       };
 
       this.backgroundGeolocation.configure( options ).then( () => {
         this.backgroundGeolocation
           .on( BackgroundGeolocationEvents.location )
           .subscribe( async ( location: BackgroundGeolocationResponse ) => {
-            alert( location.latitude );
             const activeRoute: Route = await ( this.storage.get( ACTIVE_ROUTE ) ) as Route;
             const data = {
               route_id: activeRoute.id,
               longitude: location.longitude,
-              latitude: location.latitude
+              latitude: location.latitude,
             };
-            const taskKey = await this.backgroundGeolocation.startTask();
-            this.routeService.routePosition( data ).subscribe( () => this.backgroundGeolocation.endTask( taskKey ) );
+            this.routeService.routePosition( data ).subscribe( ( response ) => console.log( response.message ) );
 
           } );
       } );

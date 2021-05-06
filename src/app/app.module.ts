@@ -47,8 +47,8 @@ import { BackgroundGeolocation } from '@ionic-native/background-geolocation/ngx'
     AngularFireAuthModule,
   ],
   providers: [
-    Geolocation,
     BackgroundGeolocation,
+    Geolocation,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
   ],

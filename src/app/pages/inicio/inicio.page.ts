@@ -243,11 +243,7 @@ export class InicioPage implements OnInit {
     this.trackMarker.setMap( null );
   }
 
-  private async updateMap(
-    locations,
-    extraInfo: string,
-    map: google.maps.Map
-  ): Promise<boolean> {
+  private async updateMap( locations, extraInfo: string, map: google.maps.Map ): Promise<boolean> {
     return new Promise<boolean>( ( resolve ) => {
       this.markers.map( marker => marker.setMap( null ) ); // se pasa this.map para mantener el marcador del usuario
       this.markers = [];
