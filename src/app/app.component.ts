@@ -11,7 +11,6 @@ import { TOKEN, ACTIVE_ROUTE } from './constants/global-constants';
 import { StorageService } from './services/storage.service';
 import { RouteService } from './services/route.service';
 import { Route } from './interfaces/route';
-import { environment } from 'src/environments/environment';
 const { SplashScreen } = Plugins;
 declare var window;
 @Component( {
@@ -40,12 +39,13 @@ export class AppComponent implements OnInit {
       const isLoggedin = await this.storage.get( TOKEN );
       const route = isLoggedin ? '/sidemenu/inicio' : '/initial';
       this.router.navigate( [ route ] );
+
       const options: BackgroundGeolocationConfig = {
         desiredAccuracy: 10,
         stationaryRadius: 10,
         distanceFilter: 10,
         debug: true,
-        interval: 3000,
+        // interval: 6000,
         // fastestInterval: 3000,
         stopOnTerminate: false,
         startForeground: true,
