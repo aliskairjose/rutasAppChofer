@@ -64,7 +64,6 @@ export class AppComponent implements OnInit {
               latitude: location.latitude,
             };
             this.routeService.routePosition( data ).subscribe( ( response ) => console.log( response.message ) );
-
           } );
       } );
 

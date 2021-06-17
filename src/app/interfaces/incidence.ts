@@ -1,0 +1,32 @@
+import { Driver } from './driver';
+export interface Incidence {
+  includes: [];
+  route_id: number;
+  type_incident_id: number;
+  start_date: string;
+  end_date: string;
+
+}
+
+export interface IncidenceResponse {
+  id: number;
+  lattitude: string;
+  longitude: string;
+  description: string;
+  solved: number;
+  driver_id: number;
+  route_id: number;
+  created_at: string;
+  updated_at: string;
+  type_incident_id: number;
+  type_incident: IncidenceType;
+  driver: Driver;
+}
+
+export interface IncidenceType {
+  id: number;
+  name: string;
+  description: string;
+  created_at: string;
+  updated_at: string;
+}
