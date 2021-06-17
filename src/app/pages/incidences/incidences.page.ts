@@ -12,32 +12,50 @@ export class IncidencesPage implements OnInit {
 
   icon = './../../../assets/svg/chat.svg';
   incidences: Incidence[] = [];
+  initDate: string;
+  endDate: string;
+
+  private data: IncidenceData;
+  private iDate = new Date();
+  private eDate = new Date();
 
   constructor(
     private common: CommonService,
     private incidenceService: IncidenceService
-  ) { }
+  ) {
+    this.initDate = `${this.iDate.getFullYear()}/${this.iDate.getMonth()}/${this.iDate.getDate()}`;
+    this.endDate = `${this.eDate.getFullYear()}/${this.eDate.getMonth()}/${this.eDate.getDate()}`;
+
+  }
 
   ngOnInit() {
     this.incidenceList();
+    console.log( this.initDate );
+    console.log( this.endDate );
   }
 
   search(): void {
-    console.log( 'search' );
+    this.incidenceList();
+  }
+
+  changeDate( fecha: string, type: string ): void {
+    if ( type === 'initDate' ) { this.initDate = fecha.slice( 0, 10 ); }
+    if ( type === 'endDate' ) { this.endDate = fecha.slice( 0, 10 ); }
   }
 
   async incidenceList() {
-    const data: IncidenceData = {
+    this.data = {
       includes: [ 'typeIncident', 'driver', 'route', 'solution' ],
       route_id: 14,
       type_incident_id: 7,
-      start_date: '2021-04-22',
-      end_date: '2021-04-22'
+      start_date: this.initDate,
+      end_date: this.endDate
     };
+
     const loading = await this.common.presentLoading();
     loading.present();
 
-    this.incidenceService.list( data ).subscribe( response => {
+    this.incidenceService.list( this.data ).subscribe( response => {
       loading.dismiss();
       this.incidences = [ ...response.data ];
     } );
