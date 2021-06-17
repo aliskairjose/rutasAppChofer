@@ -37,28 +37,25 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-list lines="full">
-          <ion-item>
-            <ion-avatar slot="start">
-              <img src="./../../../assets/svg/chat.svg" />
-            </ion-avatar>
-            <ion-label>
-              <h2>Accidente Vial</h2>
-              <h3>Hubo un accidente...</h3>
-            </ion-label>
-            <ion-note>Lunes</ion-note>
-          </ion-item>
-          <ion-item>
-            <ion-avatar slot="start">
-              <img src="./../../../assets/svg/chat.svg" />
-            </ion-avatar>
-            <ion-label>
-              <h2>Protesta</h2>
-              <h3>Hubo una protesta...</h3>
-            </ion-label>
-            <ion-note>Martes</ion-note>
-          </ion-item>
-        </ion-list>
+        <ng-container *ngIf="incidences.length; else noData">
+          <ion-list lines="full">
+            <ion-item *ngFor="let incidence of incidences; let i=index">
+              <ion-avatar slot="start">
+                <img src="./../../../assets/svg/chat.svg" />
+              </ion-avatar>
+              <ion-label>
+                <h2>{{incidence.type_incident.name}}</h2>
+                <h3>{{incidence.type_incident.description}}</h3>
+              </ion-label>
+              <ion-note>{{incidence.created_at | date}}</ion-note>
+            </ion-item>
+          </ion-list>
+        </ng-container>
+        <ng-template #noData>
+          <div class="ion-text-center">
+            <h2>No hay incidencias</h2>
+          </div>
+        </ng-template>
       </ion-col>
     </ion-row>
   </ion-grid>
