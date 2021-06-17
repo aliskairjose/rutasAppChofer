@@ -1,7 +1,7 @@
 import { Driver } from './driver';
 
-export interface IncidenceResponse {
-  data: Incidence[];
+export interface IncidenceResponse<T> {
+  data: T;
   message: string;
 }
 
@@ -14,18 +14,18 @@ export interface IncidenceData {
 
 }
 export interface Incidence {
-  id: number;
-  lattitude: string;
-  longitude: string;
-  description: string;
-  solved: number;
-  driver_id: number;
-  route_id: number;
-  created_at: string;
-  updated_at: string;
-  type_incident_id: number;
-  type_incident: IncidenceType;
-  driver: Driver;
+  id?: number;
+  lattitude?: string;
+  longitude?: string;
+  description?: string;
+  solved?: number;
+  driver_id?: number;
+  route_id?: number;
+  created_at?: string;
+  updated_at?: string;
+  type_incident_id?: number;
+  type_incident?: IncidenceType;
+  driver?: Driver;
 }
 
 

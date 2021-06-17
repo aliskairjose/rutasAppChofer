@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { IncidenceService } from '../../../services/incidence.service';
+import { CommonService } from '../../../services/common.service';
+import { IncidenceType } from '../../../interfaces/incidence';
+import { ERROR_FORM } from '../../../constants/global-constants';
 
 @Component( {
   selector: 'app-add',
@@ -9,15 +13,35 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class AddPage implements OnInit {
 
   incidenceForm: FormGroup;
-  isSubmitted: boolean;
+  submitted: boolean;
   isHidde = true;
+  incidenceTypes: IncidenceType[] = [];
+  errorForm = ERROR_FORM;
+
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private common: CommonService,
+    private incidenceService: IncidenceService,
   ) {
     this.createForm();
   }
 
+  get f() { return this.incidenceForm.controls; }
+
   ngOnInit() {
+    this.loadIncidenceTypes();
+  }
+
+  async onSubmit() {
+    this.submitted = true;
+    if ( this.incidenceForm.valid ) {
+      const loading = await this.common.presentLoading();
+      loading.present();
+      this.incidenceService.add( this.incidenceForm.value ).subscribe( reponse => {
+        loading.dismiss();
+
+      }, () => loading.dismiss() );
+    }
   }
 
   radioCheck( value: string ): void {
@@ -27,12 +51,21 @@ export class AddPage implements OnInit {
 
   private createForm(): void {
     this.incidenceForm = this.fb.group( {
-      type: [ '', [ Validators.required ] ],
-      place: [ '', [ Validators.required ] ],
+      lattitude: [ '', [ Validators.required ] ],
+      longitude: [ '', [ Validators.required ] ],
+      type_incident_id: [ '', [ Validators.required ] ],
       description: [ '', [ Validators.required ] ],
-      solutionDescription: [ '' ],
-      solution: [ '' ],
+      route_id: [ '' ],
     } );
+  }
+
+  async loadIncidenceTypes() {
+    const loading = await this.common.presentLoading();
+    loading.present();
+    this.incidenceService.types().subscribe( response => {
+      loading.dismiss();
+      this.incidenceTypes = [ ...response.data ];
+    }, () => loading.dismiss() );
   }
 
 }
