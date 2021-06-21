@@ -56,7 +56,7 @@ export class IncidencesPage implements OnInit {
     const activeRoute: Route = await this.storage.get( ACTIVE_ROUTE ) as Route;
     this.data = {
       route_id: activeRoute.id,
-      start_date: this.initDate,
+      start_date: '2021/06/18',
       end_date: this.endDate
     };
 

@@ -1,9 +1,32 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>detail</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button icon="chevron-back-outline">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>Incidencias</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-list lines="full">
+          <ion-item>
+            <ion-avatar slot="start">
+              <img src="./../../../assets/svg/chat.svg" />
+            </ion-avatar>
+            <ion-label>
+              <h2>{{incidence.type_incident?.name}}</h2>
+              <h3>{{incidence.created_at | date:'d/M/yy, h:mm a'}}</h3>
+            </ion-label>
+            <ion-note>{{incidence.created_at | date}}</ion-note>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
 
 </ion-content>

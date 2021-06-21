@@ -2,7 +2,7 @@ import { SoportePageModule } from './pages/soporte/soporte.module';
 import { InicioPageModule } from './pages/inicio/inicio.module';
 import { environment } from './../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { RouteReuseStrategy } from '@angular/router';
@@ -24,6 +24,10 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation/ngx';
 
+import localeEs from '@angular/common/locales/es';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData( localeEs );
 @NgModule( {
   declarations: [
     AppComponent,
@@ -47,6 +51,7 @@ import { BackgroundGeolocation } from '@ionic-native/background-geolocation/ngx'
     AngularFireAuthModule,
   ],
   providers: [
+    { provide: LOCALE_ID, useValue: 'es' },
     BackgroundGeolocation,
     Geolocation,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
