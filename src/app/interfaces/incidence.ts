@@ -6,11 +6,10 @@ export interface IncidenceResponse<T> {
 }
 
 export interface IncidenceData {
-  includes: string[];
-  route_id: number;
-  type_incident_id: number;
-  start_date: string;
-  end_date: string;
+  route_id?: number;
+  type_incident_id?: number;
+  start_date?: string;
+  end_date?: string;
 
 }
 export interface Incidence {

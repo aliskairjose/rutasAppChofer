@@ -15,8 +15,12 @@ export class IncidenceService {
    * 
    * @returns Listado de incidencias
    */
-  list( data: IncidenceData ): Observable<IncidenceResponse<Incidence[]>> {
-    return this.http.get( `/incidents`, data );
+  list( params: IncidenceData ): Observable<IncidenceResponse<Incidence[]>> {
+    return this.http.get( `/incidents?includes[]=typeIncident&includes[]=driver&includes[]=route&includes[]=solution`, params );
+  }
+
+  getById( id: string ): Observable<IncidenceResponse<Incidence>> {
+    return this.http.get( `/incidents/${id}?includes[]=typeIncident&includes[]=driver&includes[]=route` );
   }
 
   /**
@@ -24,8 +28,8 @@ export class IncidenceService {
    * @param data Detalles de la incidencia
    * @returns Incidencia
    */
-  add( data: Incidence ): Observable<any> {
-    return this.http.post( `/incidents` );
+  add( data: Incidence ): Observable<IncidenceResponse<any>> {
+    return this.http.post( `/incidents`, data );
   }
 
   types(): Observable<IncidenceResponse<IncidenceType[]>> {

@@ -16,7 +16,7 @@
           <div>
             <ion-item>
               <ion-label position="floating">MM/DD/YYYY</ion-label>
-              <ion-datetime displayFormat="MM/DD/YYYY" min="1994-03-14" max="2012-12-09" value="{{initDate}}"
+              <ion-datetime displayFormat="MM/DD/YYYY" value="{{initDate}}"
                 (ionChange)="changeDate($event.target.value, 'initDate')">
               </ion-datetime>
             </ion-item>
@@ -24,7 +24,7 @@
           <div>
             <ion-item>
               <ion-label position="floating">MM/DD/YYYY</ion-label>
-              <ion-datetime displayFormat="MM/DD/YYYY" min="1994-03-14" max="2012-12-09" value="{{endDate}}"
+              <ion-datetime displayFormat="MM/DD/YYYY" value="{{endDate}}"
                 (ionChange)="changeDate($event.target.value, 'endDate')">
               </ion-datetime>
             </ion-item>
@@ -39,13 +39,14 @@
       <ion-col>
         <ng-container *ngIf="incidences.length; else noData">
           <ion-list lines="full">
-            <ion-item *ngFor="let incidence of incidences; let i=index">
+            <ion-item *ngFor="let incidence of incidences; let i=index" button (click)="detail(incidence)"
+              detail="false">
               <ion-avatar slot="start">
                 <img src="./../../../assets/svg/chat.svg" />
               </ion-avatar>
               <ion-label>
                 <h2>{{incidence.type_incident.name}}</h2>
-                <h3>{{incidence.type_incident.description}}</h3>
+                <h3>{{incidence.description}}aaaaaaaaaaa</h3>
               </ion-label>
               <ion-note>{{incidence.created_at | date}}</ion-note>
             </ion-item>

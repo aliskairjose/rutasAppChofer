@@ -3,7 +3,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IncidenceService } from '../../../services/incidence.service';
 import { CommonService } from '../../../services/common.service';
 import { IncidenceType } from '../../../interfaces/incidence';
-import { ERROR_FORM } from '../../../constants/global-constants';
+import { ERROR_FORM, ACTIVE_ROUTE } from '../../../constants/global-constants';
+import { StorageService } from '../../../services/storage.service';
+import { Route } from '../../../interfaces/route';
 
 @Component( {
   selector: 'app-add',
@@ -21,6 +23,7 @@ export class AddPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private common: CommonService,
+    private storage: StorageService,
     private incidenceService: IncidenceService,
   ) {
     this.createForm();
@@ -34,12 +37,17 @@ export class AddPage implements OnInit {
 
   async onSubmit() {
     this.submitted = true;
+
+    const activeRoute: Route = await this.storage.get( ACTIVE_ROUTE ) as Route;
+    if ( activeRoute ) {
+      this.incidenceForm.controls.route_id.patchValue( activeRoute.id );
+    }
     if ( this.incidenceForm.valid ) {
       const loading = await this.common.presentLoading();
       loading.present();
-      this.incidenceService.add( this.incidenceForm.value ).subscribe( reponse => {
+      this.incidenceService.add( this.incidenceForm.value ).subscribe( ( response ) => {
         loading.dismiss();
-
+        this.common.presentToast( { message: response.message } );
       }, () => loading.dismiss() );
     }
   }
@@ -51,8 +59,8 @@ export class AddPage implements OnInit {
 
   private createForm(): void {
     this.incidenceForm = this.fb.group( {
-      lattitude: [ '', [ Validators.required ] ],
-      longitude: [ '', [ Validators.required ] ],
+      lattitude: [ '99.3213131', [ Validators.required ] ],
+      longitude: [ '87.450226', [ Validators.required ] ],
       type_incident_id: [ '', [ Validators.required ] ],
       description: [ '', [ Validators.required ] ],
       route_id: [ '' ],
