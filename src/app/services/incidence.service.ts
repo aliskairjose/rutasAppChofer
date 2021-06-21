@@ -20,7 +20,7 @@ export class IncidenceService {
   }
 
   getById( id: string ): Observable<IncidenceResponse<Incidence>> {
-    return this.http.get( `/incidents/${id}?includes[]=typeIncident&includes[]=driver&includes[]=route` );
+    return this.http.get( `/incidents/${id}?includes[]=typeIncident&includes[]=driver&includes[]=route&includes[]=solution` );
   }
 
   /**

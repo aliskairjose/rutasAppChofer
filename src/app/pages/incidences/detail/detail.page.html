@@ -24,6 +24,19 @@
             <ion-note>{{incidence.created_at | date}}</ion-note>
           </ion-item>
         </ion-list>
+        <ion-card>
+          <ion-card-content>
+            <label for="">
+              <b>Lugar: </b>
+            </label><br>
+            <label for="">
+              <b>Descripción: </b> {{incidence.description}}
+            </label><br>
+            <label for="">
+              <b>Solución: </b> {{incidence.solution}}
+            </label>
+          </ion-card-content>
+        </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
