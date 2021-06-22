@@ -25,6 +25,7 @@ export interface Incidence {
   type_incident_id?: number;
   type_incident?: IncidenceType;
   driver?: Driver;
+  solution?: string;
 }
 
 

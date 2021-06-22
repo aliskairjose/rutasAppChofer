@@ -54,7 +54,9 @@ export class AddPage implements OnInit {
 
   radioCheck( value: string ): void {
     this.incidenceForm.value.solution = value;
-    ( value === 'no' ) ? this.isHidde = true : this.isHidde = false;
+    ( value === '0' ) ? this.isHidde = true : this.isHidde = false;
+    this.incidenceForm.controls.solve.patchValue( value );
+
   }
 
   private createForm(): void {
@@ -64,6 +66,8 @@ export class AddPage implements OnInit {
       type_incident_id: [ '', [ Validators.required ] ],
       description: [ '', [ Validators.required ] ],
       route_id: [ '' ],
+      solution: [ '' ],
+      solve: [ '0' ],
     } );
   }
 
