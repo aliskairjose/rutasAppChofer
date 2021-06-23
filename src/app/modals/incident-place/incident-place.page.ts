@@ -88,10 +88,6 @@ export class IncidentPlacePage implements OnInit {
       } );
   }
 
-  // FUNCION DEL BOTON INFERIOR PARA QUE NOS DIGA LAS COORDENADAS DEL LUGAR EN EL QUE POSICIONAMOS EL PIN.
-  ShowCords() {
-    alert( 'lat' + this.lat + ', long' + this.long );
-  }
 
   // AUTOCOMPLETE, SIMPLEMENTE ACTUALIZAMOS LA LISTA CON CADA EVENTO DE ION CHANGE EN LA VISTA.
   UpdateSearchResults() {
