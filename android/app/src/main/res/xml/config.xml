@@ -11,6 +11,17 @@
     <param name="onload" value="true"/>
   </feature>
 
+  <feature name="BackgroundMode">
+    <param name="android-package" value="de.appplant.cordova.plugin.background.BackgroundMode"/>
+  </feature>
+  <feature name="BackgroundModeExt">
+    <param name="android-package" value="de.appplant.cordova.plugin.background.BackgroundModeExt"/>
+  </feature>
+
+  <feature name="Device">
+    <param name="android-package" value="org.apache.cordova.device.Device"/>
+  </feature>
+
   <feature name="Geolocation">
     <param name="android-package" value="org.apache.cordova.geolocation.Geolocation"/>
   </feature>

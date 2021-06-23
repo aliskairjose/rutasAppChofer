@@ -26,6 +26,7 @@ import { BackgroundGeolocation } from '@ionic-native/background-geolocation/ngx'
 
 import localeEs from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
+import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 
 registerLocaleData( localeEs );
 @NgModule( {
@@ -48,12 +49,13 @@ registerLocaleData( localeEs );
     FeedbackPageModule,
     AngularFireModule.initializeApp( environment.firebase ),
     AngularFirestoreModule,
-    AngularFireAuthModule,
+    AngularFireAuthModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es' },
     BackgroundGeolocation,
     Geolocation,
+    NativeGeocoder,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
   ],

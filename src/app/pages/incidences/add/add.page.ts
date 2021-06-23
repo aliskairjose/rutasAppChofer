@@ -6,6 +6,7 @@ import { IncidenceType } from '../../../interfaces/incidence';
 import { ERROR_FORM, ACTIVE_ROUTE } from '../../../constants/global-constants';
 import { StorageService } from '../../../services/storage.service';
 import { Route } from '../../../interfaces/route';
+import { IncidentPlacePage } from '../../../modals/incident-place/incident-place.page';
 
 @Component( {
   selector: 'app-add',
@@ -19,6 +20,7 @@ export class AddPage implements OnInit {
   isHidde = true;
   incidenceTypes: IncidenceType[] = [];
   errorForm = ERROR_FORM;
+  place = '';
 
   constructor(
     private fb: FormBuilder,
@@ -59,10 +61,24 @@ export class AddPage implements OnInit {
 
   }
 
+  /**
+   * @description Registro del usuario google
+   */
+  async selectIncidentPlace(): Promise<void> {
+    const modal = await this.common.presentModal( { component: IncidentPlacePage, cssClass: '' } );
+    modal.present();
+    const modalData = await modal.onDidDismiss();
+    if ( modalData.data ) {
+      this.place = modalData.data.place;
+      this.incidenceForm.controls.lattitude.patchValue( modalData.data.lattitude );
+      this.incidenceForm.controls.longitude.patchValue( modalData.data.longitude );
+    }
+  }
+
   private createForm(): void {
     this.incidenceForm = this.fb.group( {
-      lattitude: [ '99.3213131', [ Validators.required ] ],
-      longitude: [ '87.450226', [ Validators.required ] ],
+      lattitude: [ '', [] ],
+      longitude: [ '', [] ],
       type_incident_id: [ '', [ Validators.required ] ],
       description: [ '', [ Validators.required ] ],
       route_id: [ '' ],

@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Plugins } from '@capacitor/core';
 import {
-  BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationEvents,
-  BackgroundGeolocationResponse
+  BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationEvents, BackgroundGeolocationResponse
 } from '@ionic-native/background-geolocation/ngx';
 import { Platform } from '@ionic/angular';
 
@@ -44,16 +43,29 @@ export class AppComponent implements OnInit {
         desiredAccuracy: 10,
         stationaryRadius: 10,
         distanceFilter: 10,
-        debug: true,
-        interval: 60000,
-        fastestInterval: 120000,
+        interval: 6000,
+        fastestInterval: 12000,
         stopOnTerminate: false,
         startForeground: true,
+        startOnBoot: true,
         notificationTitle: 'Rutas Panamá Chofer',
         notificationText: 'Aplicación en segundo plano',
       };
 
       this.backgroundGeolocation.configure( options ).then( () => {
+
+        this.backgroundGeolocation
+          .on( BackgroundGeolocationEvents.background )
+          .subscribe( ( response: BackgroundGeolocationResponse ) => {
+            console.log( '[INFO] App is in background' );
+            window.app.backgroundGeolocation.start();
+          } );
+        this.backgroundGeolocation
+          .on( BackgroundGeolocationEvents.foreground )
+          .subscribe( ( response: BackgroundGeolocationResponse ) => {
+            console.log( '[INFO] App is in foreground' );
+          } );
+
         this.backgroundGeolocation
           .on( BackgroundGeolocationEvents.location )
           .subscribe( async ( location: BackgroundGeolocationResponse ) => {
