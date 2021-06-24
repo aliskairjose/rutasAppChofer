@@ -61,7 +61,11 @@ export class AuthenticationPage implements OnInit {
         this.loginForm.reset();
         loading.dismiss();
         this.router.navigate( [ '/sidemenu/inicio' ] );
-      }, () => loading.dismiss() );
+      }, ( error ) => {
+        loading.dismiss();
+        console.log( error );
+
+      } );
     }
   }
 
