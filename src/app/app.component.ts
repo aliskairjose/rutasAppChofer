@@ -10,6 +10,8 @@ import { TOKEN, ACTIVE_ROUTE } from './constants/global-constants';
 import { StorageService } from './services/storage.service';
 import { RouteService } from './services/route.service';
 import { Route } from './interfaces/route';
+import { InicioPage } from './pages/inicio/inicio.page';
+
 const { SplashScreen } = Plugins;
 declare var window;
 @Component( {
@@ -23,6 +25,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private platform: Platform,
     private storage: StorageService,
+    private inicioPage: InicioPage,
     private routeService: RouteService,
     private backgroundGeolocation: BackgroundGeolocation,
   ) {
@@ -75,7 +78,9 @@ export class AppComponent implements OnInit {
               longitude: location.longitude,
               latitude: location.latitude,
             };
-            this.routeService.routePosition( data ).subscribe( ( response ) => console.log( response.message ) );
+            this.routeService.routePosition( data ).subscribe( ( response ) => {
+              this.inicioPage.updateBusPosition( { lattitude: location.latitude, longitude: location.longitude } );
+            } );
           } );
       } );
 
