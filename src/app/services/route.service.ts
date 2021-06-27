@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from './http.service';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Route } from '../interfaces/route';
 import { map } from 'rxjs/operators';
 import { CommonService } from './common.service';
@@ -9,6 +9,7 @@ import { CommonService } from './common.service';
   providedIn: 'root'
 } )
 export class RouteService {
+  position$: Subject<any> = new Subject<any>();
 
   constructor(
     private http: HttpService,
@@ -86,5 +87,20 @@ export class RouteService {
 
   private toastMessage( message: string ): void {
     this.common.presentToast( { message } );
+  }
+
+  /**
+   * @description Genera el stream de eventos usando next() para crear el evento
+   */
+  positionSubject( pos: any ): void {
+    this.position$.next( pos );
+  }
+
+  /**
+   * @description Creación del observer mediante el método asObserver(), el cual sera consumido por el componente
+   * @returns Observable
+   */
+  positionObserver(): Observable<any> {
+    return this.position$.asObservable();
   }
 }

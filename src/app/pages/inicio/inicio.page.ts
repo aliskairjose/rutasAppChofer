@@ -6,6 +6,7 @@ import { MAP } from '../../constants/global-constants';
 import { CommonService } from '../../services/common.service';
 import { SidemenuPage } from '../sidemenu/sidemenu.page';
 import { ActivatedRoute } from '@angular/router';
+import { RouteService } from '../../services/route.service';
 declare var google: any;
 
 @Component( {
@@ -27,10 +28,12 @@ export class InicioPage implements OnInit {
 
   constructor(
     private common: CommonService,
+    private routeService: RouteService,
     public userService: UserService,
     private geolocation: Geolocation,
     private sideMenu: SidemenuPage
   ) {
+    this.routeService.positionObserver().subscribe( pos => this.updateBusPosition( pos ) );
     this.userService
       .flowhObserver()
       .subscribe( flow => { if ( [ 0, 2, 3 ].includes( flow ) ) { this.ngOnInit(); } } );
@@ -240,7 +243,7 @@ export class InicioPage implements OnInit {
 
   }
 
-  async updateBusPosition( { ...params } ) {
+  async updateBusPosition( params ) {
     const position = { lat: parseFloat( params.lattitude ), lng: parseFloat( params.longitude ) };
     this.trackMarker?.setMap( null );
     this.trackMarker = new google.maps.Marker( {
