@@ -10,6 +10,8 @@ import { TOKEN, ACTIVE_ROUTE } from './constants/global-constants';
 import { StorageService } from './services/storage.service';
 import { RouteService } from './services/route.service';
 import { Route } from './interfaces/route';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { ForegroundService } from '@ionic-native/foreground-service/ngx';
 
 const { SplashScreen } = Plugins;
 declare var window;
@@ -25,6 +27,8 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private storage: StorageService,
     private routeService: RouteService,
+    private backgroundMode: BackgroundMode,
+    private foregroundService: ForegroundService,
     private backgroundGeolocation: BackgroundGeolocation,
   ) {
     this.initializeApp();
@@ -40,6 +44,11 @@ export class AppComponent implements OnInit {
       const route = isLoggedin ? '/sidemenu/inicio' : '/initial';
       this.router.navigate( [ route ] );
 
+      this.backgroundMode.enable();
+      this.backgroundMode.on( 'activate' ).subscribe( () => {
+
+      } );
+
       const options: BackgroundGeolocationConfig = {
         desiredAccuracy: 10,
         stationaryRadius: 10,
@@ -53,24 +62,23 @@ export class AppComponent implements OnInit {
         notificationText: 'Aplicación en segundo plano',
       };
 
-      this.backgroundGeolocation.configure( options ).then( () => {
+      this.backgroundGeolocation.configure( options ).then( async () => {
+        const activeRoute: Route = await ( this.storage.get( ACTIVE_ROUTE ) ) as Route;
 
         this.backgroundGeolocation
           .on( BackgroundGeolocationEvents.background )
-          .subscribe( ( response: BackgroundGeolocationResponse ) => {
-            console.log( '[INFO] App is in background' );
-            window.app.backgroundGeolocation.start();
+          .subscribe( ( location: BackgroundGeolocationResponse ) => {
+            console.log( '[INFO] App is in background', location );
           } );
         this.backgroundGeolocation
           .on( BackgroundGeolocationEvents.foreground )
-          .subscribe( ( response: BackgroundGeolocationResponse ) => {
-            console.log( '[INFO] App is in foreground' );
+          .subscribe( ( location: BackgroundGeolocationResponse ) => {
+            console.log( '[INFO] App is in foreground', location );
           } );
 
         this.backgroundGeolocation
           .on( BackgroundGeolocationEvents.location )
           .subscribe( async ( location: BackgroundGeolocationResponse ) => {
-            const activeRoute: Route = await ( this.storage.get( ACTIVE_ROUTE ) ) as Route;
             const data = {
               route_id: activeRoute.id,
               longitude: location.longitude,

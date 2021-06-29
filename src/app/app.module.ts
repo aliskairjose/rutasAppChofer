@@ -27,6 +27,8 @@ import { BackgroundGeolocation } from '@ionic-native/background-geolocation/ngx'
 import localeEs from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { ForegroundService } from '@ionic-native/foreground-service/ngx';
 
 registerLocaleData( localeEs );
 @NgModule( {
@@ -56,6 +58,8 @@ registerLocaleData( localeEs );
     BackgroundGeolocation,
     Geolocation,
     NativeGeocoder,
+    BackgroundMode,
+    ForegroundService,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
   ],
