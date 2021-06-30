@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Plugins } from '@capacitor/core';
 import {
   BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationEvents, BackgroundGeolocationResponse
@@ -10,9 +10,15 @@ import { TOKEN, ACTIVE_ROUTE } from './constants/global-constants';
 import { StorageService } from './services/storage.service';
 import { RouteService } from './services/route.service';
 import { Route } from './interfaces/route';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { ForegroundService } from '@ionic-native/foreground-service/ngx';
+const { BackgroundGeolocation: BackgroundLocation } = Plugins;
 
+import {
+  BgLocationEvent,
+  BgGeolocationAccuracy,
+} from 'capacitor-background-geolocation';
 const { SplashScreen } = Plugins;
 declare var window;
 @Component( {
@@ -26,6 +32,7 @@ export class AppComponent implements OnInit {
     private router: Router,
     private platform: Platform,
     private storage: StorageService,
+    private geolocation: Geolocation,
     private routeService: RouteService,
     private backgroundMode: BackgroundMode,
     private foregroundService: ForegroundService,
@@ -43,55 +50,79 @@ export class AppComponent implements OnInit {
       const isLoggedin = await this.storage.get( TOKEN );
       const route = isLoggedin ? '/sidemenu/inicio' : '/initial';
       this.router.navigate( [ route ] );
-
-      this.backgroundMode.enable();
-      this.backgroundMode.on( 'activate' ).subscribe( () => {
-
-      } );
-
       const options: BackgroundGeolocationConfig = {
         desiredAccuracy: 10,
         stationaryRadius: 10,
         distanceFilter: 10,
         interval: 6000,
         fastestInterval: 12000,
-        stopOnTerminate: false,
-        startForeground: true,
-        startOnBoot: true,
+        stopOnTerminate: true,
         notificationTitle: 'Rutas Panamá Chofer',
         notificationText: 'Aplicación en segundo plano',
       };
 
-      this.backgroundGeolocation.configure( options ).then( async () => {
-        const activeRoute: Route = await ( this.storage.get( ACTIVE_ROUTE ) ) as Route;
+      this.backgroundGeolocation.configure( options );
 
-        this.backgroundGeolocation
-          .on( BackgroundGeolocationEvents.background )
-          .subscribe( ( location: BackgroundGeolocationResponse ) => {
-            console.log( '[INFO] App is in background', location );
-          } );
-        this.backgroundGeolocation
-          .on( BackgroundGeolocationEvents.foreground )
-          .subscribe( ( location: BackgroundGeolocationResponse ) => {
-            console.log( '[INFO] App is in foreground', location );
-          } );
+      this.foregroundService.start( 'Rutas Panama', 'Tracking' );
 
-        this.backgroundGeolocation
-          .on( BackgroundGeolocationEvents.location )
-          .subscribe( async ( location: BackgroundGeolocationResponse ) => {
+      this.backgroundMode.enable();
+      this.backgroundMode.on( 'activate' ).subscribe( () => {
+        // this.backgroundMode.disableBatteryOptimizations();
+        // this.backgroundMode.disableWebViewOptimizations();
+        console.log( '[INFO] App is in backgroundMode.on' );
+        this.backGroudPositions();
+        setInterval( () => console.log( 'en espera' ), 3000 );
+      } );
+
+      this.backgroundGeolocation
+        .on( BackgroundGeolocationEvents.location )
+        .subscribe( async ( location: BackgroundGeolocationResponse ) => {
+          const activeRoute: Route = await ( this.storage.get( ACTIVE_ROUTE ) ) as Route;
+          if ( activeRoute ) {
             const data = {
               route_id: activeRoute.id,
               longitude: location.longitude,
               latitude: location.latitude,
             };
-            this.routeService.routePosition( data ).subscribe( ( response ) => {
-              const pos = { lattitude: location.latitude, longitude: location.longitude };
-              this.routeService.positionSubject( pos );
-            } );
-          } );
-      } );
+            this.setPosition( data );
+          }
+
+        } );
 
       window.app = this;
+    } );
+  }
+
+  async backGroudPositions() {
+    const activeRoute: Route = await ( this.storage.get( ACTIVE_ROUTE ) ) as Route;
+    BackgroundLocation.initialize( {
+      notificationText: 'enviando ubicación.',
+      notificationTitle: 'Gestionar en ejecución',
+      updateInterval: 5000,
+      requestedAccuracy: BgGeolocationAccuracy.HIGH_ACCURACY,
+      smallIcon: 'ic_small_icon',
+      startImmediately: true,
+    } );
+    BackgroundLocation.start();
+    BackgroundLocation.addListener( 'onLocation', ( location: BgLocationEvent ) => {
+      console.log( location );
+      if ( activeRoute ) {
+        const data = {
+          route_id: activeRoute.id,
+          longitude: location.longitude,
+          latitude: location.latitude,
+        };
+        this.setPosition( data );
+        // setInterval( () => this.setPosition( data ), 5000 );
+      }
+    } );
+  }
+
+  private setPosition( data ): void {
+    console.log( data );
+    this.routeService.routePosition( data ).subscribe( () => {
+      const pos = { lattitude: data.latitude, longitude: data.longitude };
+      this.routeService.positionSubject( pos );
     } );
   }
 
