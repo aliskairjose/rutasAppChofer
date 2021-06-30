@@ -47,15 +47,27 @@ export class AppComponent implements OnInit {
   initializeApp(): void {
     this.platform.ready().then( async () => {
       SplashScreen.hide();
+
       const isLoggedin = await this.storage.get( TOKEN );
       const route = isLoggedin ? '/sidemenu/inicio' : '/initial';
       this.router.navigate( [ route ] );
+
+      BackgroundLocation.initialize( {
+        notificationText: 'enviando ubicación.',
+        notificationTitle: 'Rutas en ejecución',
+        updateInterval: 120000,
+        requestedAccuracy: BgGeolocationAccuracy.HIGH_ACCURACY,
+        smallIcon: 'ic_small_icon',
+        startImmediately: true,
+      } );
+
       const options: BackgroundGeolocationConfig = {
+        startForeground: true,
         desiredAccuracy: 10,
         stationaryRadius: 10,
         distanceFilter: 10,
-        interval: 6000,
-        fastestInterval: 12000,
+        interval: 60000,
+        fastestInterval: 120000,
         stopOnTerminate: true,
         notificationTitle: 'Rutas Panamá Chofer',
         notificationText: 'Aplicación en segundo plano',
@@ -63,16 +75,21 @@ export class AppComponent implements OnInit {
 
       this.backgroundGeolocation.configure( options );
 
-      this.foregroundService.start( 'Rutas Panama', 'Tracking' );
-
       this.backgroundMode.enable();
-      this.backgroundMode.on( 'activate' ).subscribe( () => {
-        // this.backgroundMode.disableBatteryOptimizations();
-        // this.backgroundMode.disableWebViewOptimizations();
-        console.log( '[INFO] App is in backgroundMode.on' );
-        this.backGroudPositions();
-        setInterval( () => console.log( 'en espera' ), 3000 );
-      } );
+
+      this.backgroundGeolocation
+        .on( BackgroundGeolocationEvents.background )
+        .subscribe( () => {
+          this.foregroundService.start( 'Rutas Panamá Chofer', 'Background Service', 'drawable/fsicon' );
+          BackgroundLocation.start();
+          this.backGroundPositions();
+        } );
+
+      this.backgroundGeolocation
+        .on( BackgroundGeolocationEvents.foreground ).subscribe( () => {
+          BackgroundLocation.stop();
+          this.foregroundService.stop();
+        } );
 
       this.backgroundGeolocation
         .on( BackgroundGeolocationEvents.location )
@@ -93,19 +110,9 @@ export class AppComponent implements OnInit {
     } );
   }
 
-  async backGroudPositions() {
-    const activeRoute: Route = await ( this.storage.get( ACTIVE_ROUTE ) ) as Route;
-    BackgroundLocation.initialize( {
-      notificationText: 'enviando ubicación.',
-      notificationTitle: 'Gestionar en ejecución',
-      updateInterval: 5000,
-      requestedAccuracy: BgGeolocationAccuracy.HIGH_ACCURACY,
-      smallIcon: 'ic_small_icon',
-      startImmediately: true,
-    } );
-    BackgroundLocation.start();
-    BackgroundLocation.addListener( 'onLocation', ( location: BgLocationEvent ) => {
-      console.log( location );
+  async backGroundPositions() {
+    BackgroundLocation.addListener( 'onLocation', async ( location: BgLocationEvent ) => {
+      const activeRoute: Route = await ( this.storage.get( ACTIVE_ROUTE ) ) as Route;
       if ( activeRoute ) {
         const data = {
           route_id: activeRoute.id,
@@ -113,14 +120,12 @@ export class AppComponent implements OnInit {
           latitude: location.latitude,
         };
         this.setPosition( data );
-        // setInterval( () => this.setPosition( data ), 5000 );
       }
     } );
   }
 
   private setPosition( data ): void {
-    console.log( data );
-    this.routeService.routePosition( data ).subscribe( () => {
+    this.routeService.routePosition( data ).subscribe( ( response ) => {
       const pos = { lattitude: data.latitude, longitude: data.longitude };
       this.routeService.positionSubject( pos );
     } );
