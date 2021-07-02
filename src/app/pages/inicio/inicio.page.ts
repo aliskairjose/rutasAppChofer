@@ -89,7 +89,6 @@ export class InicioPage implements OnInit {
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.map
     };
-    // const map: google.maps.Map = new google.maps.Map( this.mapElement.nativeElement, mapOptions );
 
     // actualizamos el mapa y limpiamos la rutas previas
     await this.updateMap( [ data ], '', this.map );

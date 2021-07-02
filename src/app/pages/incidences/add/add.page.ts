@@ -7,6 +7,7 @@ import { ERROR_FORM, ACTIVE_ROUTE } from '../../../constants/global-constants';
 import { StorageService } from '../../../services/storage.service';
 import { Route } from '../../../interfaces/route';
 import { IncidentPlacePage } from '../../../modals/incident-place/incident-place.page';
+import { Router } from '@angular/router';
 
 @Component( {
   selector: 'app-add',
@@ -23,6 +24,7 @@ export class AddPage implements OnInit {
   place = '';
 
   constructor(
+    private router: Router,
     private fb: FormBuilder,
     private common: CommonService,
     private storage: StorageService,
@@ -50,6 +52,7 @@ export class AddPage implements OnInit {
       this.incidenceService.add( this.incidenceForm.value ).subscribe( ( response ) => {
         loading.dismiss();
         this.common.presentToast( { message: response.message } );
+        this.router.navigate( [ '/incidences' ] );
       }, () => loading.dismiss() );
     }
   }
@@ -69,6 +72,7 @@ export class AddPage implements OnInit {
     modal.present();
     const modalData = await modal.onDidDismiss();
     if ( modalData.data ) {
+      console.log( modalData )
       this.place = modalData.data.place;
       this.incidenceForm.controls.lattitude.patchValue( modalData.data.lattitude );
       this.incidenceForm.controls.longitude.patchValue( modalData.data.longitude );
