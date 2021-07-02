@@ -30,6 +30,10 @@
     <param name="android-package" value="org.apache.cordova.geolocation.Geolocation"/>
   </feature>
 
+  <feature name="NativeGeocoder">
+    <param name="android-package" value="cordova.plugin.nativegeocoder.NativeGeocoder"/>
+  </feature>
+
   <feature name="NativeStorage">
     <param name="android-package" value="NativeStorage"/>
   </feature>

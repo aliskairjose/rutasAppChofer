@@ -52,15 +52,45 @@ export class IncidentPlacePage implements OnInit {
 
       // CUANDO TENEMOS LAS COORDENADAS SIMPLEMENTE NECESITAMOS PASAR AL MAPA DE GOOGLE TODOS LOS PARAMETROS.
       this.getAddressFromCoords( resp.coords.latitude, resp.coords.longitude );
+
       this.map = new google.maps.Map( this.mapElement.nativeElement, mapOptions );
+
       this.map.addListener( 'tilesloaded', () => {
         this.getAddressFromCoords( this.map.center.lat(), this.map.center.lng() );
         this.lat = this.map.center.lat();
         this.long = this.map.center.lng();
       } );
+
+      this.map.addListener( 'click', ( mapsMouseEvent ) => {
+        const coord = mapsMouseEvent.latLng.toJSON();
+        this.getLocationInfo( coord.lat, coord.lng );
+      } );
+
     } ).catch( ( error ) => {
       console.log( 'Error getting location', error );
     } );
+
+  }
+
+  async getLocationInfo( lattitude, longitude ) {
+    console.log( 'getAddress' );
+    const options: NativeGeocoderOptions = {
+      useLocale: true,
+      maxResults: 1
+    };
+
+    const result: NativeGeocoderResult[] = await this.nativeGeocoder.reverseGeocode( lattitude, longitude, options );
+
+    const detail = result[ 0 ];
+    console.log( detail );
+
+    const coord = {
+      place: detail.thoroughfare,
+      lattitude,
+      longitude
+    };
+    await this.modalController.dismiss( coord );
+
   }
 
   getAddressFromCoords( lattitude, longitude ) {
@@ -90,7 +120,7 @@ export class IncidentPlacePage implements OnInit {
 
 
   // AUTOCOMPLETE, SIMPLEMENTE ACTUALIZAMOS LA LISTA CON CADA EVENTO DE ION CHANGE EN LA VISTA.
-  UpdateSearchResults() {
+  updateSearchResults() {
     if ( this.autocomplete.input === '' ) {
       this.autocompleteItems = [];
       return;
@@ -119,14 +149,9 @@ export class IncidentPlacePage implements OnInit {
 
 
   // LLAMAMOS A ESTA FUNCION PARA LIMPIAR LA LISTA CUANDO PULSAMOS IONCLEAR.
-  ClearAutocomplete() {
+  clearAutocomplete() {
     this.autocompleteItems = [];
     this.autocomplete.input = '';
-  }
-
-  // EJEMPLO PARA IR A UN LUGAR DESDE UN LINK EXTERNO, ABRIR GOOGLE MAPS PARA DIRECCIONES.
-  GoTo() {
-    return window.location.href = 'https://www.google.com/maps/search/?api=1&query=Google&query_place_id=' + this.placeid;
   }
 
 }

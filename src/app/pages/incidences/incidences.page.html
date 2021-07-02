@@ -29,7 +29,7 @@
               </ion-datetime>
             </ion-item>
           </div>
-          <ion-button (click)="search()" color="tertiary">
+          <ion-button (click)="search()" color="tertiary" [disabled]="isDisabled">
             <ion-icon slot="icon-only" name="search-outline"></ion-icon>
           </ion-button>
         </div>
@@ -62,7 +62,7 @@
   </ion-grid>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="tertiary" [routerLink]="['add']">
+    <ion-fab-button color="tertiary" [routerLink]="['add']" [disabled]="isDisabled">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

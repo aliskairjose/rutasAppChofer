@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="UpdateSearchResults()" placeholder="Buscar el sitio"
-      (ionClear)="ClearAutocomplete()"></ion-searchbar>
+    <ion-searchbar [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()" placeholder="Buscar el sitio"
+      (ionClear)="clearAutocomplete()"></ion-searchbar>
   </ion-toolbar>
   <ion-list [hidden]="autocompleteItems.length == 0">
     <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
@@ -12,9 +12,6 @@
 </ion-header>
 <ion-content>
   <div class="map-wrapper" style="height: 100%;">
-    <div id="map_center">
-      <ion-icon name="pin" size="large" color="danger"></ion-icon>
-    </div>
     <div #map id="map" style="height: 100%;"></div>
   </div>
 </ion-content>
