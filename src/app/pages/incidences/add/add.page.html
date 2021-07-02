@@ -53,6 +53,13 @@
                 <ion-textarea placeholder="Descripcion de la solución" formControlName="solution">
                 </ion-textarea>
               </ion-item>
+              <div *ngIf="submitted && f.solution?.errors">
+                <div *ngIf="f.solution.errors.required">
+                  <ion-label text-wrap color="danger">
+                    {{errorForm.required}}
+                  </ion-label>
+                </div>
+              </div>
 
               <div class="ion-margin-top ion-text-center">
                 <div class="radio-solution">

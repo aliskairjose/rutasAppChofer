@@ -59,7 +59,14 @@ export class AddPage implements OnInit {
 
   radioCheck( value: string ): void {
     this.incidenceForm.value.solution = value;
-    ( value === '0' ) ? this.isHidde = true : this.isHidde = false;
+    if ( value === '0' ) {
+      this.isHidde = true;
+      this.incidenceForm.controls.solution.setValidators( null );
+    } else {
+      this.isHidde = false;
+      this.incidenceForm.controls.solution.setValidators( [ Validators.required ] );
+    }
+    this.incidenceForm.controls.solution.updateValueAndValidity();
     this.incidenceForm.controls.solved.patchValue( value );
 
   }
