@@ -1,8 +1,11 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button icon="chevron-back-outline">
-      </ion-back-button>
+      <!-- <ion-back-button icon="chevron-back-outline">
+      </ion-back-button> -->
+      <ion-button (click)="onClick()" class="back-button">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>Incidencias</ion-title>
   </ion-toolbar>

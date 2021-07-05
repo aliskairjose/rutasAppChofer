@@ -7,6 +7,7 @@ import { StorageService } from '../../services/storage.service';
 import { ACTIVE_ROUTE } from '../../constants/global-constants';
 import { Route } from '../../interfaces/route';
 import { Router } from '@angular/router';
+import { UserService } from '../../services/user.service';
 @Component( {
   selector: 'app-incidences',
   templateUrl: './incidences.page.html',
@@ -29,6 +30,7 @@ export class IncidencesPage implements OnInit {
     private router: Router,
     private common: CommonService,
     private storage: StorageService,
+    private userService: UserService,
     private incidenceService: IncidenceService
   ) {
     this.initDate = `${this.iDate.getFullYear()}/${this.iDate.getMonth() + 1}/${this.iDate.getDate()}`;
@@ -51,6 +53,12 @@ export class IncidencesPage implements OnInit {
   detail( incidence: Incidence ): void {
     this.router.navigate( [ `incidences/detail/${incidence.id}` ] );
 
+  }
+
+  onClick(): void {
+    console.log( 'onClick' );
+    this.router.navigate( [ '/sidemenu/inicio' ] );
+    this.userService.rutasFlow = 0;
   }
 
   async incidenceList() {

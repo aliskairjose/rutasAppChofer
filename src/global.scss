@@ -687,3 +687,10 @@ ion-back-button {
   border-radius: 100%;
   margin: 10px 10px;
 }
+
+.back-button {
+  --background: var(--rp-color-primary) !important;
+  --color: var(--rp-color-secondary) !important;
+  border-radius: 100%;
+  margin: 10px 10px;
+}
