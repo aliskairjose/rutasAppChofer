@@ -57,6 +57,7 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
   seats = [];
   showScan = false;
   user: User = {};
+  route: Route = {};
 
   constructor(
     private plt: Platform,
@@ -72,7 +73,7 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
     this.userService.flowhObserver().subscribe( flow => this.userService.rutasFlow = flow );
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     window.addEventListener( 'keyboardWillShow', ( e ) => {
       this.gesture.enable( false );
       if ( this.isOpen ) {
@@ -83,7 +84,16 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
     Keyboard.addListener( 'keyboardDidHide', () => {
       this.gesture.enable( true );
     } );
+
+    const user: any = await this.storage.getUser();
+    const loading = await this.common.presentLoading();
+    loading.present();
+    this.routeService.list( user.id ).subscribe( ( routes: Route[] ) => {
+      this.route = routes[ 0 ];
+      loading.dismiss();
+    }, () => loading.dismiss() );
   }
+
 
   async ngAfterViewInit() {
     this.bottomDrawerElement = this.bottomDrawer.nativeElement;
@@ -125,7 +135,7 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
         }
       },
       onStart: ev => {
-        console.log( 'mango', !this.isOpen );
+        // console.log( 'mango', !this.isOpen );
       }
     } );
     this.gesture.enable( true );
