@@ -63,17 +63,12 @@ export class IncidencesPage implements OnInit {
 
   async incidenceList() {
     const activeRoute: Route = await this.storage.get( ACTIVE_ROUTE ) as Route;
-    if ( !activeRoute ) {
-      const message = '!No ha iniciado una ruta para listar incidencias!';
-      this.common.presentToast( { message } );
-      this.isDisabled = true;
-      return;
-    }
     this.data = {
-      route_id: activeRoute.id,
       start_date: this.initDate,
       end_date: this.endDate
     };
+
+    if ( activeRoute ) { this.data.route_id = activeRoute.id; }
 
     const loading = await this.common.presentLoading();
     loading.present();
