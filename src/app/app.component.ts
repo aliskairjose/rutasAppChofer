@@ -55,7 +55,7 @@ export class AppComponent implements OnInit {
       BackgroundLocation.initialize( {
         notificationText: 'enviando ubicación.',
         notificationTitle: 'Rutas en ejecución',
-        updateInterval: 120000,
+        updateInterval: 480000,
         requestedAccuracy: BgGeolocationAccuracy.HIGH_ACCURACY,
         smallIcon: 'ic_small_icon',
         startImmediately: true,
