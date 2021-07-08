@@ -10,7 +10,7 @@ import { ModalController } from '@ionic/angular';
 } )
 export class IncidentPlacePage implements OnInit {
 
-  map: any;
+  map: google.maps.Map;
   address: string;
   lat: string;
   long: string;
@@ -51,14 +51,14 @@ export class IncidentPlacePage implements OnInit {
       };
 
       // CUANDO TENEMOS LAS COORDENADAS SIMPLEMENTE NECESITAMOS PASAR AL MAPA DE GOOGLE TODOS LOS PARAMETROS.
-      this.getAddressFromCoords( resp.coords.latitude, resp.coords.longitude );
+      // this.getAddressFromCoords( resp.coords.latitude, resp.coords.longitude );
 
       this.map = new google.maps.Map( this.mapElement.nativeElement, mapOptions );
 
       this.map.addListener( 'tilesloaded', () => {
-        this.getAddressFromCoords( this.map.center.lat(), this.map.center.lng() );
-        this.lat = this.map.center.lat();
-        this.long = this.map.center.lng();
+        this.getAddressFromCoords( latLng.lat(), latLng.lng() );
+        this.lat = latLng.lat() + '';
+        this.long = latLng.lng() + '';
       } );
 
       this.map.addListener( 'click', ( mapsMouseEvent ) => {
