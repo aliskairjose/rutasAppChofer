@@ -23,6 +23,7 @@ export class IncidentPlacePage implements OnInit {
   placeid: any;
   GoogleAutocomplete: any;
   coords: any;
+  zoom = 18;
 
   @ViewChild( 'map', { static: false } ) mapElement: ElementRef;
 
@@ -69,6 +70,40 @@ export class IncidentPlacePage implements OnInit {
   clearAutocomplete() {
     this.autocompleteItems = [];
     this.autocomplete.input = '';
+  }
+
+  clickLocationEvent( event ): void {
+    this.getLocationInfo( event.coords.lat, event.coords.lng );
+  }
+
+  // FUNCION QUE LLAMAMOS DESDE EL ITEM DE LA LISTA.
+  async selectSearchResult( item ) {
+    console.log( item );
+    const coord = {
+      place: item.description,
+      lattitude: this.lat,
+      longitude: this.long
+    };
+    await this.modalController.dismiss( coord );
+
+  }
+
+  private async getLocationInfo( lattitude, longitude ) {
+    const options: NativeGeocoderOptions = {
+      useLocale: true,
+      maxResults: 1
+    };
+
+    const result: NativeGeocoderResult[] = await this.nativeGeocoder.reverseGeocode( lattitude, longitude, options );
+
+    const detail = result[ 0 ];
+    const coord = {
+      place: detail.thoroughfare,
+      lattitude,
+      longitude
+    };
+    await this.modalController.dismiss( coord );
+
   }
 
 }

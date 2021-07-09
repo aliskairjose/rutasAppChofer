@@ -11,7 +11,8 @@
 
 </ion-header>
 <ion-content>
-  <agm-map [latitude]="coords?.latitude" [longitude]="coords?.longitude">
+  <agm-map [latitude]="coords?.latitude" [longitude]="coords?.longitude" [zoom]="zoom"
+    (mapClick)="clickLocationEvent($event)">
     <agm-marker [latitude]="coords?.latitude" [longitude]="coords?.longitude"></agm-marker>
   </agm-map>
   <!-- <div class="map-wrapper" style="height: 100%;">
