@@ -2,7 +2,7 @@ import { SoportePageModule } from './pages/soporte/soporte.module';
 import { InicioPageModule } from './pages/inicio/inicio.module';
 import { environment } from './../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { RouteReuseStrategy } from '@angular/router';
@@ -29,6 +29,7 @@ import { registerLocaleData } from '@angular/common';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { ForegroundService } from '@ionic-native/foreground-service/ngx';
+import { AgmCoreModule } from '@agm/core';
 
 registerLocaleData( localeEs );
 @NgModule( {
@@ -51,7 +52,10 @@ registerLocaleData( localeEs );
     FeedbackPageModule,
     AngularFireModule.initializeApp( environment.firebase ),
     AngularFirestoreModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AgmCoreModule.forRoot( {
+      apiKey: 'AIzaSyAFfkk5FtmXgIsbHQzmEXsyFOACA4Jj_oY'
+    } )
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'es' },
@@ -64,6 +68,7 @@ registerLocaleData( localeEs );
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }
   ],
   bootstrap: [ AppComponent ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 } )
 export class AppModule {
   constructor( private userService: UserService ) {

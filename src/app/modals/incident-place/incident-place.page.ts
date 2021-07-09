@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { NativeGeocoder, NativeGeocoderOptions, NativeGeocoderResult } from '@ionic-native/native-geocoder/ngx';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { ModalController } from '@ionic/angular';
+import { ModalController, LoadingController } from '@ionic/angular';
+import { CommonService } from '../../services/common.service';
+declare var google: any;
+
 
 @Component( {
   selector: 'app-incident-place',
@@ -19,11 +22,13 @@ export class IncidentPlacePage implements OnInit {
   location: any;
   placeid: any;
   GoogleAutocomplete: any;
+  coords: any;
 
   @ViewChild( 'map', { static: false } ) mapElement: ElementRef;
 
   constructor(
     private geolocation: Geolocation,
+    private common: CommonService,
     private nativeGeocoder: NativeGeocoder,
     public zone: NgZone,
     private modalController: ModalController,
@@ -34,90 +39,14 @@ export class IncidentPlacePage implements OnInit {
     this.autocompleteItems = [];
   }
 
-  ngOnInit() {
-    this.loadMap();
+  async ngOnInit() {
+    const message = 'Obteniendo ubicación';
+    const loading = await this.common.presentLoading( message );
+    loading.present();
+    const resp = await this.geolocation.getCurrentPosition();
+    this.coords = resp.coords;
+    loading.dismiss();
   }
-
-  // CARGAR EL MAPA TIENE DOS PARTES
-  async loadMap() {
-
-    // OBTENEMOS LAS COORDENADAS DESDE EL TELEFONO.
-    this.geolocation.getCurrentPosition().then( ( resp ) => {
-      const latLng = new google.maps.LatLng( resp.coords.latitude, resp.coords.longitude );
-      const mapOptions = {
-        center: latLng,
-        zoom: 15,
-        mapTypeId: google.maps.MapTypeId.ROADMAP
-      };
-
-      // CUANDO TENEMOS LAS COORDENADAS SIMPLEMENTE NECESITAMOS PASAR AL MAPA DE GOOGLE TODOS LOS PARAMETROS.
-      // this.getAddressFromCoords( resp.coords.latitude, resp.coords.longitude );
-
-      this.map = new google.maps.Map( this.mapElement.nativeElement, mapOptions );
-
-      this.map.addListener( 'tilesloaded', () => {
-        this.getAddressFromCoords( latLng.lat(), latLng.lng() );
-        this.lat = latLng.lat() + '';
-        this.long = latLng.lng() + '';
-      } );
-
-      this.map.addListener( 'click', ( mapsMouseEvent ) => {
-        const coord = mapsMouseEvent.latLng.toJSON();
-        this.getLocationInfo( coord.lat, coord.lng );
-      } );
-
-    } ).catch( ( error ) => {
-      console.log( 'Error getting location', error );
-    } );
-
-  }
-
-  async getLocationInfo( lattitude, longitude ) {
-    console.log( 'getAddress' );
-    const options: NativeGeocoderOptions = {
-      useLocale: true,
-      maxResults: 1
-    };
-
-    const result: NativeGeocoderResult[] = await this.nativeGeocoder.reverseGeocode( lattitude, longitude, options );
-
-    const detail = result[ 0 ];
-    console.log( detail );
-
-    const coord = {
-      place: detail.thoroughfare,
-      lattitude,
-      longitude
-    };
-    await this.modalController.dismiss( coord );
-
-  }
-
-  getAddressFromCoords( lattitude, longitude ) {
-    const options: NativeGeocoderOptions = {
-      useLocale: true,
-      maxResults: 5
-    };
-    this.nativeGeocoder.reverseGeocode( lattitude, longitude, options )
-      .then( ( result: NativeGeocoderResult[] ) => {
-        this.address = '';
-        const responseAddress = [];
-        for ( const [ key, value ] of Object.entries( result[ 0 ] ) ) {
-          if ( value.length > 0 ) {
-            responseAddress.push( value );
-          }
-        }
-        responseAddress.reverse();
-        for ( const value of responseAddress ) {
-          this.address += value + ', ';
-        }
-        this.address = this.address.slice( 0, -2 );
-      } )
-      .catch( ( error: any ) => {
-        this.address = 'Address Not Available!';
-      } );
-  }
-
 
   // AUTOCOMPLETE, SIMPLEMENTE ACTUALIZAMOS LA LISTA CON CADA EVENTO DE ION CHANGE EN LA VISTA.
   updateSearchResults() {
@@ -135,18 +64,6 @@ export class IncidentPlacePage implements OnInit {
         } );
       } );
   }
-
-  // FUNCION QUE LLAMAMOS DESDE EL ITEM DE LA LISTA.
-  async selectSearchResult( item ) {
-    const coord = {
-      place: item.description,
-      lattitude: this.lat,
-      longitude: this.long
-    };
-    await this.modalController.dismiss( coord );
-
-  }
-
 
   // LLAMAMOS A ESTA FUNCION PARA LIMPIAR LA LISTA CUANDO PULSAMOS IONCLEAR.
   clearAutocomplete() {

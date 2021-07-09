@@ -14,10 +14,8 @@ export class CommonService {
     private alertController: AlertController
   ) { }
 
-  async presentLoading() {
-    const loading = await this.loading.create( {
-      message: 'Por favor espere...'
-    } );
+  async presentLoading( message = 'Por favor espere...' ) {
+    const loading = await this.loading.create( { message } );
     return loading;
   }
 

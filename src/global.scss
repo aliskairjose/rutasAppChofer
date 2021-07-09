@@ -31,7 +31,9 @@ ion-menu-button {
   --color: var(--rp-color-secondary);
   border-radius: 100%;
 }
-
+agm-map {
+  height: 100%;
+}
 .signupPageWrapper {
   display: flex;
   flex: 1;
