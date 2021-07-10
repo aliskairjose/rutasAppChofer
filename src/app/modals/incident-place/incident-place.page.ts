@@ -21,7 +21,8 @@ export class IncidentPlacePage implements OnInit {
   autocompleteItems: any[] = [];
   location: any;
   placeid: any;
-  GoogleAutocomplete: any;
+  googleAutocomplete: any;
+  geocoder: any;
   coords: any;
   zoom = 18;
 
@@ -35,7 +36,8 @@ export class IncidentPlacePage implements OnInit {
     private modalController: ModalController,
 
   ) {
-    this.GoogleAutocomplete = new google.maps.places.AutocompleteService();
+    this.googleAutocomplete = new google.maps.places.AutocompleteService();
+    this.geocoder = new google.maps.Geocoder();
     this.autocomplete = { input: '' };
     this.autocompleteItems = [];
   }
@@ -55,8 +57,8 @@ export class IncidentPlacePage implements OnInit {
       this.autocompleteItems = [];
       return;
     }
-    this.GoogleAutocomplete.getPlacePredictions( { input: this.autocomplete.input },
-      ( predictions, status ) => {
+    this.googleAutocomplete
+      .getPlacePredictions( { input: this.autocomplete.input }, ( predictions, status ) => {
         this.autocompleteItems = [];
         this.zone.run( () => {
           predictions.forEach( ( prediction ) => {
@@ -78,11 +80,15 @@ export class IncidentPlacePage implements OnInit {
 
   // FUNCION QUE LLAMAMOS DESDE EL ITEM DE LA LISTA.
   async selectSearchResult( item ) {
-    console.log( item );
+    const loading = await this.common.presentLoading();
+    loading.present();
+    const geoResponse = await this.geocoder.geocode( { placeId: item.place_id } );
+    loading.dismiss();
+    const location = geoResponse.results[ 0 ].geometry.location;
     const coord = {
       place: item.description,
-      lattitude: this.lat,
-      longitude: this.long
+      lattitude: location.lat(),
+      longitude: location.lng()
     };
     await this.modalController.dismiss( coord );
 

@@ -79,7 +79,6 @@ export class AddPage implements OnInit {
     modal.present();
     const modalData = await modal.onDidDismiss();
     if ( modalData.data ) {
-      console.log( modalData )
       this.place = modalData.data.place;
       this.incidenceForm.controls.lattitude.patchValue( modalData.data.lattitude );
       this.incidenceForm.controls.longitude.patchValue( modalData.data.longitude );
