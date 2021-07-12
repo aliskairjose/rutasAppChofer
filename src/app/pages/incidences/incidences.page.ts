@@ -20,7 +20,7 @@ export class IncidencesPage implements OnInit {
   initDate: string;
   endDate: string;
   currentDate: string;
-  isDisabled = false;
+  isDisabled = true;
 
   private data: IncidenceData;
   private iDate = new Date();
@@ -68,7 +68,10 @@ export class IncidencesPage implements OnInit {
       end_date: this.endDate
     };
 
-    if ( activeRoute ) { this.data.route_id = activeRoute.id; }
+    if ( activeRoute ) {
+      this.isDisabled = false;
+      this.data.route_id = activeRoute.id;
+    }
 
     const loading = await this.common.presentLoading();
     loading.present();
