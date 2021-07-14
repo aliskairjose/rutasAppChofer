@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { LoadingController, ModalController, ToastController, AlertController } from '@ionic/angular';
 
+export type Color = 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'danger' | 'light' | 'medium' | 'dark'
 @Injectable( {
   providedIn: 'root'
 } )
@@ -13,10 +14,8 @@ export class CommonService {
     private alertController: AlertController
   ) { }
 
-  async presentLoading() {
-    const loading = await this.loading.create( {
-      message: 'Por favor espere...'
-    } );
+  async presentLoading( message = 'Por favor espere...' ) {
+    const loading = await this.loading.create( { message } );
     return loading;
   }
 
@@ -38,7 +37,10 @@ export class CommonService {
    * @param duration Tiempo en milisegundos, por defecto 2000
    */
   // tslint:disable-next-line: max-line-length
-  async presentToast( { message, color = 'primary', duration = 2000 }: { message: string; color?: string; duration?: number; } ) {
+  async presentToast(
+    { message, color = 'primary', duration = 2000 }:
+      { message: string; color?: Color; duration?: number; }
+  ) {
 
     const toast = await this.toastController.create( {
       message,

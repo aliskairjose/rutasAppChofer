@@ -6,6 +6,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class CustomeTimePipe implements PipeTransform {
 
   transform( time: string ): string {
+    if ( !time ) { return; }
+
     let timeTranform = '';
 
     const _time = time.split( ':' );

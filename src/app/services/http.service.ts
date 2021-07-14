@@ -17,9 +17,9 @@ export class HttpService {
     return this._http.post( url, data );
   }
 
-  get( serviceName: string ): Observable<any> {
+  get( serviceName: string, data?: any ): Observable<any> {
     const url = environment.api + serviceName;
-    return this._http.get( url );
+    return this._http.get( url, { params: data } );
   }
 
   put( serviceName: string, data?: any ): Observable<any> {

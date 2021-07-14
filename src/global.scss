@@ -31,7 +31,9 @@ ion-menu-button {
   --color: var(--rp-color-secondary);
   border-radius: 100%;
 }
-
+agm-map {
+  height: 100%;
+}
 .signupPageWrapper {
   display: flex;
   flex: 1;
@@ -684,6 +686,13 @@ ion-note {
 ion-back-button {
   --background: var(--rp-color-primary);
   --color: var(--rp-color-secondary);
+  border-radius: 100%;
+  margin: 10px 10px;
+}
+
+.back-button {
+  --background: var(--rp-color-primary) !important;
+  --color: var(--rp-color-secondary) !important;
   border-radius: 100%;
   margin: 10px 10px;
 }

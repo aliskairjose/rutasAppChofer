@@ -14,10 +14,9 @@ import { CommonService } from '../../services/common.service';
 import { User } from '../../interfaces/user';
 import { StorageService } from '../../services/storage.service';
 import { ACTIVE_ROUTE } from '../../constants/global-constants';
-import { SidemenuPage } from '../../pages/sidemenu/sidemenu.page';
-
 const { Keyboard } = Plugins;
 
+declare var window;
 @Component( {
   selector: 'app-bottom-drawer',
   templateUrl: './bottom-drawer.component.html',
@@ -52,13 +51,13 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
   bottomPosition = -65;
   gesture;
   seatGesture;
-  dragable = true;
   rutasFlow = 0;
   scanActive = false;
   stream = null;
   seats = [];
   showScan = false;
   user: User = {};
+  route: Route = {};
 
   constructor(
     private plt: Platform,
@@ -74,9 +73,8 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
     this.userService.flowhObserver().subscribe( flow => this.userService.rutasFlow = flow );
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     window.addEventListener( 'keyboardWillShow', ( e ) => {
-      this.dragable = false;
       this.gesture.enable( false );
       if ( this.isOpen ) {
         this.toggleDrawer();
@@ -84,10 +82,18 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
     } );
 
     Keyboard.addListener( 'keyboardDidHide', () => {
-      this.dragable = true;
       this.gesture.enable( true );
     } );
+
+    const user: any = await this.storage.getUser();
+    const loading = await this.common.presentLoading();
+    loading.present();
+    this.routeService.list( user.id ).subscribe( ( routes: Route[] ) => {
+      this.route = routes[ 0 ];
+      loading.dismiss();
+    }, () => loading.dismiss() );
   }
+
 
   async ngAfterViewInit() {
     this.bottomDrawerElement = this.bottomDrawer.nativeElement;
@@ -129,7 +135,7 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
         }
       },
       onStart: ev => {
-        console.log( 'mango', !this.isOpen );
+        // console.log( 'mango', !this.isOpen );
       }
     } );
     this.gesture.enable( true );
@@ -195,7 +201,6 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
     this.openHeight = ( this.plt.height() / 100 ) * 60;
     this.userService.rutasFlow = 0;
     this.showScan = false;
-    this.dragable = false;
     this.gesture.enable( true );
     this.bottomDrawerElement.style.transition = '.4s ease-out';
     this.bottomDrawerElement.style.transform = ``;
@@ -207,6 +212,7 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
     const loading = await this.common.presentLoading();
     loading.present();
     this.routeService.start( this.selectedRoute.id ).subscribe( async ( result ) => {
+      window.app.backgroundGeolocation.start();
       await this.storage.store( ACTIVE_ROUTE, result.data.route );
       this.selectedRoute = result.data.route;
       const message = result.message;
@@ -217,6 +223,7 @@ export class BottomDrawerComponent implements AfterViewInit, OnInit {
   }
 
   endRoute( event: boolean ): void {
+    window.app.backgroundGeolocation.stop();
     if ( event ) { this.goToHome(); }
   }
 

@@ -1,10 +1,26 @@
-import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { StorageService } from './services/storage.service';
-import { TOKEN } from './constants/global-constants';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Plugins } from '@capacitor/core';
+import {
+  BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationEvents, BackgroundGeolocationResponse
+} from '@ionic-native/background-geolocation/ngx';
+import { Platform } from '@ionic/angular';
 
-const { App, BackgroundTask } = Plugins;
+import { TOKEN, ACTIVE_ROUTE } from './constants/global-constants';
+import { StorageService } from './services/storage.service';
+import { RouteService } from './services/route.service';
+import { Route } from './interfaces/route';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { ForegroundService } from '@ionic-native/foreground-service/ngx';
+const { BackgroundGeolocation: BackgroundLocation } = Plugins;
+
+import {
+  BgLocationEvent,
+  BgGeolocationAccuracy,
+} from 'capacitor-background-geolocation';
+const { SplashScreen } = Plugins;
+declare var window;
 @Component( {
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -14,41 +30,105 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
+    private platform: Platform,
     private storage: StorageService,
+    private geolocation: Geolocation,
+    private routeService: RouteService,
+    private backgroundMode: BackgroundMode,
+    private foregroundService: ForegroundService,
+    private backgroundGeolocation: BackgroundGeolocation,
   ) {
-    App.addListener( 'appStateChange', ( state ) => {
-
-      if ( !state.isActive ) {
-        // The app has become inactive. We should check if we have some work left to do, and, if so,
-        // execute a background task that will allow us to finish that work before the OS
-        // suspends or terminates our app:
-
-        const taskId = BackgroundTask.beforeExit( async () => {
-          // In this function We might finish an upload, let a network request
-          // finish, persist some data, or perform some other task
-
-          // Example of long task
-          const start = new Date().getTime();
-          for ( let i = 0; i < 1e18; i++ ) {
-            if ( ( new Date().getTime() - start ) > 20000 ) {
-              break;
-            }
-          }
-          // Must call in order to end our task otherwise
-          // we risk our app being terminated, and possibly
-          // being labeled as impacting battery life
-          BackgroundTask.finish( {
-            taskId
-          } );
-        } );
-      }
-    } )
+    this.initializeApp();
   }
+
   async ngOnInit() {
-    const isLoggedin = await this.storage.get( TOKEN );
-    const route = isLoggedin ? '/sidemenu/inicio' : '/initial';
-    this.router.navigate( [ route ] );
   }
 
+  initializeApp(): void {
+    this.platform.ready().then( async () => {
+      SplashScreen.hide();
+
+      const isLoggedin = await this.storage.get( TOKEN );
+      const route = isLoggedin ? '/sidemenu/inicio' : '/initial';
+      this.router.navigate( [ route ] );
+
+      BackgroundLocation.initialize( {
+        notificationText: 'enviando ubicación.',
+        notificationTitle: 'Rutas en ejecución',
+        updateInterval: 480000,
+        requestedAccuracy: BgGeolocationAccuracy.HIGH_ACCURACY,
+        smallIcon: 'ic_small_icon',
+        startImmediately: true,
+      } );
+
+      const options: BackgroundGeolocationConfig = {
+        startForeground: true,
+        desiredAccuracy: 10,
+        stationaryRadius: 10,
+        distanceFilter: 10,
+        interval: 60000,
+        fastestInterval: 120000,
+        stopOnTerminate: true,
+        notificationTitle: 'Rutas Panamá Chofer',
+        notificationText: 'Aplicación en segundo plano',
+      };
+
+      this.backgroundGeolocation.configure( options );
+
+      this.backgroundMode.enable();
+
+      this.backgroundGeolocation
+        .on( BackgroundGeolocationEvents.background )
+        .subscribe( () => {
+          this.foregroundService.start( 'Rutas Panamá Chofer', 'Background Service', 'drawable/fsicon' );
+          BackgroundLocation.start();
+          this.backGroundPositions();
+        } );
+
+      this.backgroundGeolocation
+        .on( BackgroundGeolocationEvents.foreground ).subscribe( () => {
+          BackgroundLocation.stop();
+          this.foregroundService.stop();
+        } );
+
+      this.backgroundGeolocation
+        .on( BackgroundGeolocationEvents.location )
+        .subscribe( async ( location: BackgroundGeolocationResponse ) => {
+          const activeRoute: Route = await ( this.storage.get( ACTIVE_ROUTE ) ) as Route;
+          if ( activeRoute ) {
+            const data = {
+              route_id: activeRoute.id,
+              longitude: location.longitude,
+              latitude: location.latitude,
+            };
+            this.setPosition( data );
+          }
+
+        } );
+
+      window.app = this;
+    } );
+  }
+
+  async backGroundPositions() {
+    BackgroundLocation.addListener( 'onLocation', async ( location: BgLocationEvent ) => {
+      const activeRoute: Route = await ( this.storage.get( ACTIVE_ROUTE ) ) as Route;
+      if ( activeRoute ) {
+        const data = {
+          route_id: activeRoute.id,
+          longitude: location.longitude,
+          latitude: location.latitude,
+        };
+        this.setPosition( data );
+      }
+    } );
+  }
+
+  private setPosition( data ): void {
+    this.routeService.routePosition( data ).subscribe( ( response ) => {
+      const pos = { lattitude: data.latitude, longitude: data.longitude };
+      this.routeService.positionSubject( pos );
+    } );
+  }
 
 }

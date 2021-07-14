@@ -48,11 +48,11 @@ export class AssignSeatComponent implements OnInit {
     if ( confirm ) {
       const loading = await this.common.presentLoading();
       loading.present();
-      this.routeService.end().subscribe( result => {
+      this.routeService.end().subscribe( async ( result ) => {
         const message = result.message;
         loading.dismiss();
         this.common.presentToast( { message } );
-        this.storage.removeStorageItem( ACTIVE_ROUTE )
+        await this.storage.removeStorageItem( ACTIVE_ROUTE );
         this.endRoute.emit( true );
       } );
     }

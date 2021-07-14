@@ -1,8 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Rutas panama chofer</string>
-    <string name="title_activity_main">Rutas panama chofer</string>
-    <string name="package_name">io.ionic.rutas</string>
-    <string name="custom_url_scheme">io.ionic.rutas</string>
-    <string name="server_client_id">466798676316-02u4gktreb9lcqhfcq32mchcvtc6tpog.apps.googleusercontent.com</string>
+    <string name="app_name">Rutas Panamá Chofer</string>
+    <string name="title_activity_main">Rutas Panamá Chofer</string>
+    <string name="package_name">io.ionic.rutas.driver</string>
+    <string name="custom_url_scheme">io.ionic.rutas.driver</string>
+    <string name="mauron85_bgloc_account_name">$ACCOUNT_NAME</string>
+    <string name="mauron85_bgloc_account_type">$ACCOUNT_TYPE</string>
+    <string name="mauron85_bgloc_content_authority">$CONTENT_AUTHORITY</string>
 </resources>

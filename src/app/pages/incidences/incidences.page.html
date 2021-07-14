@@ -1,8 +1,9 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button icon="chevron-back-outline">
-      </ion-back-button>
+      <ion-button (click)="onClick()" class="back-button">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
     </ion-buttons>
     <ion-title>Incidencias</ion-title>
   </ion-toolbar>
@@ -16,16 +17,16 @@
           <div>
             <ion-item>
               <ion-label position="floating">MM/DD/YYYY</ion-label>
-              <ion-datetime displayFormat="MM/DD/YYYY" min="1994-03-14" max="2012-12-09"
-                value="2002-09-23T15:03:46.789">
+              <ion-datetime displayFormat="MM/DD/YYYY" value="{{initDate}}"
+                (ionChange)="changeDate($event.target.value, 'initDate')">
               </ion-datetime>
             </ion-item>
           </div>
           <div>
             <ion-item>
               <ion-label position="floating">MM/DD/YYYY</ion-label>
-              <ion-datetime displayFormat="MM/DD/YYYY" min="1994-03-14" max="2012-12-09"
-                value="2002-09-23T15:03:46.789">
+              <ion-datetime displayFormat="MM/DD/YYYY" value="{{endDate}}"
+                (ionChange)="changeDate($event.target.value, 'endDate')">
               </ion-datetime>
             </ion-item>
           </div>
@@ -37,34 +38,32 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-list lines="full">
-          <ion-item>
-            <ion-avatar slot="start">
-              <img src="./../../../assets/svg/chat.svg" />
-            </ion-avatar>
-            <ion-label>
-              <h2>Accidente Vial</h2>
-              <h3>Hubo un accidente...</h3>
-            </ion-label>
-            <ion-note>Lunes</ion-note>
-          </ion-item>
-          <ion-item>
-            <ion-avatar slot="start">
-              <img src="./../../../assets/svg/chat.svg" />
-            </ion-avatar>
-            <ion-label>
-              <h2>Protesta</h2>
-              <h3>Hubo una protesta...</h3>
-            </ion-label>
-            <ion-note>Martes</ion-note>
-          </ion-item>
-        </ion-list>
+        <ng-container *ngIf="incidences.length; else noData">
+          <ion-list lines="full">
+            <ion-item *ngFor="let incidence of incidences; let i=index" button (click)="detail(incidence)"
+              detail="false">
+              <ion-avatar slot="start">
+                <img src="./../../../assets/svg/chat.svg" />
+              </ion-avatar>
+              <ion-label>
+                <h2>{{incidence.type_incident.name}}</h2>
+                <h3>{{incidence.description}}</h3>
+              </ion-label>
+              <ion-note>{{incidence.created_at | date}}</ion-note>
+            </ion-item>
+          </ion-list>
+        </ng-container>
+        <ng-template #noData>
+          <div class="ion-text-center ion-margin-top">
+            <h2>No hay incidencias</h2>
+          </div>
+        </ng-template>
       </ion-col>
     </ion-row>
   </ion-grid>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="tertiary" [routerLink]="['add']">
+    <ion-fab-button color="tertiary" [routerLink]="['add']" [disabled]="isDisabled">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
   </ion-fab>

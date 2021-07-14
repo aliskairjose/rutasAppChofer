@@ -39,9 +39,7 @@ export class ProfilePage implements OnInit {
       direction: CameraDirection.Front // iOS and Web only
     } );
 
-    const fileExt = this.user.avatar.includes( 'jpg' ) ? 'png' : 'jpg';
-
-    const imageUrl = `data:image/${fileExt};base64,${image.base64String}`;
+    const imageUrl = `data:image/png;base64,${image.base64String}`;
     const loading = await this.common.presentLoading();
     loading.present();
     this.userService.updateAvatar( { avatar: imageUrl } ).subscribe( async ( result ) => {

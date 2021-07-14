@@ -3,14 +3,14 @@
   <div *ngIf="userService.rutasFlow === 10" class="car-loc-btn">
     <div class="text-end" *ngIf="!isOpen">
       <ion-note>Tú
-        <img class="scan" src="../../../assets/svg/mark.svg" />
+        <img class="scan" src="/assets/svg/mark.svg" />
       </ion-note>
       <ion-note>Parada
-        <img class="scan" src="../../../assets/svg/waypoints.svg" style="margin-left: 4px;" />
+        <img class="scan" src="/assets/svg/waypoints.svg" style="margin-left: 4px;" />
       </ion-note>
     </div>
   </div>
-  <div *ngIf="dragable" class="ion-text-center ">
+  <div class="ion-text-center ">
     <ion-button fill="clear" expand="full" (click)="toggleDrawer()" class="minH">
       <div class="drawer-pull"></div>
     </ion-button>
@@ -26,6 +26,19 @@
               <div class="text-center">
                 <h2>Dashboard</h2>
               </div>
+              <ion-list lines=" none" *ngIf="route.name">
+                <ion-item>
+                  <ion-avatar slot="start">
+                    <img src="/assets/svg/route_circle.svg" />
+                  </ion-avatar>
+                  <ion-label>
+                    <h2>{{route.name }}</h2>
+                    <h3>Nro.{{ route.bus?.unit_number}} | {{route?.start_time | customeTime }} - {{route?.end_time |
+                      customeTime }}
+                    </h3>
+                  </ion-label>
+                </ion-item>
+              </ion-list>
             </ion-col>
           </ion-row>
         </ion-grid>
