@@ -56,9 +56,8 @@ export class IncidencesPage implements OnInit {
   }
 
   onClick(): void {
-    console.log( 'onClick' );
-    this.router.navigate( [ '/sidemenu/inicio' ] );
     this.userService.rutasFlow = 0;
+    this.router.navigate( [ '/sidemenu/inicio' ] );
   }
 
   async incidenceList() {

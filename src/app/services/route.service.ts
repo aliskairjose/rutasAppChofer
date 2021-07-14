@@ -64,7 +64,7 @@ export class RouteService {
    * @returns Boolean
    */
   verifyBorading(): Observable<any> {
-    return this.http.get( `/route-boarding` );
+    return this.http.get( `/route-boarding?occupedSeats=1` );
   }
 
   /**
