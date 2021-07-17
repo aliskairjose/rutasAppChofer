@@ -13,12 +13,14 @@ import { Route } from './interfaces/route';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { ForegroundService } from '@ionic-native/foreground-service/ngx';
+
 const { BackgroundGeolocation: BackgroundLocation } = Plugins;
 
 import {
   BgLocationEvent,
   BgGeolocationAccuracy,
 } from 'capacitor-background-geolocation';
+
 const { SplashScreen } = Plugins;
 declare var window;
 @Component( {
@@ -112,6 +114,8 @@ export class AppComponent implements OnInit {
 
   async backGroundPositions() {
     BackgroundLocation.addListener( 'onLocation', async ( location: BgLocationEvent ) => {
+      console.log( 'Got new location', location );
+
       const activeRoute: Route = await ( this.storage.get( ACTIVE_ROUTE ) ) as Route;
       if ( activeRoute ) {
         const data = {

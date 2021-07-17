@@ -85,7 +85,7 @@ export class AssignSeatComponent implements OnInit {
       }
 
       // Se inicializa los arrays. Se resta 1 sabiendo que el indice 0 es primero y quedaria un extra
-      this.leftSeats.length = this.rightSeats.length = ( ( totalSeats - 2 ) / 2 );
+      this.leftSeats.length = this.rightSeats.length = ( totalSeats / 2 );
 
       if ( occupiedSeat > 0 ) {
         // Distribución de asientos ocupados a la derecha e izquierda
