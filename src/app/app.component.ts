@@ -84,13 +84,14 @@ export class AppComponent implements OnInit {
         .subscribe( () => {
           this.foregroundService.start( 'Rutas Panamá Chofer', 'Background Service', 'drawable/fsicon' );
           BackgroundLocation.start();
-          this.backGroundPositions();
+          this.backgroundGeolocation.stop();
         } );
 
       this.backgroundGeolocation
         .on( BackgroundGeolocationEvents.foreground ).subscribe( () => {
           BackgroundLocation.stop();
           this.foregroundService.stop();
+          this.backgroundGeolocation.start();
         } );
 
       this.backgroundGeolocation
@@ -105,31 +106,27 @@ export class AppComponent implements OnInit {
             };
             this.setPosition( data );
           }
-
         } );
+
+      BackgroundLocation.addListener( 'onLocation', async ( location: BgLocationEvent ) => {
+        const activeRoute: Route = await ( this.storage.get( ACTIVE_ROUTE ) ) as Route;
+        if ( activeRoute ) {
+          const data = {
+            route_id: activeRoute.id,
+            longitude: location.longitude,
+            latitude: location.latitude,
+          };
+          this.setPosition( data );
+        }
+      } );
 
       window.app = this;
     } );
   }
 
-  async backGroundPositions() {
-    BackgroundLocation.addListener( 'onLocation', async ( location: BgLocationEvent ) => {
-      console.log( 'Got new location', location );
-
-      const activeRoute: Route = await ( this.storage.get( ACTIVE_ROUTE ) ) as Route;
-      if ( activeRoute ) {
-        const data = {
-          route_id: activeRoute.id,
-          longitude: location.longitude,
-          latitude: location.latitude,
-        };
-        this.setPosition( data );
-      }
-    } );
-  }
 
   private setPosition( data ): void {
-    this.routeService.routePosition( data ).subscribe( ( response ) => {
+    this.routeService.routePosition( data ).subscribe( () => {
       const pos = { lattitude: data.latitude, longitude: data.longitude };
       this.routeService.positionSubject( pos );
     } );
