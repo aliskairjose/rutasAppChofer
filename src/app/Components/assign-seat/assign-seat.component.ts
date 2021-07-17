@@ -69,7 +69,7 @@ export class AssignSeatComponent implements OnInit {
       this.route = routes.find( item => item.id === this.selectedRoute.id );
       this.show ||= !this.show;
       const totalSeats = this.selectedRoute.bus.number_positions;
-      const occupiedSeat = this.route.occuped_seats - 2;
+      const occupiedSeat = this.route.occuped_seats;
       const freeSeats = this.route.free_seats;
       const leftOccupiedSeats = [];
       const rightOccupiedSeats = [];
