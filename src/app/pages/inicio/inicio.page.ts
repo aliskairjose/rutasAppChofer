@@ -69,7 +69,7 @@ export class InicioPage implements OnInit {
 
   async loadMap() {
     const resp = await this.geolocation.getCurrentPosition();
-    const data = { coord: new google.maps.LatLng( resp.coords.latitude, resp.coords.longitude ), name: 'Aquí estoy' };
+    const data = { coord: new google.maps.LatLng( resp.coords.latitude, resp.coords.longitude ) };
     const mapOptions = {
       center: data.coord,
       zoom: 15,
@@ -83,7 +83,7 @@ export class InicioPage implements OnInit {
   async handleItemSelect( route: Route ) {
 
     const resp = await this.geolocation.getCurrentPosition();
-    const data = { coord: new google.maps.LatLng( resp.coords.latitude, resp.coords.longitude ), name: 'Aquí estoy' };
+    const data = { coord: new google.maps.LatLng( resp.coords.latitude, resp.coords.longitude ) };
     const mapOptions = {
       center: data.coord,
       zoom: 15,
