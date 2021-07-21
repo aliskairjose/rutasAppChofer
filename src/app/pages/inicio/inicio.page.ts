@@ -203,7 +203,7 @@ export class InicioPage implements OnInit {
             position: route.legs[ route.legs.length - 1 ].end_location,
             animation: google.maps.Animation.DROP,
             map,
-            icon: MAP.STOP_MARK
+            icon: MAP.END_ROUTE_MARK
           } );
 
           endMarker.addListener( 'click', () => {

@@ -1,12 +1,15 @@
 <div class="bottom-drawer" [ngStyle]="{'bottom': 'calc('+ bottomPosition +'vh + env(safe-area-inset-bottom))'}"
   #bottomDrawer>
-  <div *ngIf="userService.rutasFlow === 10" class="car-loc-btn">
+  <div *ngIf="userService.rutasFlow === 10 || userService.rutasFlow === 11" class="car-loc-btn">
     <div class="text-end" *ngIf="!isOpen">
       <ion-note>Tú
         <img class="scan" src="/assets/svg/mark.svg" />
       </ion-note>
       <ion-note>Parada
         <img class="scan" src="/assets/svg/waypoints.svg" style="margin-left: 4px;" />
+      </ion-note>
+      <ion-note>Final de ruta
+        <img class="scan" src="/assets/svg/location-sharp.svg" style="margin-left: 5px;" />
       </ion-note>
     </div>
   </div>
