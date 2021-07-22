@@ -69,7 +69,7 @@ export class InicioPage implements OnInit {
 
   async loadMap() {
     const resp = await this.geolocation.getCurrentPosition();
-    const data = { coord: new google.maps.LatLng( resp.coords.latitude, resp.coords.longitude ) };
+    const data = { coord: new google.maps.LatLng( resp.coords.latitude, resp.coords.longitude ), name: 'Aquí estoy' };
     const mapOptions = {
       center: data.coord,
       zoom: 15,
@@ -83,7 +83,7 @@ export class InicioPage implements OnInit {
   async handleItemSelect( route: Route ) {
 
     const resp = await this.geolocation.getCurrentPosition();
-    const data = { coord: new google.maps.LatLng( resp.coords.latitude, resp.coords.longitude ) };
+    const data = { coord: new google.maps.LatLng( resp.coords.latitude, resp.coords.longitude ), name: 'noTooltip' };
     const mapOptions = {
       center: data.coord,
       zoom: 15,
@@ -229,12 +229,10 @@ export class InicioPage implements OnInit {
           map,
           icon: MAP.USER_MARK
         } );
-        const iw = new google.maps.InfoWindow( {
-          content: loc.name
-        } );
-        if ( extraInfo !== 'noTooltip' ) {
-          iw.open( this.map, marker );
-        }
+        const iw = new google.maps.InfoWindow( { content: loc.name } );
+
+        if ( extraInfo !== 'noTooltip' ) { iw.open( this.map, marker ); }
+
         this.userMarker.push( marker );
       }
       resolve( true );
