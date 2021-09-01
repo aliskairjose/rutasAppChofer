@@ -53,7 +53,8 @@ export class QualificationPage implements OnInit {
       route.subscribe( _route => this.routes.push( _route ) );
 
       this.rating = Math.round( rates.reduce( ( a, b ) => a + b, 0 ) / response.length );
-      this.face = `../../../assets/svg/faces/${this.rating}.svg`;
+      if ( isNaN( this.rating ) ) { this.rating = 1; }
+      this.face = `/assets/svg/faces/${this.rating}.svg`;
       this.msg = this.serviceMesg.find( ( item, index ) => index === this.rating - 1 );
 
 
