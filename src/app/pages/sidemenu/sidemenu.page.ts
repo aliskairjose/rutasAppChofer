@@ -8,6 +8,7 @@ import { UserService } from '../../services/user.service';
 
 import { Plugins, CameraResultType, CameraDirection } from '@capacitor/core';
 import { CommonService } from '../../services/common.service';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 const { Camera } = Plugins;
 
@@ -21,7 +22,7 @@ export class SidemenuPage implements OnInit, OnChanges {
   backdropVisible = false;
   drawerVar = 'Inicio';
   addressClicked = 0;
-  user: User = {};
+  user: User = { };
   abrv = '';
   logo = LOGO;
   avatar = 'avatar_default.jpg';
@@ -41,9 +42,10 @@ export class SidemenuPage implements OnInit, OnChanges {
     private common: CommonService,
     private userService: UserService,
     private storage: StorageService,
+    private googlePlus: GooglePlus,
     private changeDetectorRef: ChangeDetectorRef,
   ) {
-    this.user = {};
+    this.user = { };
     this._auth.authObserver().subscribe( ( user: any ) => this.user = { ...user } );
   }
 
@@ -59,7 +61,15 @@ export class SidemenuPage implements OnInit, OnChanges {
     this.changeDetectorRef.detectChanges();
   }
 
-  logout() {
+  async logout() {
+    const googleLogin = await this.storage.get( 'dgoogleLogin' );
+    if ( googleLogin ) {
+      this.googlePlus.disconnect().then( () => {
+        localStorage.clear();
+        this.router.navigate( [ '/signin' ] );
+      } );
+      return;
+    }
     localStorage.clear();
     this.router.navigate( [ '/signin' ] );
   }

@@ -8,6 +8,9 @@ import { StorageService } from '../../services/storage.service';
 import { ERROR_FORM, LOGO, TOKEN, USER } from '../../constants/global-constants';
 import { CommonService } from '../../services/common.service';
 import { ClientsModalPage } from '../../modals/clients-modal/clients-modal.page';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { environment } from '../../../environments/environment.prod';
+
 @Component( {
   selector: 'app-authentication',
   templateUrl: './authentication.page.html',
@@ -26,6 +29,8 @@ export class AuthenticationPage implements OnInit {
     private common: CommonService,
     private formBuilder: FormBuilder,
     private storage: StorageService,
+    private googlePlus: GooglePlus,
+
   ) {
     this.createForm();
 
@@ -36,16 +41,27 @@ export class AuthenticationPage implements OnInit {
 
   get f() { return this.loginForm.controls; }
 
-  async googleLogin() {
-    const googleUser = await Plugins.GoogleAuth.signIn();
+  googleLogin() {
+    this.googlePlus.login( environment.googleConfig ).then( async ( gplusUser ) => {
+      if ( gplusUser.idToken ) {
+        const loading = await this.common.presentLoading();
+        loading.present();
+        const result = await this._auth.exist( gplusUser.email );
+        loading.dismiss();
+        if ( result.exist ) {
+          if ( result.user.roles[ 0 ].name !== 'driver' ) {
+            const message = 'No puedes acceder con esta cuenta, ya que esta asociada a otro rol en el sistema.';
+            const color = 'danger';
+            this.common.presentToast( { message, color } );
+            return;
+          }
+          this.googleAccess( { email: gplusUser.email, google_id: gplusUser.userId } );
+        } else {
+          this.registerGoogleUSer( gplusUser );
+        }
+      }
+    }, ( err ) => { } );
 
-    if ( googleUser.authentication.idToken ) {
-      const loading = await this.common.presentLoading();
-      loading.present();
-      const exist = await this._auth.exist( googleUser.email );
-      loading.dismiss();
-      ( exist ) ? this.googleAccess( { email: googleUser.email, google_id: googleUser.id } ) : this.registerGoogleUSer( googleUser );
-    }
   }
 
   async onSubmit() {
@@ -57,6 +73,7 @@ export class AuthenticationPage implements OnInit {
         this._auth.AuthSubject( response.user );
         await this.storage.store( TOKEN, response.data );
         await this.storage.store( USER, response.user );
+        await this.storage.store( 'dgoogleLogin', false );
         this.submitted = false;
         this.loginForm.reset();
         loading.dismiss();
@@ -94,6 +111,7 @@ export class AuthenticationPage implements OnInit {
       this.common.presentToast( { message } );
       await this.storage.store( TOKEN, response.data );
       await this.storage.store( USER, response.user );
+      await this.storage.store( 'dgoogleLogin', true );
       this.router.navigate( [ '/sidemenu/Inicio' ] );
     } );
   }

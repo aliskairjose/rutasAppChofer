@@ -54,8 +54,8 @@ export class AuthService {
    * @param email Email del usuario a consultar
    * @returns True o False
    */
-  exist( email: string ): Promise<boolean> {
-    return new Promise<boolean>( resolve => {
+  exist( email: string ): Promise<any> {
+    return new Promise<any>( resolve => {
       this._httpService.get( `/verify-email/${email}` ).subscribe( res => resolve( res ) );
     } );
   }

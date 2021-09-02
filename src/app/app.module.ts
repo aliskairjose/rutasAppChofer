@@ -30,6 +30,7 @@ import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { ForegroundService } from '@ionic-native/foreground-service/ngx';
 import { AgmCoreModule } from '@agm/core';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
 
 registerLocaleData( localeEs );
 @NgModule( {
@@ -58,6 +59,7 @@ registerLocaleData( localeEs );
     } )
   ],
   providers: [
+    GooglePlus,
     { provide: LOCALE_ID, useValue: 'es' },
     BackgroundGeolocation,
     Geolocation,
