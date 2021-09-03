@@ -51,7 +51,7 @@ export class AppComponent implements OnInit {
       SplashScreen.hide();
 
       const isLoggedin = await this.storage.get( TOKEN );
-      const route = isLoggedin ? '/sidemenu/inicio' : '/initial';
+      const route = isLoggedin ? '/sidemenu/inicio' : '/signin';
       this.router.navigate( [ route ] );
 
       BackgroundLocation.initialize( {

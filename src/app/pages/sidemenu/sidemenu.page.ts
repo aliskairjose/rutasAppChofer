@@ -70,7 +70,7 @@ export class SidemenuPage implements OnInit, OnChanges {
       } );
       return;
     }
-    localStorage.clear();
+    await this.storage.clear();
     this.router.navigate( [ '/signin' ] );
   }
 
