@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="rutas.panama.driver" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.cronapis.rutasdriver" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Rutas Panamá Chofer</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework.com" href="http://ionicframework.com/">Ionic Framework Team</author>
@@ -109,4 +109,5 @@
         <variable name="ALWAYS_USAGE_DESCRIPTION" value="App requires background tracking " />
         <variable name="MOTION_USAGE_DESCRIPTION" value="App requires motion detection" />
     </plugin>
+    <plugin name="cordova-android-play-services-gradle-release" spec="^4.0.0" />
 </widget>

@@ -22,7 +22,7 @@ export class SidemenuPage implements OnInit, OnChanges {
   backdropVisible = false;
   drawerVar = 'Inicio';
   addressClicked = 0;
-  user: User = { };
+  user: User = {};
   abrv = '';
   logo = LOGO;
   avatar = 'avatar_default.jpg';
@@ -45,7 +45,7 @@ export class SidemenuPage implements OnInit, OnChanges {
     private googlePlus: GooglePlus,
     private changeDetectorRef: ChangeDetectorRef,
   ) {
-    this.user = { };
+    this.user = {};
     this._auth.authObserver().subscribe( ( user: any ) => this.user = { ...user } );
   }
 
@@ -64,8 +64,8 @@ export class SidemenuPage implements OnInit, OnChanges {
   async logout() {
     const googleLogin = await this.storage.get( 'dgoogleLogin' );
     if ( googleLogin ) {
-      this.googlePlus.disconnect().then( () => {
-        localStorage.clear();
+      this.googlePlus.disconnect().then( async () => {
+        await this.storage.clear()
         this.router.navigate( [ '/signin' ] );
       } );
       return;

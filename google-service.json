@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1039606389128",
+    "project_id": "rutas-panama-324617",
+    "storage_bucket": "rutas-panama-324617.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1039606389128:android:13496bf69dab8fbba5423d",
+        "android_client_info": {
+          "package_name": "com.cronapis.rutasdriver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1039606389128-hlja0ovdv5l20a4vs2k6ul79k1nenian.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkOxHhgRqyqlIP3EDESz4fm56A70Lw2Sw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1039606389128-hlja0ovdv5l20a4vs2k6ul79k1nenian.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
