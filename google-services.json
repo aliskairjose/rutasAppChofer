@@ -12,12 +12,7 @@
           "package_name": "com.cronapis.rutasdriver"
         }
       },
-      "oauth_client": [
-        {
-          "client_id": "1039606389128-hlja0ovdv5l20a4vs2k6ul79k1nenian.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
+      "oauth_client": [],
       "api_key": [
         {
           "current_key": "AIzaSyCkOxHhgRqyqlIP3EDESz4fm56A70Lw2Sw"

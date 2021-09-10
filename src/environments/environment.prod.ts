@@ -10,7 +10,7 @@ export const environment = {
     appId: '1:466798676316:web:c6063ad42c2c7acf46d999'
   },
   googleConfig: {
-    webClientId: '193470207482-o83cg1ki0spk6vec16riep6bmg9sv588.apps.googleusercontent.com',
+    webClientId: '193470207482-on39046rktbjppehm0pg4sk5tto6ova6.apps.googleusercontent.com',
     offline: true,
   },
 };
