@@ -8,6 +8,9 @@ import { StorageService } from '../../services/storage.service';
 import { ERROR_FORM, LOGO, TOKEN, USER } from '../../constants/global-constants';
 import { CommonService } from '../../services/common.service';
 import { ClientsModalPage } from '../../modals/clients-modal/clients-modal.page';
+import { GooglePlus } from '@ionic-native/google-plus/ngx';
+import { environment } from '../../../environments/environment.prod';
+
 @Component( {
   selector: 'app-authentication',
   templateUrl: './authentication.page.html',
@@ -23,9 +26,11 @@ export class AuthenticationPage implements OnInit {
   constructor(
     private router: Router,
     private _auth: AuthService,
-    private _common: CommonService,
+    private common: CommonService,
     private formBuilder: FormBuilder,
-    private _storage: StorageService,
+    private storage: StorageService,
+    private googlePlus: GooglePlus,
+
   ) {
     this.createForm();
 
@@ -36,32 +41,48 @@ export class AuthenticationPage implements OnInit {
 
   get f() { return this.loginForm.controls; }
 
-  async googleLogin() {
-    const googleUser = await Plugins.GoogleAuth.signIn();
+  googleLogin() {
+    this.googlePlus.login( environment.googleConfig ).then( async ( gplusUser ) => {
+      if ( gplusUser.idToken ) {
+        const loading = await this.common.presentLoading();
+        loading.present();
+        const result = await this._auth.exist( gplusUser.email );
+        loading.dismiss();
+        if ( result.exist ) {
+          if ( result.user.roles[ 0 ].name !== 'driver' ) {
+            const message = 'No puedes acceder con esta cuenta, ya que esta asociada a otro rol en el sistema.';
+            const color = 'danger';
+            this.common.presentToast( { message, color } );
+            return;
+          }
+          this.googleAccess( { email: gplusUser.email, google_id: gplusUser.userId } );
+        } else {
+          this.registerGoogleUSer( gplusUser );
+        }
+      }
+    }, ( err ) => { } );
 
-    if ( googleUser.authentication.idToken ) {
-      const loading = await this._common.presentLoading();
-      loading.present();
-      const exist = await this._auth.exist( googleUser.email );
-      loading.dismiss();
-      ( exist ) ? this.googleAccess( { email: googleUser.email, google_id: googleUser.id } ) : this.registerGoogleUSer( googleUser );
-    }
   }
 
   async onSubmit() {
     this.submitted = true;
     if ( this.loginForm.valid ) {
-      const loading = await this._common.presentLoading();
+      const loading = await this.common.presentLoading();
       loading.present();
       this._auth.login( this.loginForm.value ).subscribe( async ( response ) => {
         this._auth.AuthSubject( response.user );
-        await this._storage.store( TOKEN, response.data );
-        await this._storage.store( USER, response.user );
+        await this.storage.store( TOKEN, response.data );
+        await this.storage.store( USER, response.user );
+        await this.storage.store( 'dgoogleLogin', false );
         this.submitted = false;
         this.loginForm.reset();
         loading.dismiss();
         this.router.navigate( [ '/sidemenu/inicio' ] );
-      }, () => loading.dismiss() );
+      }, ( error ) => {
+        loading.dismiss();
+        console.log( error );
+
+      } );
     }
   }
 
@@ -69,7 +90,7 @@ export class AuthenticationPage implements OnInit {
    * @description Registro del usuario google
    */
   private async registerGoogleUSer( googleUser ): Promise<void> {
-    const modal = await this._common.presentModal( { component: ClientsModalPage, cssClass: '', componentProps: { user: googleUser } } );
+    const modal = await this.common.presentModal( { component: ClientsModalPage, cssClass: '', componentProps: { user: googleUser } } );
     modal.present();
     const modalData = await modal.onDidDismiss();
     if ( modalData.role === 'submit' ) {
@@ -81,16 +102,16 @@ export class AuthenticationPage implements OnInit {
    * @description Registro / Acceso del usuario google
    */
   private async googleAccess( accessData: any ) {
-    const loading = await this._common.presentLoading();
+    const loading = await this.common.presentLoading();
     loading.present();
     this._auth.login( accessData ).subscribe( async ( response ) => {
       loading.dismiss();
       this._auth.AuthSubject( response.user );
       const message = response.message;
-      const color = 'primary';
-      this._common.presentToast( { message, color } );
-      await this._storage.store( TOKEN, response.data );
-      await this._storage.store( USER, response.user );
+      this.common.presentToast( { message } );
+      await this.storage.store( TOKEN, response.data );
+      await this.storage.store( USER, response.user );
+      await this.storage.store( 'dgoogleLogin', true );
       this.router.navigate( [ '/sidemenu/Inicio' ] );
     } );
   }

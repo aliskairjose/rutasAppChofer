@@ -1,0 +1,8 @@
+ion-list {
+  background: var(--rp-color-primary);
+
+  ion-item::part(native) {
+    background-color: var(--rp-color-primary);
+    color: #fff;
+  }
+}

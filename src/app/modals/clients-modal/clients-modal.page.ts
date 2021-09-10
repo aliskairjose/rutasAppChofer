@@ -23,7 +23,7 @@ export class ClientsModalPage implements OnInit {
 
   constructor(
     private _fb: FormBuilder,
-    private _common: CommonService,
+    private common: CommonService,
     private _clientService: ClientsService,
     private modalController: ModalController,
   ) {
@@ -53,7 +53,7 @@ export class ClientsModalPage implements OnInit {
    */
   private loadClients(): Promise<Client[]> {
     return new Promise<Client[]>( async ( resolve ) => {
-      const loading = await this._common.presentLoading();
+      const loading = await this.common.presentLoading();
       loading.present();
       this._clientService.list().subscribe( result => {
         loading.dismiss();

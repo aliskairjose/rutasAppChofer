@@ -1,0 +1,19 @@
+ion-content {
+  h3 {
+    margin-top: 32px;
+  }
+  .radio-solution {
+    margin-top: 24px;
+    ion-radio::part(mark) {
+      --color-checked: var(--rp-color-secondary);
+      --inner-border-radius: var(--rp-color-secondary);
+    }
+  }
+
+  .button-register {
+    margin-top: 7em;
+    ion-button::part(native) {
+      padding: 0 2em;
+    }
+  }
+}

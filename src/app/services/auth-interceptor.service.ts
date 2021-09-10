@@ -17,14 +17,14 @@ export class AuthInterceptorService implements HttpInterceptor {
   constructor(
     private router: Router,
     private commonService: CommonService,
-    private _storage: StorageService,
+    private storage: StorageService,
   ) {
 
   }
 
   intercept( request: HttpRequest<any>, next: HttpHandler ): Observable<HttpEvent<any>> {
 
-    return from( this._storage.get( TOKEN ) ).pipe(
+    return from( this.storage.get( TOKEN ) ).pipe(
       switchMap( token => {
 
         // Importante: modificamos de forma inmutable, haciendo el clonado de la petición

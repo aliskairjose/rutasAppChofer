@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-searchbar id="places" [(ngModel)]="autocomplete.input" (ionInput)="updateSearchResults()"
+      placeholder="Buscar el sitio" (ionClear)="clearAutocomplete()"></ion-searchbar>
+  </ion-toolbar>
+
+  <ion-list [hidden]="autocompleteItems.length == 0">
+    <ion-item *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
+      {{ item.description }}
+    </ion-item>
+  </ion-list>
+
+</ion-header>
+<ion-content>
+  <agm-map [latitude]="coords?.latitude" [longitude]="coords?.longitude" [zoom]="zoom"
+    (mapClick)="clickLocationEvent($event)">
+    <agm-marker [latitude]="coords?.latitude" [longitude]="coords?.longitude"></agm-marker>
+  </agm-map>
+
+</ion-content>

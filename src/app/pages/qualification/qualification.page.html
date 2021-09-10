@@ -1,13 +1,46 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button icon="chevron-back-outline">
-      </ion-back-button>
-    </ion-buttons>
-    <ion-title>Calificación</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <div class="d-flex container">
+          <div class="header-rating">
+            <img [src]="face" alt="" class="rating-face">
+            <div class="rating-header ion-text-center">
+              <div>
+                <h3>Calificación del servicio</h3>
+                <app-rating size="large" readOnly="true" rate="{{rating}}"></app-rating>
+                <p>{{rating}}/5 | {{ msg }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-list-header>
+          <h3>Listado de viajes</h3>
+        </ion-list-header>
+        <ion-list lines="full">
+          <ng-container *ngFor="let route of routes ; let i=index">
+            <ion-item>
+              <ion-avatar slot="start">
+                <img src="./../../../assets/route.png">
+              </ion-avatar>
+              <ion-label>
+                <h2>{{route.name}}</h2>
+                <h3>Bus: {{ route.bus.license_plate | uppercase}}</h3>
+              </ion-label>
+              <div>
+                <div class="text-end">
+                  <ion-note>Jueves</ion-note>
+                </div>
+                <app-rating readOnly="true" [rate]="route.rating"> </app-rating>
+              </div>
+            </ion-item>
+          </ng-container>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

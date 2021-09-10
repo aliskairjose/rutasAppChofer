@@ -15,7 +15,7 @@
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate class="signupForm">
         <!-- Email -->
         <ion-item>
-          <ion-input type="email" class="form-control" formControlName="email" placeholder="Email"></ion-input>
+          <ion-input type="email" formControlName="email" placeholder="Email"></ion-input>
         </ion-item>
         <div *ngIf="submitted && f.email.errors">
           <div *ngIf="f.email.errors.required">
@@ -31,7 +31,7 @@
         </div>
         <!-- Password -->
         <ion-item>
-          <ion-input type="password" class="form-control" formControlName="password" placeholder="Contraseña">
+          <ion-input type="password" formControlName="password" placeholder="Contraseña">
           </ion-input>
         </ion-item>
         <div *ngIf="submitted && f.password.errors">
@@ -48,8 +48,7 @@
         </div>
         <!-- Confirm Password -->
         <ion-item>
-          <ion-input type="password" class="form-control" formControlName="passwordConfirmation"
-            placeholder="Repita Contraseña">
+          <ion-input type="password" formControlName="passwordConfirmation" placeholder="Repita Contraseña">
           </ion-input>
         </ion-item>
         <div *ngIf="submitted && f.passwordConfirmation.errors">

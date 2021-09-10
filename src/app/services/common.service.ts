@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { LoadingController, ModalController, ToastController } from '@ionic/angular';
+import { LoadingController, ModalController, ToastController, AlertController } from '@ionic/angular';
 
+export type Color = 'primary' | 'secondary' | 'tertiary' | 'success' | 'warning' | 'danger' | 'light' | 'medium' | 'dark'
 @Injectable( {
   providedIn: 'root'
 } )
@@ -10,13 +11,11 @@ export class CommonService {
     private loading: LoadingController,
     private toastController: ToastController,
     private modalController: ModalController,
+    private alertController: AlertController
   ) { }
 
-  async presentLoading() {
-    const loading = await this.loading.create( {
-      message: 'Por favor espere...',
-      duration: 2000
-    } );
+  async presentLoading( message = 'Por favor espere...' ) {
+    const loading = await this.loading.create( { message } );
     return loading;
   }
 
@@ -38,7 +37,10 @@ export class CommonService {
    * @param duration Tiempo en milisegundos, por defecto 2000
    */
   // tslint:disable-next-line: max-line-length
-  async presentToast( { message, color = 'success', duration = 2000 }: { message: string; color?: string; duration?: number; } ) {
+  async presentToast(
+    { message, color = 'primary', duration = 2000 }:
+      { message: string; color?: Color; duration?: number; }
+  ) {
 
     const toast = await this.toastController.create( {
       message,
@@ -47,6 +49,33 @@ export class CommonService {
       color
     } );
     toast.present();
+  }
+
+  async alert( message = '¿Desea finalizar el viaje?' ): Promise<boolean> {
+
+    let resolveFunction: ( confirm: boolean ) => void;
+    const promise = new Promise<boolean>( resolve => {
+      resolveFunction = resolve;
+    } );
+
+    const alert = await this.alertController.create( {
+      message,
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => resolveFunction( false )
+        }, {
+          text: 'Si',
+          handler: () => resolveFunction( true )
+        }
+
+      ]
+    } );
+
+    await alert.present();
+    return promise;
   }
 
 }

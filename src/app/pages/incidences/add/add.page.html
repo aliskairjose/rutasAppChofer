@@ -1,0 +1,100 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button icon="chevron-back-outline">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>Incidencias</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <div class="signupPageWrapper">
+          <div class="signupFormWrapper">
+            <form (ngSubmit)="onSubmit()" #form="ngForm" novalidate [formGroup]="incidenceForm" class="signupForm">
+              <ion-item>
+                <ion-select value="accidente vial" multiple="false" placeholder="Tipo de incidencia"
+                  formControlName="type_incident_id" class="custom-options" style="width: 100%;">
+                  <ion-select-option value="">Seleccione tipo</ion-select-option>
+                  <ion-select-option [value]="type.id" *ngFor="let type of incidenceTypes; let i=index">
+                    {{type.name}}
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+              <div *ngIf="submitted && f.type_incident_id?.errors">
+                <div *ngIf="f.type_incident_id.errors.required">
+                  <ion-label text-wrap color="danger">
+                    {{errorForm.required}}
+                  </ion-label>
+                </div>
+              </div>
+
+              <ion-item>
+                <ion-input type="text" placeholder="Lugar" (click)="selectIncidentPlace()" readOnly [value]="place">
+                </ion-input>
+                <ion-icon slot="end" name="locate-outline"></ion-icon>
+              </ion-item>
+
+              <ion-item>
+                <ion-textarea formControlName="description" placeholder="Descripcion de la incidencia"></ion-textarea>
+              </ion-item>
+              <div *ngIf="submitted && f.description?.errors">
+                <div *ngIf="f.description.errors.required">
+                  <ion-label text-wrap color="danger">
+                    {{errorForm.required}}
+                  </ion-label>
+                </div>
+              </div>
+
+              <ion-item [hidden]="isHidde">
+                <ion-textarea placeholder="Descripcion de la solución" formControlName="solution">
+                </ion-textarea>
+              </ion-item>
+              <div *ngIf="submitted && f.solution?.errors">
+                <div *ngIf="f.solution.errors.required">
+                  <ion-label text-wrap color="danger">
+                    {{errorForm.required}}
+                  </ion-label>
+                </div>
+              </div>
+
+              <div class="ion-margin-top ion-text-center">
+                <div class="radio-solution">
+                  <ion-list>
+                    <ion-radio-group value="0" (ionChange)="radioCheck($event.detail.value)">
+                      <ion-list-header>
+                        <ion-label>
+                          <h2>¿Se Solucionó?</h2>
+                        </ion-label>
+                      </ion-list-header>
+                      <ion-item>
+                        <ion-label>Si</ion-label>
+                        <ion-radio slot="start" value="1"></ion-radio>
+                      </ion-item>
+                      <ion-item>
+                        <ion-label>No</ion-label>
+                        <ion-radio slot="start" value="0"></ion-radio>
+                      </ion-item>
+
+                    </ion-radio-group>
+                  </ion-list>
+                </div>
+              </div>
+
+              <div class="ion-text-center button-register">
+                <ion-button ty color="tertiary" type="submit">
+                  Registrar
+                </ion-button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>

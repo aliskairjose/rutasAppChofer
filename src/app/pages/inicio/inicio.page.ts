@@ -1,10 +1,12 @@
 import { UserService } from 'src/app/services/user.service';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Route, RouteStop } from '../../interfaces/route';
 import { MAP } from '../../constants/global-constants';
 import { CommonService } from '../../services/common.service';
+import { SidemenuPage } from '../sidemenu/sidemenu.page';
+import { ActivatedRoute } from '@angular/router';
+import { RouteService } from '../../services/route.service';
 declare var google: any;
 
 @Component( {
@@ -25,10 +27,13 @@ export class InicioPage implements OnInit {
   @ViewChild( 'map' ) mapElement: ElementRef;
 
   constructor(
-    private _common: CommonService,
+    private common: CommonService,
+    private routeService: RouteService,
     public userService: UserService,
     private geolocation: Geolocation,
+    private sideMenu: SidemenuPage
   ) {
+    this.routeService.positionObserver().subscribe( pos => this.updateBusPosition( pos ) );
     this.userService
       .flowhObserver()
       .subscribe( flow => { if ( [ 0, 2, 3 ].includes( flow ) ) { this.ngOnInit(); } } );
@@ -40,17 +45,14 @@ export class InicioPage implements OnInit {
   }
 
   bottomDrawerEvent( event: any ) {
-    if ( event.type === 'item-selected' ) {
-      this.handleItemSelect( event.data );
-      return;
-    }
-    if ( event.type === 'scan-success' ) {
-      this.startTracking();
-      return;
-    }
-    if ( event.type === 'stop-track' ) {
-      this.stopTracking();
-      return;
+    switch ( event.type ) {
+      case 'item-selected':
+        this.handleItemSelect( event.data );
+        break;
+      default:
+        this.loadMap();
+        this.sideMenu.activeRoute = 1;
+        break;
     }
   }
 
@@ -73,33 +75,32 @@ export class InicioPage implements OnInit {
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.map
     };
-    const map: google.maps.Map = new google.maps.Map( this.mapElement.nativeElement, mapOptions );
+    this.map = new google.maps.Map( this.mapElement.nativeElement, mapOptions );
 
-    this.updateMap( [ data ], '', map );
+    this.updateMap( [ data ], '', this.map );
   }
 
   async handleItemSelect( route: Route ) {
 
     const resp = await this.geolocation.getCurrentPosition();
-    const data = { coord: new google.maps.LatLng( resp.coords.latitude, resp.coords.longitude ), name: 'Aquí estoy' };
+    const data = { coord: new google.maps.LatLng( resp.coords.latitude, resp.coords.longitude ), name: 'noTooltip' };
     const mapOptions = {
       center: data.coord,
       zoom: 15,
       mapTypeId: google.maps.MapTypeId.map
     };
-    const map: google.maps.Map = new google.maps.Map( this.mapElement.nativeElement, mapOptions );
 
     // actualizamos el mapa y limpiamos la rutas previas
-    await this.updateMap( [ data ], '', map );
+    await this.updateMap( [ data ], '', this.map );
 
     this.selectedItem = { ...route };
     const stops: RouteStop[] = [ ...this.selectedItem.route_stops ];
     const directionsService = new google.maps.DirectionsService();
-    const directionsRenderer = new google.maps.DirectionsRenderer( { map, suppressMarkers: true } );
-    const loading = await this._common.presentLoading();
+    const directionsRenderer = new google.maps.DirectionsRenderer( { map: this.map, suppressMarkers: true } );
+    const loading = await this.common.presentLoading();
     loading.present();
 
-    await this.calculateAndDisplayRoute( stops, directionsRenderer, directionsService, map );
+    await this.calculateAndDisplayRoute( stops, directionsRenderer, directionsService, this.map );
     loading.dismiss();
   }
 
@@ -217,32 +218,7 @@ export class InicioPage implements OnInit {
 
   }
 
-  startTracking() {
-    this.watchId = navigator.geolocation.watchPosition( ( position ) => {
-
-      const loc = new google.maps.LatLng( position.coords.latitude, position.coords.longitude );
-      this.trackMarker?.setMap( null );
-      this.trackMarker = new google.maps.Marker( {
-        position: loc,
-        map: this.map,
-        icon: {
-          scaledSize: new google.maps.Size( 25, 25 ),
-          url: './../../../assets/bus.png'
-        }
-      } );
-    } );
-  }
-
-  stopTracking() {
-    navigator.geolocation.clearWatch( this.watchId );
-    this.trackMarker.setMap( null );
-  }
-
-  private async updateMap(
-    locations,
-    extraInfo: string,
-    map: google.maps.Map
-  ): Promise<boolean> {
+  private async updateMap( locations, extraInfo: string, map: google.maps.Map ): Promise<boolean> {
     return new Promise<boolean>( ( resolve ) => {
       this.markers.map( marker => marker.setMap( null ) ); // se pasa this.map para mantener el marcador del usuario
       this.markers = [];
@@ -253,16 +229,24 @@ export class InicioPage implements OnInit {
           map,
           icon: MAP.USER_MARK
         } );
-        const iw = new google.maps.InfoWindow( {
-          content: loc.name
-        } );
-        if ( extraInfo !== 'noTooltip' ) {
-          iw.open( this.map, marker );
-        }
+        const iw = new google.maps.InfoWindow( { content: loc.name } );
+
+        if ( extraInfo !== 'noTooltip' ) { iw.open( this.map, marker ); }
+
         this.userMarker.push( marker );
       }
       resolve( true );
     } );
 
+  }
+
+  async updateBusPosition( params ) {
+    const position = { lat: parseFloat( params.lattitude ), lng: parseFloat( params.longitude ) };
+    this.trackMarker?.setMap( null );
+    this.trackMarker = new google.maps.Marker( {
+      position,
+      map: this.map,
+      icon: MAP.BUS
+    } );
   }
 }

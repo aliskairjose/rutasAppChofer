@@ -14,8 +14,8 @@ export class AuthService {
   $auth: Subject<any> = new Subject<any>();
 
   constructor(
-    private _common: CommonService,
-    private _storage: StorageService,
+    private common: CommonService,
+    private storage: StorageService,
     private _httpService: HttpService,
   ) { }
 
@@ -24,11 +24,11 @@ export class AuthService {
    * @param data Objeto { email, password }
    */
   login( data: any ): Observable<any> {
-    return this._httpService.post( '/login/user', data );
+    return this._httpService.post( '/login/driver', data );
   }
 
   register( data: any ): Observable<any> {
-    return this._httpService.post( '/users', data ).pipe(
+    return this._httpService.post( '/drivers-user/verify', data ).pipe(
       map( response => {
         this.toastMessage( response.message );
         return response;
@@ -46,7 +46,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return this._storage.get( TOKEN ) ? true : false;
+    return this.storage.get( TOKEN ) ? true : false;
   }
 
   /**
@@ -54,15 +54,15 @@ export class AuthService {
    * @param email Email del usuario a consultar
    * @returns True o False
    */
-  exist( email: string ): Promise<boolean> {
-    return new Promise<boolean>( resolve => {
+  exist( email: string ): Promise<any> {
+    return new Promise<any>( resolve => {
       this._httpService.get( `/verify-email/${email}` ).subscribe( res => resolve( res ) );
     } );
   }
 
   private toastMessage( message: string ): void {
     const color = 'primary';
-    this._common.presentToast( { message, color } );
+    this.common.presentToast( { message, color } );
   }
 
   /**

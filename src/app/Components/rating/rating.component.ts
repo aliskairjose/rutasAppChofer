@@ -1,20 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
-@Component({
+@Component( {
   selector: 'app-rating',
   templateUrl: './rating.component.html',
-  styleUrls: ['./rating.component.scss'],
-})
+  styleUrls: [ './rating.component.scss' ],
+} )
 export class RatingComponent implements OnInit {
 
-  rate = 2;
-  rating = [1,2,3,4,5]
+  rating = [ 1, 2, 3, 4, 5 ];
+  starHalf = false;
+
+  @Input() rate = 0;
+  @Input() size = 'small';
+  @Input() readOnly = false;
+  @Output() ratingChange: EventEmitter<number> = new EventEmitter();
+
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
-  ratingHandler(i) {
+
+  ratingHandler( i ) {
+    if ( this.readOnly ) {
+      return;
+    }
     this.rate = i;
+    this.ratingChange.emit( this.rate );
   }
 }
 

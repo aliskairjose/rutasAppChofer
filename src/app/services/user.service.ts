@@ -19,8 +19,8 @@ export class UserService {
 
   constructor(
     private platform: Platform,
-    private _common: CommonService,
-    private _httpService: HttpService
+    private common: CommonService,
+    private httpService: HttpService
   ) { }
 
 
@@ -29,7 +29,7 @@ export class UserService {
    * @returns Lista de usuarios
    */
   list(): Observable<User[]> {
-    return this._httpService.get( '/users' ).pipe( map( response => response.data ) );
+    return this.httpService.get( '/users' ).pipe( map( response => response.data ) );
   }
 
   /**
@@ -38,7 +38,7 @@ export class UserService {
    * @returns usuario registrado
    */
   add( usuario: User ): Observable<any> {
-    return this._httpService.post( '/users', usuario );
+    return this.httpService.post( '/users', usuario );
   }
 
   /**
@@ -48,7 +48,7 @@ export class UserService {
    * @returns usuario Actualizado
    */
   update( id: number, client: any ): Observable<any> {
-    return this._httpService.put( `/users/${id}`, client );
+    return this.httpService.put( `/users/${id}`, client );
   }
 
   /**
@@ -57,11 +57,20 @@ export class UserService {
    * @returns Notificación
    */
   delete( id: number ): Observable<any> {
-    return this._httpService.delete( `/users/${id}` ).pipe(
+    return this.httpService.delete( `/users/${id}` ).pipe(
       map( response => {
         this.toastMessage( response.message );
       } )
     );
+  }
+
+  /**
+   * @description Actualiza la foto de perfil
+   * @param data Foto en base64
+   * @returns Foto nueva
+   */
+  updateAvatar( data: any ): Observable<any> {
+    return this.httpService.post( `/update-avatar`, data );
   }
 
   comment( comment: string ): Observable<any> {
@@ -69,12 +78,20 @@ export class UserService {
       type_comment_id: 4,
       comment
     };
-    return this._httpService.post( '/comments', data );
+    return this.httpService.post( '/comments', data );
+  }
+
+  /**
+   * @param id id del chofer
+   */
+  experience( id: number ): Observable<any[]> {
+    return this.httpService
+      .get( `/route-boarding-experiences?page=1&includes[]=routeBoarding.route.bus&driver_id=${id}` )
+      .pipe( map( result => result.data ) );
   }
 
   private toastMessage( message: string ): void {
-    const color = 'primary';
-    this._common.presentToast( { message, color } );
+    this.common.presentToast( { message } );
   }
 
   subscribeBackHandler() {

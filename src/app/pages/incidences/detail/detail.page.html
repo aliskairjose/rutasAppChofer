@@ -1,0 +1,42 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button icon="chevron-back-outline">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>Incidencias</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-list lines="full">
+          <ion-item>
+            <ion-avatar slot="start">
+              <img src="./../../../assets/svg/chat.svg" />
+            </ion-avatar>
+            <ion-label>
+              <h2>{{incidence.type_incident?.name}}</h2>
+              <h3>{{incidence.created_at | date:'d/M/yy, h:mm a'}}</h3>
+            </ion-label>
+            <ion-note>{{incidence.created_at | date}}</ion-note>
+          </ion-item>
+        </ion-list>
+        <ion-card>
+          <ion-card-content>
+            <label for="">
+              <b>Descripción: </b> {{incidence.description}}
+            </label><br>
+            <label for="">
+              <b>Solución: </b> {{incidence.solution?.description}}
+            </label>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>

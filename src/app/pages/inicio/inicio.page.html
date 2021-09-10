@@ -1,6 +1,6 @@
 <div class="addressDetails" *ngIf="selectedItem  && !userService.rutasBarEdit && userService.rutasFlow === 10">
   <div class="listItemWrapper">
-    <img class="listImg" src="./../../../assets/route.png" />
+    <img class="listImg" src="./../../../assets/svg/route_circle.svg" />
     <div class="listTextWrapper">
       <div class="listName">{{selectedItem?.name}}</div>
       <ion-note>{{selectedItem.start_time | customeTime }} - {{selectedItem.end_time | customeTime }}</ion-note>

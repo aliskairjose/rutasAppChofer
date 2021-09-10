@@ -31,7 +31,9 @@ ion-menu-button {
   --color: var(--rp-color-secondary);
   border-radius: 100%;
 }
-
+agm-map {
+  height: 100%;
+}
 .signupPageWrapper {
   display: flex;
   flex: 1;
@@ -207,28 +209,25 @@ ion-button {
   font-weight: normal !important;
 }
 
-.button-btn {
-  --background: #fae345;
-  color: black;
+ion-button {
   text-transform: none !important;
 }
 
 .side-menu-header {
-  display: flex;
-  flex-direction: column;
   height: 30vh;
   background-color: var(--rp-color-primary);
-  div {
-    width: 100%;
-    padding: 0 24px 0 32px;
+  .avatar-container {
+    display: flex;
+    align-items: center;
+    height: 20vh;
     .avatar {
       border-radius: 50%;
       height: 16vh;
     }
   }
-  .side-menu-avatar {
-    margin-top: 24px;
-    height: 60%;
+  div {
+    width: 100%;
+    padding: 0 24px 0 32px;
   }
   .side-menu-info {
     color: #fff;
@@ -647,7 +646,8 @@ ion-note {
 }
 
 .avatar {
-  height: 15vh;
+  height: 16vh;
+  width: 16vh;
 }
 
 #travel-data {
@@ -686,6 +686,13 @@ ion-note {
 ion-back-button {
   --background: var(--rp-color-primary);
   --color: var(--rp-color-secondary);
+  border-radius: 100%;
+  margin: 10px 10px;
+}
+
+.back-button {
+  --background: var(--rp-color-primary) !important;
+  --color: var(--rp-color-secondary) !important;
   border-radius: 100%;
   margin: 10px 10px;
 }

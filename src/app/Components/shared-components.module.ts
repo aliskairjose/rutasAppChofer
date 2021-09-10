@@ -10,6 +10,7 @@ import { RoutesFilterPipe } from '../pipes/routes-filter.pipe';
 import { FormsModule } from '@angular/forms';
 import { RoutePage } from '../pages/route/route.page';
 import { TooltipsModule } from 'ionic4-tooltips';
+import { AssignSeatComponent } from './assign-seat/assign-seat.component';
 
 @NgModule( {
   declarations: [
@@ -19,7 +20,8 @@ import { TooltipsModule } from 'ionic4-tooltips';
     CustomeTimePipe,
     RoutesFilterPipe,
     HeaderComponent,
-    RoutePage
+    RoutePage,
+    AssignSeatComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +35,8 @@ import { TooltipsModule } from 'ionic4-tooltips';
     RatingComponent,
     CustomeTimePipe,
     RoutesFilterPipe,
-    HeaderComponent
+    HeaderComponent,
+    AssignSeatComponent
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 
