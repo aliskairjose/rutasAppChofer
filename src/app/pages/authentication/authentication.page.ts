@@ -60,7 +60,7 @@ export class AuthenticationPage implements OnInit {
           this.registerGoogleUSer( gplusUser );
         }
       }
-    }, ( err ) => { } );
+    }, ( err ) => { console.log( err ); } );
 
   }
 
