@@ -1,22 +1,23 @@
 {
-  "appId": "io.ionic.rutas.driver",
-  "appName": "Rutas Panamá Chofer",
+  "appId": "com.cronapis.rutasdriver",
+  "appName": "Rutas Conductor",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 0
-    },
-    "GoogleAuth": {
-      "scopes": [
-        "profile",
-        "email"
-      ],
-      "serverClientId": "466798676316-02u4gktreb9lcqhfcq32mchcvtc6tpog.apps.googleusercontent.com",
-      "forceCodeForRefreshToken": true
     }
   },
-  "cordova": {},
-  "linuxAndroidStudioPath": "/home/aponiar14/Downloads/android-studio/bin/studio.sh"
+  "cordova": {
+    "preferences": {
+      "ScrollEnabled": "false",
+      "BackupWebStorage": "none",
+      "SplashMaintainAspectRatio": "true",
+      "FadeSplashScreenDuration": "300",
+      "SplashShowOnlyFirstTime": "false",
+      "SplashScreen": "screen",
+      "SplashScreenDelay": "3000"
+    }
+  }
 }

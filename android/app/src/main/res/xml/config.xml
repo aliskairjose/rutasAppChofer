@@ -6,11 +6,6 @@
     <param name="android-package" value="com.tenforwardconsulting.bgloc.cordova.BackgroundGeolocationPlugin"/>
   </feature>
 
-  <feature name="NativePageTransitions">
-    <param name="android-package" value="com.telerik.plugins.nativepagetransitions.NativePageTransitions"/>
-    <param name="onload" value="true"/>
-  </feature>
-
   <feature name="BackgroundMode">
     <param name="android-package" value="de.appplant.cordova.plugin.background.BackgroundMode"/>
   </feature>
@@ -22,17 +17,8 @@
     <param name="android-package" value="org.apache.cordova.device.Device"/>
   </feature>
 
-  <feature name="FCMPlugin">
-    <param name="android-package" value="com.gae.scaffolder.plugin.FCMPlugin"/>
-    <param name="onload" value="true"/>
-  </feature>
-
   <feature name="ForegroundPlugin">
     <param name="android-package" value="com.davidbriglio.foreground.ForegroundPlugin"/>
-  </feature>
-
-  <feature name="Geolocation">
-    <param name="android-package" value="org.apache.cordova.geolocation.Geolocation"/>
   </feature>
 
   <feature name="GooglePlus">
@@ -49,4 +35,11 @@
   </feature>
 
   
+  <preference name="ScrollEnabled" value="false" />
+  <preference name="BackupWebStorage" value="none" />
+  <preference name="SplashMaintainAspectRatio" value="true" />
+  <preference name="FadeSplashScreenDuration" value="300" />
+  <preference name="SplashShowOnlyFirstTime" value="false" />
+  <preference name="SplashScreen" value="screen" />
+  <preference name="SplashScreenDelay" value="3000" />
 </widget>
