@@ -9,17 +9,18 @@
       "launchShowDuration": 0
     },
     "CapacitorFirebaseAuth": {
-      "providers": ["google.com"],
-      "languageCode": "en",
+      "providers": ["google.com", "phone"],
+      "languageCode": "es",
       "nativeAuth": false,
-      "properties": {
-        "google": {
-            "hostedDomain": "my-custom-domain.com"
-        }
-      },   
+
       "permissions": {
-           "google": ["profile", "https://www.googleapis.com/auth/drive"]
-       }
+        "google": [
+          "profile", 
+          "https://www.googleapis.com/auth/userinfo.email",
+          "https://www.googleapis.com/auth/userinfo.profile",
+          "https://www.googleapis.com/auth/plus.me"
+        ]
+      }
     }
   },
   "cordova": {
