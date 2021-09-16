@@ -43,6 +43,7 @@
     "@mauron85/cordova-plugin-background-geolocation": "^3.1.0",
     "@types/hammerjs": "^2.0.36",
     "capacitor-background-geolocation": "^0.1.7",
+    "capacitor-firebase-auth": "^3.0.0",
     "com.telerik.plugins.nativepagetransitions": "^0.7.0",
     "cordova-android-play-services-gradle-release": "^4.0.0",
     "cordova-play-services-version-adapter": "^1.1.0",

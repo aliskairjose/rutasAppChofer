@@ -10,6 +10,7 @@ import { CommonService } from '../../services/common.service';
 import { ClientsModalPage } from '../../modals/clients-modal/clients-modal.page';
 import { GooglePlus } from '@ionic-native/google-plus/ngx';
 import { environment } from '../../../environments/environment.prod';
+import { cfaSignInGoogle } from 'capacitor-firebase-auth/alternative';
 
 @Component( {
   selector: 'app-authentication',
@@ -40,6 +41,28 @@ export class AuthenticationPage implements OnInit {
   }
 
   get f() { return this.loginForm.controls; }
+
+  loginGoogle(): void {
+    cfaSignInGoogle().subscribe( async ( gplusUser: any ) => {
+      if ( gplusUser.idToken ) {
+        const loading = await this.common.presentLoading();
+        loading.present();
+        const result = await this._auth.exist( gplusUser.email );
+        loading.dismiss();
+        if ( result.exist ) {
+          if ( result.user.roles[ 0 ].name !== 'driver' ) {
+            const message = 'No puedes acceder con esta cuenta, ya que esta asociada a otro rol en el sistema.';
+            const color = 'danger';
+            this.common.presentToast( { message, color } );
+            return;
+          }
+          this.googleAccess( { email: gplusUser.email, google_id: gplusUser.userId } );
+        } else {
+          this.registerGoogleUSer( gplusUser );
+        }
+      }
+    } );
+  }
 
   googleLogin() {
     this.googlePlus.login( environment.googleConfig ).then( async ( gplusUser ) => {

@@ -6,6 +6,11 @@
     <param name="android-package" value="com.tenforwardconsulting.bgloc.cordova.BackgroundGeolocationPlugin"/>
   </feature>
 
+  <feature name="NativePageTransitions">
+    <param name="android-package" value="com.telerik.plugins.nativepagetransitions.NativePageTransitions"/>
+    <param name="onload" value="true"/>
+  </feature>
+
   <feature name="BackgroundMode">
     <param name="android-package" value="de.appplant.cordova.plugin.background.BackgroundMode"/>
   </feature>

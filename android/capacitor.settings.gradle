@@ -7,3 +7,6 @@ project(':codetrix-studio-capacitor-google-auth').projectDir = new File('../node
 
 include ':capacitor-background-geolocation'
 project(':capacitor-background-geolocation').projectDir = new File('../node_modules/capacitor-background-geolocation/android')
+
+include ':capacitor-firebase-auth'
+project(':capacitor-firebase-auth').projectDir = new File('../node_modules/capacitor-firebase-auth/android')
